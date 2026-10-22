@@ -1,0 +1,152 @@
+
+
+[
+    {
+        "id": 1,
+        "name": "Avante",
+        "Brand": "Hyundai",
+        "Model": "Hyundai Elantra",
+        "color": "gray",
+        "image": "../images/avante.jpg",
+        "pricePerDay": "2500",
+        "Description": "Avante car in good condition with 4 seat. "
+    },
+
+    {
+        "id": 2,
+        "name": "BMW",
+        "Brand": "i7",
+        "Model": "xDrive60",
+        "color": "gray",
+        "image": "../images/bmw.jpg",
+        "pricePerDay": 4000,
+        "Description": "Bmw luxury car with 6 seat"
+    },
+
+    {
+        "id": 3,
+        "name": "Byd",
+        "Brand": "BEVs",
+        "Model": "G DM i",
+        "color": "white",
+        "image": "../images/byd.jpg",
+        "pricePerDay": 2000,
+        "Description": "Byd car in good conditions with 4 seat"
+
+    },
+
+    {
+        "id": 4,
+        "name": "Dzire",
+        "Brand": "Toyota",
+        "Model": "maruti suzuki dzire",
+        "color": "silver",
+        "image": "../images/dzire.jpg",
+        "pricePerDay": 2800,
+        "Description": "Dzire car at very good condition and automatic, 4 seats available anytime"
+    },
+
+    {
+        "id": 5,
+        "name": "Hilux",
+        "Brand": "Toyota",
+        "Model": "invicible x",
+        "color": "white",
+        "image": "../images/hilux.jpg",
+        "pricePerDay": 5000,
+        "Description": "Toyota hilux 5 seats brand new ready for rental"
+    },
+
+    {
+        "id": 6,
+        "name": "jetour",
+        "Brand": "jetour",
+        "Model": "jetour x70",
+        "color": "black",
+        "image": "../images/jetour.jpg",
+        "pricePerDay": 4000,
+        "Description": "jetour car with amazing condition mini-family size"
+    },
+
+    {
+        "id": 7,
+        "name": "rangerover",
+        "Brand": "LR",
+        "Model": "flagship",
+        "color": "white",
+        "image": "../images/rangerover.jpg",
+        "pricePerDay": 4500,
+        "Description": "rangerover luxury car for rental "
+    },
+
+    {
+        "id": 8,
+        "name": "rush",
+        "Brand": "toyota",
+        "Model": "",
+        "pricePerDay": 3000,
+        "image": "../images/rush.jpg",
+        "color": "",
+        "Description": "rush car for rental with 6  seat"
+    },
+
+    {
+        "id": 9,
+        "name": "v8",
+        "Brand": "toyota",
+        "Model": "srt",
+        "color": "white",
+        "image": "../images/v8.jpg",
+        "pricePerDay": "5500",
+        "Description": "v8 car for rental with 6 seat"
+    },
+    
+    {
+        "id": 10,
+        "name": "vitz",
+        "Brand": "toyota",
+        "Model": "ncp10",
+        "color": "gray",
+        "image": "../images/vitz.jpg",
+        "pricePerDay": 1800,
+        "Description": "toyota vitz on goood condition ready for rental"
+    },
+
+    {
+        "id": 11,
+        "name": "volveswagen",
+        "Brand": "",
+        "Model": "",
+        "color": "black",
+        "image": "../images/volveswogen.jpg",
+        "pricePerDay": 3000,
+        "Description": "volveswogen car brand new ready for rental"
+    },
+
+    {
+        "id": 12,
+        "name": "volveswagenindia",
+        "Brand": "",
+        "Model": "",
+        "color": "white",
+        "image": "../images/volveswagenindia.jpg",
+        "pricePerDay": 3500,
+        "Description": "volveswogenindia luxury car ready for rental"
+    },
+
+    {
+        "id": 13,
+        "name": "yaris",
+        "Brand": "",
+        "Model": "",
+        "color": "gray",
+        "image": "../images/yaris.jpg",
+        
+        "pricePerDay": 1500,
+        "Description": "toyota yaris car ready for rent and its on good condition"
+
+    }
+
+
+
+]
