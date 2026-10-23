@@ -52,6 +52,7 @@
         "Brand": "Toyota",
         "Model": "invicible x",
         "color": "white",
+        "category": "SUVs",
         "image": "../images/hilux.jpg",
         "pricePerDay": 5000,
         "Description": "Toyota hilux 5 seats brand new ready for rental"

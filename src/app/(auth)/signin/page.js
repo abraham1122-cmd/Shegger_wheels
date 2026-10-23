@@ -1,61 +1,94 @@
 
+"use client";
 
+import "./signin.css";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createInitialAccounts, loginUser } from "@/lib/sessions";
 
+export default function SigninPage() {
+  const router = useRouter();
 
+  function handleSubmit(e) {
+    e.preventDefault();
 
-import Link from "next/link"
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-export default function signinPage(){
+    
+      createInitialAccounts();
+      
+    const result = loginUser(email, password);
 
-    return(
-    <>
-        <h3>signIn</h3>
+    if (!result.success) {
+      alert(result.message || "Incorrect email or password.");
+      return;
+    }
 
-        <form className="form-section">
+    // Read the requested destination, if provided
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next");
 
-            <div className="form-group">
-                <input
-                type="text"
-                name="email"
-                id="email"
-                placeholder="Enter your email"
-                required
-                />
+    // Redirect according to the user's role
+    let destination;
 
-                <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Enter your password"
+    if (result.role === "owner") {
+      destination = "/owner";
+    } else if (result.role === "admin") {
+      destination = "/admin";
+    } else {
+      destination = "/cars";
+    }
 
-                required
-                />
+    // Honor a safe internal next URL
+    if (next && next.startsWith("/") && !next.startsWith("//")) {
+      destination = next;
+    }
 
-            </div>
-            
-              <button type="submit">Signin</button>
-        </form>
+    router.push(destination);
+    router.refresh();
+  }
 
+  return (
+    <div className="form-section">
+      <h1>Sign In</h1>
 
-        <p className="mb"
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
 
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
 
-        >Don't have account?{""}
+        <button type="submit">Sign In</button>
+      </form>
 
-        <a href="/signUp" className="font-semibold text-rde-500 hover:underline">
+      <p>
+        Forgot your password?{" "}
+        <Link href="/forgot-password">Reset it</Link>
+      </p>
 
-        signUp
-        
-        </a>
-        
-        
-        </p>
+      <p>
+        Don't have an account?{" "}
+        <Link href="/signup">Sign Up</Link>
+      </p>
 
-       <Link href="/" className="text-center bg-red-500">
-
-       Back to Home
-       
-       </Link>
-    </>
-    )
+      <Link href="/">Back to Home</Link>
+    </div>
+  );
 }

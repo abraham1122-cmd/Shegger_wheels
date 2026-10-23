@@ -1,0 +1,305 @@
+
+
+
+.payment-page {
+  width: min(100% - 32px, 760px);
+  margin: 40px auto;
+  padding: 32px;
+  color: #172033;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.payment-page h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #b91c1c;
+}
+
+.payment-page > p {
+  margin: 0 0 26px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.payment-page h2 {
+  margin: 0 0 20px;
+  font-size: 21px;
+  font-weight: 750;
+}
+
+
+
+.payment-summary {
+  margin-bottom: 28px;
+  padding: 24px;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  border-radius: 16px;
+}
+
+.payment-summary h2:first-child {
+  color: #115e59;
+  font-size: 23px;
+}
+
+.payment-summary p {
+  margin: 14px 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.payment-summary strong {
+  color: #0f766e;
+  font-weight: 800;
+}
+
+.payment-total {
+  margin-top: 22px !important;
+  padding-top: 20px;
+  border-top: 1px solid #bce8df;
+  color: #0f766e;
+  font-size: clamp(20px, 4vw, 26px) !important;
+}
+
+.payment-note {
+  color: #64748b !important;
+  font-size: 12px !important;
+}
+
+
+
+.payment-field {
+  margin-top: 18px;
+}
+
+.payment-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.payment-field input,
+.payment-field select {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  color: #172033;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.payment-field input:focus,
+.payment-field select:focus {
+  outline: none;
+  border-color: #0f9f8f;
+  box-shadow: 0 0 0 3px rgba(15, 159, 143, 0.14);
+}
+
+.payment-field input::placeholder {
+  color: #9ca3af;
+}
+
+.payment-field small {
+  display: block;
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+
+
+.payment-method {
+  margin-bottom: 26px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  margin-bottom: 12px;
+  padding: 12px 15px;
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.payment-option:hover {
+  background: #f0fdfa;
+  border-color: #99f6e4;
+}
+
+.payment-option input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #0f9f8f;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.payment-option:has(input:checked) {
+  background: #f0fdfa;
+  border-color: #0f9f8f;
+}
+
+/* Bank transfer fields */
+
+.bank-transfer-fields {
+  margin-top: 16px;
+  padding: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.bank-transfer-fields .payment-field:first-child {
+  margin-top: 0;
+}
+
+
+
+.payment-error {
+  padding: 12px 14px;
+  color: #b91c1c !important;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+}
+
+
+
+.confirm-booking-button {
+  display: block;
+  width: 100%;
+  min-height: 54px;
+  padding: 15px 20px;
+  color: #ffffff;
+  background: #0f9f8f;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.confirm-booking-button:hover:not(:disabled) {
+  background: #0b8276;
+  box-shadow: 0 7px 18px rgba(15, 159, 143, 0.2);
+  transform: translateY(-1px);
+}
+
+.confirm-booking-button:focus-visible {
+  outline: 3px solid #99f6e4;
+  outline-offset: 3px;
+}
+
+.confirm-booking-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+
+
+.payment-back-link {
+  display: block;
+  width: fit-content;
+  margin: 22px auto 0;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.payment-back-link:hover {
+  color: #0f766e;
+  text-decoration: underline;
+}
+
+
+
+@media (max-width: 600px) {
+  .payment-page {
+    width: calc(100% - 24px);
+    margin: 20px auto;
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .payment-page h1 {
+    font-size: 28px;
+  }
+
+  .payment-page h2 {
+    font-size: 19px;
+  }
+
+  .payment-summary,
+  .payment-method {
+    padding: 18px 14px;
+    border-radius: 13px;
+  }
+
+  .payment-total {
+    font-size: 21px !important;
+    overflow-wrap: anywhere;
+  }
+
+  .payment-option {
+    padding: 12px;
+  }
+
+  .bank-transfer-fields {
+    padding: 14px;
+  }
+
+  .confirm-booking-button {
+    min-height: 52px;
+  }
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  .payment-field input,
+  .payment-field select,
+  .payment-option,
+  .confirm-booking-button,
+  .payment-back-link {
+    transition: none;
+  }
+
+  .confirm-booking-button:hover:not(:disabled) {
+    transform: none;
+  }
+}

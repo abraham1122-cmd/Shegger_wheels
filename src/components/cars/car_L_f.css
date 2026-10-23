@@ -1,0 +1,121 @@
+
+
+
+.car-listing-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f8fafc;
+}
+
+.car-listing-card {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 36px);
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 5%);
+}
+
+.car-listing-card h1 {
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  font-weight: 750;
+}
+
+.car-listing-card > p {
+  margin: 0 0 28px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.car-listing-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.listing-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listing-field:last-of-type {
+  grid-column: 1 / -1;
+}
+
+.listing-field label {
+  color: #374151;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.listing-field input,
+.listing-field select,
+.listing-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  background: #fff;
+  color: #111827;
+  font: inherit;
+}
+
+.listing-field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.listing-field input:focus,
+.listing-field select:focus,
+.listing-field textarea:focus {
+  outline: 2px solid #2a9d8f;
+  outline-offset: 2px;
+  border-color: #2a9d8f;
+}
+
+.listing-submit {
+  grid-column: 1 / -1;
+  min-height: 48px;
+  padding: 13px 20px;
+  border: 0;
+  border-radius: 9px;
+  background: #e63946;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.listing-submit:hover {
+  background: #c92e3a;
+}
+
+.listing-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #b91c1c;
+}
+
+@media (max-width: 560px) {
+  .car-listing-page {
+    padding: 24px 14px;
+  }
+
+  .car-listing-form {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .listing-field:last-of-type,
+  .listing-submit,
+  .listing-error {
+    grid-column: auto;
+  }
+}

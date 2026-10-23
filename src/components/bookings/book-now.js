@@ -1,43 +1,25 @@
 
+"use client";
+
 import { useRouter } from "next/navigation";
 import { isSignedIn } from "@/lib/sessions";
 
+export default function Book_Now_Button({ carId }) {
+  const router = useRouter();
 
-export default function Book_Now_Button({ carId }){
+  function handleBookNow() {
+    const checkoutURL = `/checkout?carId=${encodeURIComponent(carId)}`;
 
-    const router = useRouter();
-
-    function HandleBookNow(){
-
-            const checkoutURL = `chechout?carId=${encodeURIcomponent(carId)}`;
-
-            if(isSignedIn){
-                router.push(checkoutURL);
-            }
-
-            else{
-
-                `signin?next=${encodeURIComponent(checkoutURL)}`
-
-            }
+    if (isSignedIn()) {
+      router.push(checkoutURL);
+    } else {
+      router.push(`/signin?next=${encodeURIComponent(checkoutURL)}`);
     }
+  }
 
-
-
-    return(
-
-        <div>
-            <button
-            type="submit"
-            onClick={HandleBookNow}
-            className=""
-            >Book-Now</button>
-           
-        </div>
-
-
-    )
-
-
-
+  return (
+    <button type="button" onClick={handleBookNow}>
+      Book Now
+    </button>
+  );
 }

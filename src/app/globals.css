@@ -118,11 +118,13 @@ summary:focus-visible {
 
 .nav-links a,
 .signin-link {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: rgb(69, 60, 8);
 }
-
+.vd{
+  color: rgb(128, 0, 66);
+}
 .nav-links a:hover,
 .signin-link:hover {
   color: var(--green);

@@ -97,7 +97,7 @@ export default function Home() {
       <Navbar />
 
       <main>
-        {/* Hero section */}
+  
         <section className="hero container">
           <div className="hero-copy">
             <span className="eyebrow">
@@ -302,7 +302,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Car owner promotion */}
+   
         <section className="owner-promo container">
           <div
             className="owner-promo-image"
@@ -330,7 +330,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FAQ */}
+    
         <section id="faq" className="section container faq-section">
           <div className="faq-intro">
             <span className="eyebrow">GOOD TO KNOW</span>

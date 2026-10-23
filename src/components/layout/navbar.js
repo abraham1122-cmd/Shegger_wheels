@@ -1,34 +1,66 @@
 
+"use client";
 
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { getSession } from "@/lib/sessions";
 
 export default function Navbar() {
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    setSession(getSession());
+  }, []);
+
   return (
     <header className="site-header">
       <nav className="container navbar" aria-label="Main navigation">
-        <a href="/" className="brand" aria-label="Good Journey home">
+        <Link href="/" className="brand" aria-label="Shegger-Wheels home">
           <span className="brand-mark">Sw</span>
           <span className="brand-name">
             Shegger-Wheels
             <small>CAR SHARING, MADE LOCAL</small>
           </span>
-        </a>
-      
+        </Link>
+
         <div className="nav-links">
-            <a href="/home">Home</a>
-          <a href="/cars">Find a car</a>
-          <a href="/cars#how-it-works">How it works</a>
-          <a href="/signup?role=owner">List your car</a>
+          <Link href="/home">Home</Link>
+          <Link href="/cars">Find a car</Link>
+          <Link href="/bookings">My-Booking</Link>
+          <Link href="/cars#how-it-works">How it works</Link>
+
+          {session?.role === "owner" && (
+            <Link href="/owner/cars/new">List your car</Link>
+          )}
         </div>
 
         <div className="nav-actions">
-          <a href="/signin" className="signin-link">
-            Sign in
-          </a>
-          <a href="/signup" className="button button-primary nav-cta">
-            Get started <span>↗</span>
-          </a>
+          {!session ? (
+            <>
+              <Link href="/signin" className="signin-link">
+                Sign in
+              </Link>
+              <Link
+                href="/signUp"
+                className="button button-primary nav-cta"
+              >
+                Get started <span>↗</span>
+              </Link>
+            </>
+          ) : (
+            <>
+              <span className="signin-link">
+                {session.name}
+              </span>
+              <Link
+                href="/signout"
+                className="signin-link"
+              >
+                SignOut
+              </Link>
+            </>
+          )}
         </div>
-
       </nav>
     </header>
   );

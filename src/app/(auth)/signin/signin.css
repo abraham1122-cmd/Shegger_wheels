@@ -1,0 +1,128 @@
+
+
+
+.form-section {
+  width: 100%;
+  max-width: 440px;
+  margin: 60px auto;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.form-section h1 {
+  margin-bottom: 24px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.form-section label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+
+.form-section input {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-section input:focus {
+  border-color: #e63946;
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+}
+
+
+.form-section button {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #e63946;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.form-section button:hover {
+  background: #c92f3b;
+}
+
+.form-section button:focus-visible {
+  outline: 3px solid #fca5a5;
+  outline-offset: 3px;
+}
+
+
+.form-section p {
+  margin-top: 22px;
+  text-align: center;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.form-section p a {
+  color: #e63946;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-section p a:hover {
+  text-decoration: underline;
+}
+
+
+@media (max-width: 600px) {
+  .form-section {
+    width: calc(100% - 32px);
+    margin: 32px auto;
+    padding: 24px 20px;
+    border-radius: 12px;
+  }
+
+  .form-section h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+
+@media (max-width: 360px) {
+  .form-section {
+    width: calc(100% - 24px);
+    padding: 20px 16px;
+  }
+}

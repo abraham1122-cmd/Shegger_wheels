@@ -1,12 +1,12 @@
+"use client";
 
-
-
-
+import { useEffect, useState } from "react";
 
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import CarCard from "@/components/cars/car-card";
 import carsData from "@/data/cars.json";
+import { getListedCars } from "@/lib/carStorage";
 
 const steps = [
   {
@@ -29,15 +29,37 @@ const steps = [
   },
 ];
 
-export default async function CarsPage() {
- 
+export default function CarsPage() {
+  const [cars, setCars] = useState(
+    Array.isArray(carsData) ? carsData : []
+  );
+
+  useEffect(() => {
+    const publishedCars = getListedCars().filter(
+      (car) => car.status === "Published" ||
+
+       (!car.status && car.isAvailable === true)
+    );
+
+    const combinedCars = [
+      ...(Array.isArray(carsData) ? carsData : []),
+      ...publishedCars.filter(
+        (publishedCar) =>
+          !(Array.isArray(carsData) ? carsData : []).some(
+            (seedCar) =>
+              String(seedCar.id) === String(publishedCar.id)
+          )
+      ),
+    ];
+
+    setCars(combinedCars);
+  }, []);
 
   return (
     <>
       <Navbar />
 
       <main>
-        
         <section className="section container">
           <div className="section-heading heading-with-link">
             <div>
@@ -71,24 +93,26 @@ export default async function CarsPage() {
               City cars
             </a>
 
-            <a className="category-pill" href="/cars?type=electric">
+            <a
+              className="category-pill"
+              href="/cars?type=electric"
+            >
               Electric
             </a>
           </div>
 
-      
-         {/* Car catalogue */}
-<div className="featured-grid">
-  {Array.isArray(carsData) && carsData.length > 0 ? (
-    carsData.map((car) => (
-      <CarCard key={car.id} car={car} />
-    ))
-  ) : (
-    <p className="empty-message">
-      No cars are available yet.
-    </p>
-  )}
-</div>
+          {/* Car catalogue */}
+          <div className="featured-grid">
+            {cars.length > 0 ? (
+              cars.map((car) => (
+                <CarCard key={car.id} car={car} />
+              ))
+            ) : (
+              <p className="empty-message">
+                No cars are available yet.
+              </p>
+            )}
+          </div>
         </section>
 
         <section
@@ -100,7 +124,7 @@ export default async function CarsPage() {
               A LITTLE MORE SIMPLE
             </span>
 
-            <h2>Your next trip, require three simple shoots.</h2>
+            <h2>Your next trip requires three simple steps.</h2>
 
             <p>
               Less planning stress. More time for the good stuff.

@@ -1,0 +1,196 @@
+
+
+
+.my-bookings {
+  width: min(1100px, calc(100% - 32px));
+  margin: 48px auto;
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.bookings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.bookings-eyebrow {
+  color: #0f9f8f;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.bookings-header h1 {
+  margin: 10px 0;
+  font-size: clamp(28px, 4vw, 38px);
+  letter-spacing: -1px;
+}
+
+.bookings-header p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.browse-cars-link,
+.empty-bookings a {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: #0f9f8f;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.browse-cars-link:hover,
+.empty-bookings a:hover {
+  background: #0b8276;
+}
+
+.booking-list {
+  display: grid;
+  gap: 22px;
+}
+
+.renter-booking-card {
+  padding: 24px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.renter-booking-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.booking-reference {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.renter-booking-top h2 {
+  margin: 8px 0 0;
+  font-size: 21px;
+}
+
+.booking-status {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.booking-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.booking-status.confirmed {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.booking-status.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.booking-status.completed {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.renter-booking-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  padding: 24px 0;
+}
+
+.renter-booking-details div {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.renter-booking-details span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.renter-booking-details strong {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.booking-status-message {
+  padding: 16px;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  border-radius: 12px;
+}
+
+.booking-status-message strong {
+  color: #115e59;
+  font-size: 14px;
+}
+
+.booking-status-message p {
+  margin: 7px 0 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.empty-bookings {
+  padding: 48px 20px;
+  text-align: center;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 18px;
+}
+
+.empty-bookings h2 {
+  margin-top: 0;
+}
+
+.empty-bookings p {
+  margin-bottom: 24px;
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .my-bookings {
+    width: calc(100% - 24px);
+    margin: 28px auto;
+  }
+
+  .bookings-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .renter-booking-card {
+    padding: 18px;
+  }
+
+  .renter-booking-top {
+    flex-direction: column;
+  }
+
+  .renter-booking-details {
+    gap: 20px 12px;
+  }
+}

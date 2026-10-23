@@ -1,0 +1,160 @@
+
+
+
+.form-section {
+  width: calc(100% - 32px);
+  max-width: 460px;
+  margin: 50px auto;
+  padding: 32px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+
+.form-section h1 {
+  margin: 0 0 26px;
+  color: #1f2937;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+}
+
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-section .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+
+.form-section label {
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-section input:not([type="checkbox"]) {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-section input:focus {
+  border-color: #e63946;
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.12);
+}
+
+
+.form-section input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  margin: 0;
+  accent-color: #e63946;
+  cursor: pointer;
+}
+
+.form-section p[role="alert"] {
+  margin: 0;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+
+.form-section form > label[for="terms"] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.form-section a {
+  color: #e63946;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-section a:hover {
+  text-decoration: underline;
+}
+
+
+.form-section button[type="submit"] {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #e63946;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.form-section button[type="submit"]:hover {
+  background: #c92f3b;
+}
+
+.form-section button:focus-visible {
+  outline: 3px solid #fca5a5;
+  outline-offset: 3px;
+}
+
+.form-section > p {
+  margin: 22px 0 0;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+
+@media (max-width: 600px) {
+  .form-section {
+    margin: 30px auto;
+    padding: 24px 20px;
+    border-radius: 12px;
+  }
+
+  .form-section h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-section form {
+    gap: 16px;
+  }
+}
+
+
+@media (max-width: 360px) {
+  .form-section {
+    width: calc(100% - 24px);
+    padding: 20px 16px;
+  }
+
+  .form-section h1 {
+    font-size: 22px;
+  }
+}
