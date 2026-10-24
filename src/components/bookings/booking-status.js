@@ -8,6 +8,7 @@ export const BOOKING_STATUSES = [
   "Approved",
   "Rejected",
   "Cancelled",
+  "Completed"
 ];
 
 export function getBookings() {

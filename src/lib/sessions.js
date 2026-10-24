@@ -5,7 +5,6 @@ const SESSION_KEY = "demo_session";
 const VALID_ROLES = ["renter", "owner", "admin"];
 
 
-
 export function createInitialAccounts() {
   if (typeof window === "undefined") return;
 
@@ -38,34 +37,21 @@ export function createInitialAccounts() {
   const updatedUsers = [...users];
 
   for (const account of accounts) {
+    const exists = updatedUsers.some(
+      (user) =>
+        user.email?.trim().toLowerCase() ===
+        account.email.toLowerCase()
+    );
 
-
-    const index = updatedUsers.findIndex(
-  (user) =>
-    user.email?.toLowerCase() === account.email.toLowerCase()
-);
-
-if (index === -1) {
-  updatedUsers.push(account);
-} else {
-  updatedUsers[index] = account;
-}
-
-//     const exists = updatedUsers.some(
-//       (user) =>
-//         user.email.toLowerCase() === account.email.toLowerCase()
-//     );
-
-//     if (!exists) {
-//       updatedUsers.push(account);
-//     }
-//   
+    if (!exists) {
+      updatedUsers.push(account);
+    }
   }
 
-  localStorage.setItem("rental-users", JSON.stringify(updatedUsers));
+  localStorage.setItem(USERS_KEY, JSON.stringify(updatedUsers));
 }
 
-
+// Get all saved users.
 export function getUsers() {
   if (typeof window === "undefined") return [];
 
@@ -80,10 +66,13 @@ export function getUsers() {
   }
 }
 
-
+// Register a new renter.
 export function registerUser(user) {
   if (typeof window === "undefined") {
-    return { success: false, message: "Browser storage unavailable." };
+    return {
+      success: false,
+      message: "Browser storage unavailable.",
+    };
   }
 
   const name = user.name?.trim();
@@ -99,7 +88,11 @@ export function registerUser(user) {
 
   const users = getUsers();
 
-  if (users.some((item) => item.email.toLowerCase() === email)) {
+  if (
+    users.some(
+      (item) => item.email?.toLowerCase() === email
+    )
+  ) {
     return {
       success: false,
       message: "This email is already registered.",
@@ -119,20 +112,21 @@ export function registerUser(user) {
     JSON.stringify([...users, newUser])
   );
 
-  createSession({
-    id: newUser.id,
-    name: newUser.name,
-    email: newUser.email,
-    role: newUser.role,
-  });
+  createSession(newUser);
 
-  return { success: true, role: newUser.role };
+  return {
+    success: true,
+    role: newUser.role,
+  };
 }
 
-
+// Create owner/admin accounts for development and testing.
 export function createDemoAccount({ name, email, password, role }) {
   if (typeof window === "undefined") {
-    return { success: false, message: "Browser storage unavailable." };
+    return {
+      success: false,
+      message: "Browser storage unavailable.",
+    };
   }
 
   if (!["owner", "admin"].includes(role)) {
@@ -152,7 +146,11 @@ export function createDemoAccount({ name, email, password, role }) {
   const normalizedEmail = email.trim().toLowerCase();
   const users = getUsers();
 
-  if (users.some((item) => item.email.toLowerCase() === normalizedEmail)) {
+  if (
+    users.some(
+      (item) => item.email?.toLowerCase() === normalizedEmail
+    )
+  ) {
     return {
       success: false,
       message: "This email is already registered.",
@@ -172,20 +170,26 @@ export function createDemoAccount({ name, email, password, role }) {
     JSON.stringify([...users, newUser])
   );
 
-  return { success: true, role: newUser.role };
+  return {
+    success: true,
+    role: newUser.role,
+  };
 }
 
-
+// Sign in using saved email and password.
 export function loginUser(email, password) {
   if (typeof window === "undefined") {
-    return { success: false, message: "Browser storage unavailable." };
+    return {
+      success: false,
+      message: "Browser storage unavailable.",
+    };
   }
 
   const normalizedEmail = email?.trim().toLowerCase();
 
   const user = getUsers().find(
     (item) =>
-      item.email.toLowerCase() === normalizedEmail &&
+      item.email?.toLowerCase() === normalizedEmail &&
       item.password === password &&
       VALID_ROLES.includes(item.role)
   );
@@ -197,34 +201,52 @@ export function loginUser(email, password) {
     };
   }
 
-  createSession({
+  createSession(user);
+
+  return {
+    success: true,
+    role: user.role,
+  };
+}
+
+// Save the currently signed-in user's session.
+export function createSession(user) {
+  if (typeof window === "undefined") return null;
+
+  if (!user?.id || !VALID_ROLES.includes(user.role)) {
+    throw new Error("Invalid user account.");
+  }
+
+  const session = {
     id: user.id,
     name: user.name,
     email: user.email,
     role: user.role,
-  });
+  };
 
-  return { success: true, role: user.role };
+  sessionStorage.setItem(
+    SESSION_KEY,
+    JSON.stringify(session)
+  );
+
+  return session;
 }
 
-
-export function createSession(user) {
-  if (typeof window === "undefined") return;
-
-  sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
-}
-
-
+// Get the current session.
 export function getSession() {
   if (typeof window === "undefined") return null;
 
   try {
     const savedSession = sessionStorage.getItem(SESSION_KEY);
+
     if (!savedSession) return null;
 
     const session = JSON.parse(savedSession);
 
-    if (!session || !VALID_ROLES.includes(session.role)) {
+    if (
+      !session?.id ||
+      !VALID_ROLES.includes(session.role)
+    ) {
       return null;
     }
 
@@ -238,11 +260,11 @@ export function isSignedIn() {
   return getSession() !== null;
 }
 
-
 export function hasRole(role) {
   return getSession()?.role === role;
 }
 
+// Sign out.
 export function clearSession() {
   if (typeof window === "undefined") return;
 

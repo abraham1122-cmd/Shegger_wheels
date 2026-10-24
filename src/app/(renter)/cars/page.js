@@ -35,11 +35,12 @@ export default function CarsPage() {
   );
 
   useEffect(() => {
-    const publishedCars = getListedCars().filter(
-      (car) => car.status === "Published" ||
 
-       (!car.status && car.isAvailable === true)
-    );
+const publishedCars = getListedCars().filter(
+  (car) =>
+    String(car.status || "").toLowerCase() === "published" ||
+    (!car.status && car.isAvailable === true)
+);
 
     const combinedCars = [
       ...(Array.isArray(carsData) ? carsData : []),

@@ -29,7 +29,7 @@ function CheckOutContent() {
     const ownerCar = getListedCars().find(
       (item) =>
         String(item.id) === String(carId) &&
-        (item.status === "Published" ||
+        (item.status === "published" ||
           (!item.status && item.isAvailable === true))
     );
 

@@ -5,6 +5,8 @@ import { useState } from "react";
 import Link from "next/link";
 import "./booking_form.css";
 
+import { getSession } from "@/lib/sessions";
+
 import { checkCarAvailability } from "@/lib/availability";
 
 export default function BookingForm({ car }) {
@@ -47,45 +49,121 @@ export default function BookingForm({ car }) {
     return result.available;
   }
 
+
+
+
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+
+  //   if (returnDate <= pickUpDate) {
+  //     setMessage("Return date must be after the pickup date.");
+  //     setIsAvailable(false);
+  //     return;
+  //   }
+
+  //   const result = checkCarAvailability(
+  //     car.id,
+  //     pickUpDate,
+  //     returnDate
+  //   );
+
+  //   setMessage(result.message);
+  //   setIsAvailable(result.available);
+
+  //   if (!result.available) return;
+
+  //   const booking = {
+  //     carId: car.id,
+  //     carName: car.name,
+  //     pricePerDay: Number(car.pricePerDay ?? car.price),
+  //     pickUpDate,
+  //     returnDate,
+  //     location,
+  //     fullName,
+  //     email,
+  //     phone,
+  //   };
+
+  //   sessionStorage.setItem(
+  //     "Booking_pending",
+  //     JSON.stringify(booking)
+  //   );
+
+  //   window.location.href = "/payment";
+  // }
+
+
+
   function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (returnDate <= pickUpDate) {
-      setMessage("Return date must be after the pickup date.");
-      setIsAvailable(false);
-      return;
-    }
+  const session = getSession();
 
-    const result = checkCarAvailability(
-      car.id,
-      pickUpDate,
-      returnDate
-    );
-
-    setMessage(result.message);
-    setIsAvailable(result.available);
-
-    if (!result.available) return;
-
-    const booking = {
-      carId: car.id,
-      carName: car.name,
-      pricePerDay: Number(car.pricePerDay ?? car.price),
-      pickUpDate,
-      returnDate,
-      location,
-      fullName,
-      email,
-      phone,
-    };
-
-    sessionStorage.setItem(
-      "Booking_pending",
-      JSON.stringify(booking)
-    );
-
-    window.location.href = "/payment";
+  if (!session || session.role !== "renter") {
+    setMessage("Please sign in as a renter before booking.");
+    setIsAvailable(false);
+    return;
   }
+
+  if (returnDate <= pickUpDate) {
+    setMessage("Return date must be after the pickup date.");
+    setIsAvailable(false);
+    return;
+  }
+
+  const result = checkCarAvailability(
+    car.id,
+    pickUpDate,
+    returnDate
+  );
+
+  setMessage(result.message);
+  setIsAvailable(result.available);
+
+  if (!result.available) return;
+
+  const start = new Date(`${pickUpDate}T00:00:00`);
+  const end = new Date(`${returnDate}T00:00:00`);
+
+  const rentalDays = Math.round(
+    (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  const pricePerDay = Number(car.pricePerDay ?? car.price);
+
+  const booking = {
+    id: crypto.randomUUID(),
+    renterId: session.id,
+    carId: car.id,
+    carName: car.name,
+    pricePerDay,
+    pickUpDate,
+    returnDate,
+    rentalDays,
+    totalPrice: pricePerDay * rentalDays,
+    location,
+    fullName: session.name || fullName,
+    email: session.email || email,
+    phone,
+    status: "Pending",
+    paymentMethod: "",
+    telebirrNumber: "",
+    bankDetails: null,
+    createdAt: new Date().toISOString(),
+  };
+
+  sessionStorage.setItem(
+    "Booking_pending",
+    JSON.stringify(booking)
+  );
+
+  window.location.href = "/payment";
+}
+
+
+
+
+
 
   return (
     <form onSubmit={handleSubmit} className="booking-form-card">

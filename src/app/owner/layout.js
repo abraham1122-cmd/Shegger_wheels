@@ -13,6 +13,7 @@ export default function OwnerLayout({ children }) {
           <Link href="/owner/cars">My Cars</Link>
           <Link href="/owner/cars/new">Plus Car</Link>
           <Link href="/owner/bookings">Booking-Request</Link>
+          <Link href="/owner/earnings">Earnings</Link>
         </nav>
 
 
@@ -24,7 +25,7 @@ export default function OwnerLayout({ children }) {
         </div>
 
       </aside>
-      
+
       <main className="owner-content">{children}</main>
 
      

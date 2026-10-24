@@ -221,11 +221,20 @@ export default function MyBookingsPage() {
                   <strong>Booking update</strong>
                   <p>{getStatusMessage(status)}</p>
                 </div>
+
+              {String(status).toLowerCase() === "completed" && (
+                       <Link
+                        href={`/bookings/${encodeURIComponent(String(booking.id))}/review`}
+                     className="write-review-link"  >
+                        Feed-back
+                        </Link>
+                        )}
               </article>
             );
           })}
         </section>
       )}
+
     </main>
   );
 }

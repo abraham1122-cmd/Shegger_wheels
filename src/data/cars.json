@@ -46,17 +46,7 @@
         "Description": "Dzire car at very good condition and automatic, 4 seats available anytime"
     },
 
-    {
-        "id": 5,
-        "name": "Hilux",
-        "Brand": "Toyota",
-        "Model": "invicible x",
-        "color": "white",
-        "category": "SUVs",
-        "image": "../images/hilux.jpg",
-        "pricePerDay": 5000,
-        "Description": "Toyota hilux 5 seats brand new ready for rental"
-    },
+    
 
     {
         "id": 6,
