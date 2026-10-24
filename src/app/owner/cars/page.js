@@ -139,6 +139,13 @@ export default function OwnerCarsPage() {
                 </p>
 
                 <div className="mt-5">
+
+
+                  <Link href={`/owner/cars/${encodeURIComponent(String(car.id))}/edit`}>
+
+                  Edit
+                  
+                  </Link>
                   <button
                     type="button"
                     onClick={() => handleDelete(car.id)}

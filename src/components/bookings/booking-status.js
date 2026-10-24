@@ -24,7 +24,7 @@ export function getBookings() {
   }
 }
 
-// Save the complete bookings array.
+
 export function saveBookings(bookings) {
   if (typeof window === "undefined") {
     throw new Error("Bookings can only be saved in the browser.");
@@ -37,8 +37,7 @@ export function saveBookings(bookings) {
   localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
 }
 
-// Give each booking a unique ID if it doesn't already have one.
-// Existing duplicate IDs are repaired too.
+
 export function repairBookingIds() {
   const bookings = getBookings();
   const seenIds = new Set();

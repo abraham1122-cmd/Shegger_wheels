@@ -12,7 +12,7 @@ export default function OwnerDashboard() {
         </div>
 
         <Link className="owner-primary-button" href="/owner/cars/new">
-          + List a Car
+           Add a Car
         </Link>
       </div>
 

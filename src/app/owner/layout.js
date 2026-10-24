@@ -11,8 +11,8 @@ export default function OwnerLayout({ children }) {
         <nav>
           <Link href="/owner">Dashboard</Link>
           <Link href="/owner/cars">My Cars</Link>
-          <Link href="/owner/cars/new">List a Car</Link>
-          <Link href="/owner/bookings">Bookings</Link>
+          <Link href="/owner/cars/new">Plus Car</Link>
+          <Link href="/owner/bookings">Booking-Request</Link>
         </nav>
 
 
@@ -24,10 +24,7 @@ export default function OwnerLayout({ children }) {
         </div>
 
       </aside>
-
       
-
-
       <main className="owner-content">{children}</main>
 
      
