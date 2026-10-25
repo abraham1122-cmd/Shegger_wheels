@@ -23,18 +23,7 @@
         "Description": "Bmw luxury car with 6 seat"
     },
 
-    {
-        "id": 3,
-        "name": "Byd",
-        "Brand": "BEVs",
-        "Model": "G DM i",
-        "color": "white",
-        "image": "../images/byd.jpg",
-        "pricePerDay": 2000,
-        "Description": "Byd car in good conditions with 4 seat"
-
-    },
-
+    
     {
         "id": 4,
         "name": "Dzire",

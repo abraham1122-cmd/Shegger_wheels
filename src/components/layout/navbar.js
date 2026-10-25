@@ -40,6 +40,8 @@ export default function Navbar() {
               <Link href="/signin" className="signin-link">
                 Sign in
               </Link>
+
+              <Link href="/admin" className="">Admin</Link>
               <Link
                 href="/signUp"
                 className="button button-primary nav-cta"

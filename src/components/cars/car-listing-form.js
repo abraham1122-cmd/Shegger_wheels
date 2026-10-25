@@ -1,6 +1,4 @@
 
-
-
 "use client";
 
 import "./car_L_f.css";
@@ -44,7 +42,9 @@ export default function CarListingForm() {
       return;
     }
 
-    if (Number(form.price) <= 0) {
+    const price = Number(form.price);
+
+    if (!Number.isFinite(price) || price <= 0) {
       setError("Enter a valid price per day.");
       return;
     }
@@ -52,9 +52,18 @@ export default function CarListingForm() {
     const car = {
       ...form,
       id: `owner-${Date.now()}`,
-      price: Number(form.price),
+      price,
+
+      // Owner information
       ownerId: "demo-owner",
+
+      // Admin must approve before publication
+      approvalStatus: "pending",
+      isPublished: false,
+
+      // Availability is separate from approval
       isAvailable: true,
+
       createdAt: new Date().toISOString(),
     };
 
@@ -67,8 +76,10 @@ export default function CarListingForm() {
     <main className="car-listing-page">
       <section className="car-listing-card">
         <h1>List Your Car</h1>
+
         <p>
-          Add your vehicle details so renters can discover your car.
+          Submit your vehicle for admin review.
+          You can publish it after approval.
         </p>
 
         <form onSubmit={handleSubmit} className="car-listing-form">
@@ -91,6 +102,7 @@ export default function CarListingForm() {
               name="type"
               value={form.type}
               onChange={handleChange}
+              required
             >
               <option value="Sedan">Sedan</option>
               <option value="SUV">SUV</option>
@@ -107,6 +119,7 @@ export default function CarListingForm() {
               name="price"
               type="number"
               min="1"
+              step="any"
               value={form.price}
               onChange={handleChange}
               placeholder="2500"
@@ -151,10 +164,14 @@ export default function CarListingForm() {
             />
           </div>
 
-          {error && <p className="listing-error">{error}</p>}
+          {error && (
+            <p className="listing-error" role="alert">
+              {error}
+            </p>
+          )}
 
           <button type="submit" className="listing-submit">
-            Publish Car
+            Submit for Approval
           </button>
         </form>
       </section>
