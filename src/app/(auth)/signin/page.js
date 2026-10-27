@@ -26,11 +26,10 @@ export default function SigninPage() {
       return;
     }
 
-    // Read the requested destination, if provided
+  
     const params = new URLSearchParams(window.location.search);
     const next = params.get("next");
 
-    // Redirect according to the user's role
     let destination;
 
     if (result.role === "owner") {
@@ -41,7 +40,6 @@ export default function SigninPage() {
       destination = "/cars";
     }
 
-    // Honor a safe internal next URL
     if (next && next.startsWith("/") && !next.startsWith("//")) {
       destination = next;
     }
@@ -78,10 +76,10 @@ export default function SigninPage() {
         <button type="submit">Sign In</button>
       </form>
 
-      <p>
+      {/* <p>
         Forgot your password?{" "}
         <Link href="/forgot-password">Reset it</Link>
-      </p>
+      </p> */}
 
       <p>
         Don't have an account?{" "}

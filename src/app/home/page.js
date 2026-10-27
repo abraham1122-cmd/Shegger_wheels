@@ -63,6 +63,7 @@ const testimonials = [
   },
 ];
 
+
 const faqs = [
   {
     question: "How does renting a car work?",
@@ -91,6 +92,7 @@ const faqs = [
   },
 ];
 
+
 export default function Home() {
   return (
     <>
@@ -104,27 +106,27 @@ export default function Home() {
               A BETTER WAY TO GET THERE
             </span>
 
+            
+
             <h1>
-              Good cars.
-              <br />
-              Local people.
-              <br />
+
+
               <span>Your next move.</span>
+              {/* Good cars. */}
+              <br />
+              {/* Local people. */}
+              <br />
+              
             </h1>
 
-            <p>
-              Find a car that fits your plans, from people who know
-              the place. Your next great journey starts here.
-            </p>
+            <small>Find a car that fits your plans, from people who know
+              the place. Your next great journey starts here.</small>
+
+          
 
             <div className="hero-trust">
-              <span className="trust-symbol">✓</span>
-              <div>
-                <strong>Local hosts. Real freedom.</strong>
-                <small>
-                  Discover your next favourite drive.
-                </small>
-              </div>
+              <span className=""></span>
+             
             </div>
           </div>
 
@@ -182,7 +184,7 @@ export default function Home() {
           </form>
         </section>
 
-        {/* Stats section */}
+    
         <section className="stats-section">
           <div className="container stats-grid">
             <div>
@@ -190,25 +192,25 @@ export default function Home() {
               <span>People, not big agencies</span>
             </div>
             <div>
-              <strong>120+</strong>
+              <strong>100+</strong>
               <span>Ways to get moving</span>
             </div>
             <div>
-              <strong>12</strong>
-              <span>Neighbourhoods to explore</span>
+              {/* <strong>12</strong> */}
+              <span>Neighbourhoods to explore  <p>...</p></span>
             </div>
             <div>
-              <strong>4.9/5</strong>
-              <span>Community-rated experience</span>
+              {/* <strong>4.9/5</strong> */}
+              <span>Community-rated experience  </span>
             </div>
           </div>
         </section>
 
-        {/* Destinations section */}
+        
         <section className="section container">
           <div className="section-heading">
             <span className="eyebrow">GO A LITTLE FURTHER</span>
-            <h2>Different plans. One great city.</h2>
+            {/* <h2>Different plans. One great city.</h2> */}
             <p>
               A quick errand or a long way round. There is a car for that.
             </p>
@@ -236,13 +238,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trust section */}
         <section className="trust-section">
           <div className="container">
             <span className="eyebrow eyebrow-light">
               GOOD JOURNEYS START WITH TRUST
             </span>
-            <h2>Good journeys start with trust.</h2>
+            {/* <h2>Good journeys start with trust.</h2> */}
             <p className="trust-intro">
               A little peace of mind goes a long way. We make it easier
               to book with confidence.
@@ -254,8 +255,8 @@ export default function Home() {
                   className="benefit-card"
                   key={benefit.title}
                 >
-                  <span className="benefit-icon">
-                    {benefit.icon}
+                  <span className="benefit-ico">
+                    {/* {benefit.icon} */}
                   </span>
                   <h3>{benefit.title}</h3>
                   <p>{benefit.description}</p>
@@ -265,11 +266,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Testimonials */}
+        
         <section className="section container">
           <div className="section-heading">
             <span className="eyebrow">KIND WORDS, REAL TRIPS</span>
-            <h2>A few words from the driver's seat.</h2>
+            {/* <h2>A few words from the driver's seat.</h2> */}
           </div>
 
           <div className="testimonials-grid">
@@ -312,18 +313,18 @@ export default function Home() {
 
           <div className="owner-promo-copy">
             <span className="eyebrow">YOUR CAR, YOUR TERMS</span>
-            <h2>
+            <h4>
               Park less.
               <br />
               Earn on your terms.
-            </h2>
+            </h4>
             <p>
               Put your car to work when you are not using it.
               Earn extra income and stay in control of your calendar.
             </p>
             <a
               className="button button-primary"
-              href="/signup?role=owner"
+              href="/signUp?role=owner"
             >
               Become a host <span>↗</span>
             </a>
@@ -334,11 +335,11 @@ export default function Home() {
         <section id="faq" className="section container faq-section">
           <div className="faq-intro">
             <span className="eyebrow">GOOD TO KNOW</span>
-            <h2>
+            <h5>
               Before you hit
               <br />
               the road.
-            </h2>
+            </h5>
             <p>
               A few helpful things to know before your first trip.
             </p>
@@ -360,11 +361,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Final CTA */}
         <section className="final-cta">
           <div className="container final-cta-inner">
             <div>
-              <h2>Where will your next set of keys take you?</h2>
+              <h3>Where will your next set of keys take you?</h3>
               <p>
                 Make room for a new route and a little more freedom.
               </p>

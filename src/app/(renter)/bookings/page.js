@@ -57,19 +57,20 @@ export default function MyBookingsPage() {
 
       const allBookings = Array.isArray(saved) ? saved : [];
 
-      // Show only this renter's bookings.
-      const renterBookings = allBookings.filter((booking) => {
-        const renterId =
-          booking.renterId ??
-          booking.userId ??
-          booking.customerId;
+     
 
-        // For older bookings without a renter ID, retain them
-        // until those records can be associated with an account.
-        if (renterId == null) return true;
 
-        return String(renterId) === String(session?.id);
-      });
+    const renterBookings = allBookings.filter((booking) => {
+       const renterId =
+            booking.renterId ??
+            booking.userId ??
+            booking.customerId;
+
+    return (
+       renterId != null &&
+       String(renterId) === String(session?.id)
+     );
+   });
 
       setBookings(renterBookings);
     } catch {

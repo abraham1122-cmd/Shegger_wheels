@@ -1,4 +1,6 @@
 
+
+
 const USERS_KEY = "rental-users";
 const SESSION_KEY = "demo_session";
 
@@ -17,6 +19,8 @@ export function createInitialAccounts() {
       email: "user@gmail.com",
       password: "user1",
       role: "renter",
+      isActive: true,
+      lastLoginAt: new Date().toISOString(),
     },
     {
       id: "owner-001",
@@ -24,6 +28,8 @@ export function createInitialAccounts() {
       email: "owner@gmail.com",
       password: "owner1",
       role: "owner",
+      isActive: true,
+      lastLoginAt: new Date().toISOString(),
     },
     {
       id: "admin-001",
@@ -31,6 +37,8 @@ export function createInitialAccounts() {
       email: "admin@gmail.com",
       password: "admin1",
       role: "admin",
+      isActive: true,
+      lastLoginAt: null,
     },
   ];
 
@@ -48,10 +56,19 @@ export function createInitialAccounts() {
     }
   }
 
-  localStorage.setItem(USERS_KEY, JSON.stringify(updatedUsers));
+  for (const user of updatedUsers) {
+    if (!user.lastLoginAt && user.isLastLoginAt) {
+      user.lastLoginAt = user.isLastLoginAt;
+    }
+  }
+
+  localStorage.setItem(
+    USERS_KEY,
+    JSON.stringify(updatedUsers)
+  );
 }
 
-// Get all saved users.
+
 export function getUsers() {
   if (typeof window === "undefined") return [];
 
@@ -66,7 +83,7 @@ export function getUsers() {
   }
 }
 
-// Register a new renter.
+
 export function registerUser(user) {
   if (typeof window === "undefined") {
     return {
@@ -78,6 +95,7 @@ export function registerUser(user) {
   const name = user.name?.trim();
   const email = user.email?.trim().toLowerCase();
   const password = user.password;
+  const role = user.role;
 
   if (!name || !email || !password) {
     return {
@@ -86,11 +104,19 @@ export function registerUser(user) {
     };
   }
 
+ 
+  if (!["renter", "owner"].includes(role)) {
+    return {
+      success: false,
+      message: "Please select a valid account role.",
+    };
+  }
+
   const users = getUsers();
 
   if (
     users.some(
-      (item) => item.email?.toLowerCase() === email
+      (item) => item.email?.trim().toLowerCase() === email
     )
   ) {
     return {
@@ -104,7 +130,10 @@ export function registerUser(user) {
     name,
     email,
     password,
-    role: "renter",
+    role,
+    status: "active",
+    isActive: true,
+    lastLoginAt: new Date().toISOString(),
   };
 
   localStorage.setItem(
@@ -120,8 +149,13 @@ export function registerUser(user) {
   };
 }
 
-// Create owner/admin accounts for development and testing.
-export function createDemoAccount({ name, email, password, role }) {
+
+export function createDemoAccount({
+  name,
+  email,
+  password,
+  role,
+}) {
   if (typeof window === "undefined") {
     return {
       success: false,
@@ -148,7 +182,8 @@ export function createDemoAccount({ name, email, password, role }) {
 
   if (
     users.some(
-      (item) => item.email?.toLowerCase() === normalizedEmail
+      (item) =>
+        item.email?.trim().toLowerCase() === normalizedEmail
     )
   ) {
     return {
@@ -163,6 +198,9 @@ export function createDemoAccount({ name, email, password, role }) {
     email: normalizedEmail,
     password,
     role,
+    status: "active",
+    isActive: true,
+    lastLoginAt: null,
   };
 
   localStorage.setItem(
@@ -176,7 +214,7 @@ export function createDemoAccount({ name, email, password, role }) {
   };
 }
 
-// Sign in using saved email and password.
+
 export function loginUser(email, password) {
   if (typeof window === "undefined") {
     return {
@@ -186,30 +224,44 @@ export function loginUser(email, password) {
   }
 
   const normalizedEmail = email?.trim().toLowerCase();
+  const users = getUsers();
 
-  const user = getUsers().find(
-    (item) =>
-      item.email?.toLowerCase() === normalizedEmail &&
-      item.password === password &&
-      VALID_ROLES.includes(item.role)
+  const userIndex = users.findIndex(
+    (user) =>
+      user.email?.trim().toLowerCase() === normalizedEmail &&
+      user.password === password &&
+      VALID_ROLES.includes(user.role)
   );
 
-  if (!user) {
+  if (userIndex === -1) {
     return {
       success: false,
       message: "Invalid email or password.",
     };
   }
 
-  createSession(user);
+  const updatedUser = {
+    ...users[userIndex],
+    lastLoginAt: new Date().toISOString(),
+  };
+
+  const updatedUsers = [...users];
+  updatedUsers[userIndex] = updatedUser;
+
+  localStorage.setItem(
+    USERS_KEY,
+    JSON.stringify(updatedUsers)
+  );
+
+  createSession(updatedUser);
 
   return {
     success: true,
-    role: user.role,
+    role: updatedUser.role,
   };
 }
 
-// Save the currently signed-in user's session.
+
 export function createSession(user) {
   if (typeof window === "undefined") return null;
 
@@ -232,7 +284,7 @@ export function createSession(user) {
   return session;
 }
 
-// Get the current session.
+
 export function getSession() {
   if (typeof window === "undefined") return null;
 
@@ -264,9 +316,9 @@ export function hasRole(role) {
   return getSession()?.role === role;
 }
 
-// Sign out.
 export function clearSession() {
   if (typeof window === "undefined") return;
 
   sessionStorage.removeItem(SESSION_KEY);
 }
+

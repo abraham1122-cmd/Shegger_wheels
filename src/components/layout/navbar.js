@@ -19,7 +19,7 @@ export default function Navbar() {
           <span className="brand-mark">Sw</span>
           <span className="brand-name">
             Shegger-Wheels
-            <small>CAR SHARING, MADE LOCAL</small>
+            
           </span>
         </Link>
 
@@ -46,7 +46,7 @@ export default function Navbar() {
                 href="/signUp"
                 className="button button-primary nav-cta"
               >
-                Get started <span>↗</span>
+                Get started <span></span>
               </Link>
             </>
           ) : (

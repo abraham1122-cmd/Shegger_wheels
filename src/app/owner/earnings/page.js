@@ -292,9 +292,7 @@ export default function OwnerEarningsPage() {
       </section>
 
       <p className="mt-6 text-sm text-gray-500">
-        These figures are calculated from locally saved booking
-        records. They represent booking value, not verified payments
-        or actual earnings received.
+        Booking Value and Earning Recieved
       </p>
     </main>
   );

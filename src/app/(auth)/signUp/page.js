@@ -1,6 +1,4 @@
 
-
-
 "use client";
 
 import "./signup.css";
@@ -13,16 +11,18 @@ import { registerUser } from "@/lib/sessions";
 export default function SignupPage() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [role, setRole] = useState("renter");
 
   function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const confirmPassword = formData.get("confirmPassword");
+
+    const name = formData.get("name")?.toString().trim();
+    const email = formData.get("email")?.toString().trim().toLowerCase();
+    const password = formData.get("password")?.toString();
+    const confirmPassword = formData.get("confirmPassword")?.toString();
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -30,17 +30,36 @@ export default function SignupPage() {
     }
 
     try {
-      const result = registerUser({ name, email, password });
+      const result = registerUser({
+        name,
+        email,
+        password,
+        role,
+      });
 
       if (!result.success) {
-        setError(result.message);
+        setError(result.message || "Could not create your account.");
         return;
       }
 
-      router.push("/cars");
-    } catch {
-      setError("Could not create your account. Please try again.");
-    }
+     
+      if (role === "owner") {
+        router.push("/owner/dashboard");
+      } else {
+        router.push("/cars");
+      }
+    // } catch {
+    //   setError("Could not create your account. Please try again.");
+    // }
+
+    } catch (err) {
+  console.error("Signup error:", err);
+  setError(
+    err instanceof Error
+      ? err.message
+      : "Could not create your account. Please try again."
+  );
+}
   }
 
   return (
@@ -55,8 +74,21 @@ export default function SignupPage() {
             name="name"
             type="text"
             placeholder="Enter your full name"
+            autoComplete="name"
             required
           />
+
+          <label htmlFor="role">Register as</label>
+          <select
+            id="role"
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          >
+            <option value="renter">Renter — I want to rent cars</option>
+            <option value="owner">Owner — I want to list my cars</option>
+          </select>
 
           <label htmlFor="email">Email</label>
           <input
@@ -64,6 +96,7 @@ export default function SignupPage() {
             name="email"
             type="email"
             placeholder="Enter your email"
+            autoComplete="email"
             required
           />
 
@@ -74,6 +107,7 @@ export default function SignupPage() {
             type="password"
             minLength={8}
             placeholder="At least 8 characters"
+            autoComplete="new-password"
             required
           />
 
@@ -84,28 +118,23 @@ export default function SignupPage() {
             type="password"
             minLength={8}
             placeholder="Re-enter your password"
+            autoComplete="new-password"
             required
           />
         </div>
 
         {error && <p role="alert">{error}</p>}
 
-
-
-         
-         <label htmlFor="terms" className="">
-
-                <input
-                type="checkbox"
-                id="terms"
-                required
-                />
-                I agree to{""}
-                <a href="#" className="">
-                    Terms and Conditions
-                </a>
-            </label>
-         
+        <label htmlFor="terms">
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            required
+          />{" "}
+          I agree to{" "}
+          <Link href="/terms">Terms and Conditions</Link>
+        </label>
 
         <button type="submit">Sign Up</button>
       </form>
@@ -113,13 +142,8 @@ export default function SignupPage() {
       <p>
         Already have an account? <Link href="/signin">Sign In</Link>
       </p>
+
       <Link href="/">Back to Home</Link>
     </div>
   );
 }
-
-
-
-
-
-

@@ -233,6 +233,32 @@ export default function AdminDashboardPage() {
     (car) => carStatus(car) === "Rejected"
   );
 
+
+
+  const activeOwners = users.filter((owner) => {
+  
+  if (owner.role !== "owner") {
+    return false;
+  }
+
+  
+  if (owner.isActive === false || owner.active === false) {
+    return false;
+  }
+
+  
+  const lastLogin = Date.parse(owner.lastLoginAt || "");
+  const thirtyDaysAgo =
+    Date.now() - 30 * 24 * 60 * 60 * 1000;
+
+  return (
+    Number.isFinite(lastLogin) &&
+    lastLogin >= thirtyDaysAgo
+  );
+});
+
+
+
   const activeUsers = users.filter((user) => {
     if (user.isActive === false || user.active === false) {
       return false;
@@ -255,7 +281,7 @@ export default function AdminDashboardPage() {
 
 
 const monthlyBookings = Array.from({ length: 6 }, (_, index) => {
-  const date = new Date(2026, 9, 1); // October 2026
+  const date = new Date(2026, 9, 1); 
   date.setMonth(date.getMonth() - (5 - index));
 
     return {
@@ -420,7 +446,7 @@ const monthlyBookings = Array.from({ length: 6 }, (_, index) => {
   if (loading) {
     return (
       <div className="dashboard-loading">
-        Loading admin dashboard...
+        Loading...
       </div>
     );
   }
@@ -436,8 +462,8 @@ const monthlyBookings = Array.from({ length: 6 }, (_, index) => {
     <main className="admin-dashboard">
       <section className="dashboard-heading">
         <div>
-          <h1>Dashboard Overview</h1>
-          <p>Manage your car rental marketplace.</p>
+          
+          <p>Managing car rental marketplace.</p>
         </div>
 
         <button className="button button-outline" onClick={refresh}>
@@ -459,8 +485,16 @@ const monthlyBookings = Array.from({ length: 6 }, (_, index) => {
 
       <section className="dashboard-stats-grid">
         <StatCard title="Total Users" value={users.length} />
+
+           <StatCard
+           title="Active Owners"
+           value={activeOwners.length}
+           description="Owners was active las 30 days"
+           />
+
+
         <StatCard
-          title="Active Users"
+          title="Active Renter"
           value={activeUsers.length}
           description="Signed in during the last 30 days"
         />
@@ -491,7 +525,7 @@ const monthlyBookings = Array.from({ length: 6 }, (_, index) => {
         <StatCard
           title="Estimated Platform Fee"
           value={money(platformFee)}
-          description="10% demo fee on completed bookings"
+          description="10% fee on completed bookings"
         />
       </section>
 
@@ -767,11 +801,15 @@ const monthlyBookings = Array.from({ length: 6 }, (_, index) => {
         </div>
 
         <p className="dashboard-footnote">
-          Platform fees are illustrative estimates, not actual payments.
+          {/* Platform fees are illustrative estimates, not actual payments.
           Data is stored in browser localStorage and is not shared across
-          different users or devices.
+          different users or devices. */}
+
+     
         </p>
       </section>
+
+      <small className="ad">Shegger Wheels Platform @2026</small>
     </main>
   );
 }

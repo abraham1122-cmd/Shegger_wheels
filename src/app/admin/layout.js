@@ -40,7 +40,7 @@ export default function AdminLayout({ children }) {
           <div className="admin-nav-divider" />
 
           <Link href="/" className="admin-nav-link admin-back-link">
-            <span aria-hidden="true">←</span>
+            <span aria-hidden="true"></span>
             Back to website
           </Link>
         </nav>

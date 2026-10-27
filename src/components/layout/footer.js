@@ -23,20 +23,20 @@ export default function Footer() {
           <h3>Explore</h3>
           <a href="/cars">Find a car</a>
           <a href="/#how-it-works">How it works</a>
-          <a href="/signup?role=owner">Become a host</a>
+          <a href="/signUp?role=owner">Become a host</a>
         </div>
 
         <div>
           <h3>Your account</h3>
-          <a href="/dashboard">Renter dashboard</a>
-          <a href="/owner">Owner dashboard</a>
-          <a href="/signin">Sign in</a>
+          
+          <a href="/signin">SignIn</a>
+          <a href="/signUp">signUp</a>
         </div>
 
         <div>
           <h3>Need a hand?</h3>
           <a href="/#faq">Frequently asked questions</a>
-          <a href="mailto:hello@example.com">Contact us</a>
+          <a href="sheggerwheels@gmail.com">Contact us</a>
         </div>
       </div>
 

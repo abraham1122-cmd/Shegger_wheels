@@ -8,6 +8,8 @@ import CarCard from "@/components/cars/car-card";
 import carsData from "@/data/cars.json";
 import { getListedCars } from "@/lib/carStorage";
 
+import CarSearch from "@/components/cars/car-search";
+
 const steps = [
   {
     number: "01",
@@ -34,6 +36,8 @@ export default function CarsPage() {
     Array.isArray(carsData) ? carsData : []
   );
 
+  const [ searchQuery, setSearchQuery ] = useState("");
+
   useEffect(() => {
 
 const publishedCars = getListedCars().filter(
@@ -56,6 +60,20 @@ const publishedCars = getListedCars().filter(
     setCars(combinedCars);
   }, []);
 
+  const filteredCars = cars.filter((car)=>{
+
+    const query = searchQuery.trim().toLowerCase();
+
+    return(
+      car.name?.toLowerCase().includes(query) ||
+      car.Brand?.toLowerCase().includes(query) ||
+      car.Model?.toLowerCase().includes(query)
+
+    )
+
+    
+  })
+
   return (
     <>
       <Navbar />
@@ -65,15 +83,13 @@ const publishedCars = getListedCars().filter(
           <div className="section-heading heading-with-link">
             <div>
               <span className="eyebrow">
-                YOUR NEXT RIDE IS HERE
+                {/* YOUR NEXT RIDE IS HERE */}
+                 Find a car that makes the journey yours.
               </span>
 
-              <h2>Find your kind of freedom.</h2>
-
-              <p>
-                From weekday errands to weekend escapes, find a car
-                that makes the journey yours.
-              </p>
+              {/* <p>
+               Find a car that makes the journey yours.
+              </p> */}
             </div>
 
             <a href="/cars" className="text-link">
@@ -102,10 +118,19 @@ const publishedCars = getListedCars().filter(
             </a>
           </div>
 
+          <div className="">
+
+          <CarSearch
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              />
+
+              </div>
+
           {/* Car catalogue */}
           <div className="featured-grid">
-            {cars.length > 0 ? (
-              cars.map((car) => (
+            {filteredCars.length > 0 ? (
+              filteredCars.map((car) => (
                 <CarCard key={car.id} car={car} />
               ))
             ) : (
@@ -124,8 +149,6 @@ const publishedCars = getListedCars().filter(
             <span className="eyebrow">
               A LITTLE MORE SIMPLE
             </span>
-
-            <h2>Your next trip requires three simple steps.</h2>
 
             <p>
               Less planning stress. More time for the good stuff.
