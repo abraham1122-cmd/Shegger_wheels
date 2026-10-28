@@ -1,0 +1,432 @@
+
+
+
+.owner-disputes-page {
+  min-height: 100vh;
+  padding: 36px 24px 60px;
+  background: #f7f8fa;
+  color: #1f2937;
+}
+
+.owner-disputes-container {
+  width: 100%;
+  max-width: 1152px;
+  margin: 0 auto;
+}
+
+.owner-disputes-loading {
+  padding: 24px 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+
+
+.owner-disputes-header {
+  margin-bottom: 32px;
+}
+
+.owner-disputes-eyebrow {
+  margin: 0 0 10px;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.owner-disputes-title,
+.owner-dispute-details-title {
+  margin: 0;
+  color: #111827;
+  font-size: 32px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.owner-disputes-description {
+  max-width: 700px;
+  margin: 12px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   STATISTICS CARDS
+========================================= */
+
+.owner-disputes-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+.owner-disputes-stat-card {
+  min-width: 0;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgb(15 23 42 / 3%);
+}
+
+.owner-disputes-stat-label {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.owner-disputes-stat-value {
+  margin: 12px 0 0;
+  color: #111827;
+  font-size: 32px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.owner-disputes-stat-attention {
+  border-top: 3px solid #f59e0b;
+}
+
+.owner-disputes-stat-resolved {
+  border-top: 3px solid #10b981;
+}
+
+/* =========================================
+   DISPUTES CONTENT SECTION
+========================================= */
+
+.owner-disputes-content {
+  width: 100%;
+}
+
+.owner-disputes-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.owner-disputes-section-title {
+  margin: 0;
+  color: #111827;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.owner-disputes-section-description {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.owner-disputes-refresh-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  color: #374151;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.owner-disputes-refresh-button:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.owner-disputes-refresh-button:focus-visible,
+.owner-disputes-signin-link:focus-visible,
+.owner-disputes-back-link:focus-visible {
+  outline: 3px solid rgb(37 99 235 / 35%);
+  outline-offset: 3px;
+}
+
+
+
+.owner-disputes-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 22px;
+}
+
+
+.owner-disputes-list > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+
+
+.owner-disputes-empty {
+  padding: 48px 24px;
+  background: #ffffff;
+  border: 1px dashed #d1d5db;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.owner-disputes-empty-title {
+  margin: 0;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.owner-disputes-empty-description {
+  max-width: 480px;
+  margin: 12px auto 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+
+.owner-disputes-error {
+  margin: 20px 0;
+  padding: 18px 20px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  color: #b91c1c;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.owner-disputes-error p {
+  margin: 0;
+}
+
+.owner-disputes-error-action {
+  margin-top: 12px;
+}
+
+.owner-disputes-signin-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #1d4ed8;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.owner-disputes-signin-link:hover {
+  color: #1e40af;
+}
+
+
+
+.owner-disputes-back-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-bottom: 16px;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.owner-disputes-back-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.owner-dispute-details-header {
+  margin: 8px 0 28px;
+}
+
+.owner-dispute-details-title {
+  margin-top: 4px;
+}
+
+.owner-dispute-details-id {
+  margin: 12px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.owner-dispute-details-id span {
+  font-weight: 600;
+}
+
+
+
+.owner-dispute-details-panel {
+  min-width: 0;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgb(15 23 42 / 3%);
+}
+
+.owner-dispute-details-panel-title {
+  margin: 0 0 22px;
+  color: #111827;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.owner-dispute-messages-section {
+  min-width: 0;
+  margin-top: 28px;
+}
+
+
+.owner-dispute-details-panel > *,
+.owner-dispute-messages-section > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* =========================================
+   TABLET RESPONSIVENESS
+========================================= */
+
+@media (max-width: 900px) {
+  .owner-disputes-page {
+    padding: 30px 20px 48px;
+  }
+
+  .owner-disputes-stats {
+    gap: 14px;
+  }
+
+  .owner-disputes-stat-card {
+    padding: 20px;
+  }
+
+  .owner-disputes-list {
+    gap: 16px;
+  }
+
+  .owner-dispute-details-panel {
+    padding: 22px;
+  }
+}
+
+
+
+@media (max-width: 640px) {
+  .owner-disputes-page {
+    padding: 24px 16px 40px;
+  }
+
+  .owner-disputes-header {
+    margin-bottom: 24px;
+  }
+
+  .owner-disputes-title,
+  .owner-dispute-details-title {
+    font-size: 27px;
+  }
+
+  .owner-disputes-description {
+    font-size: 14px;
+  }
+
+  .owner-disputes-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  .owner-disputes-stat-card {
+    padding: 18px 20px;
+  }
+
+  .owner-disputes-stat-value {
+    margin-top: 8px;
+    font-size: 28px;
+  }
+
+  .owner-disputes-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .owner-disputes-refresh-button {
+    width: 100%;
+  }
+
+  .owner-disputes-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .owner-disputes-empty {
+    padding: 36px 18px;
+  }
+
+  .owner-disputes-empty-title {
+    font-size: 18px;
+  }
+
+  .owner-dispute-details-header {
+    margin-bottom: 22px;
+  }
+
+  .owner-dispute-details-panel {
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+
+  .owner-dispute-details-panel-title {
+    font-size: 19px;
+  }
+
+  .owner-dispute-messages-section {
+    margin-top: 20px;
+  }
+}
+
+
+
+@media (max-width: 360px) {
+  .owner-disputes-page {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .owner-disputes-title,
+  .owner-dispute-details-title {
+    font-size: 24px;
+  }
+
+  .owner-disputes-stat-card {
+    padding: 16px;
+  }
+
+  .owner-dispute-details-panel {
+    padding: 16px 12px;
+  }
+}

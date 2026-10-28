@@ -3,7 +3,7 @@ const CARS_KEY = "rental_cars";
 
 import { getSession } from "@/lib/sessions";
 
-// Get all saved listings, or only listings for one owner.
+
 export function getListedCars(ownerId) {
   if (typeof window === "undefined") return [];
 
@@ -30,7 +30,7 @@ export function saveListedCars(cars) {
   localStorage.setItem(CARS_KEY, JSON.stringify(cars));
 }
 
-// Add a listing for the currently signed-in owner.
+
 export function addListedCar(car) {
   const session = getSession();
 

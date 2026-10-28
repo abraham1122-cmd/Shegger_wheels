@@ -1,0 +1,455 @@
+
+
+
+/* =========================================
+   SHARED RENTER DISPUTE STYLES
+========================================= */
+
+.renter-disputes-page,
+.new-dispute-page,
+.dispute-page {
+  min-height: 100vh;
+  padding: 32px 20px;
+  background: #f7f8fa;
+  color: #1f2937;
+}
+
+.renter-disputes-container,
+.new-dispute-container,
+.dispute-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.renter-disputes-container {
+  max-width: 1152px;
+}
+
+.new-dispute-container {
+  max-width: 768px;
+}
+
+.dispute-container {
+  max-width: 1000px;
+}
+
+.renter-disputes-loading,
+.new-dispute-loading,
+.dispute-message {
+  padding: 24px 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* =========================================
+   RENTER DISPUTES LIST
+========================================= */
+
+.renter-disputes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.renter-disputes-heading h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.renter-disputes-heading p {
+  margin: 10px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.renter-disputes-bookings-button,
+.new-dispute-button,
+.dispute-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.renter-disputes-bookings-button:hover,
+.new-dispute-button:hover,
+.dispute-button:hover {
+  background: #b91c1c;
+}
+
+.renter-disputes-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.renter-disputes-stat-card {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 3%);
+}
+
+.renter-disputes-stat-card p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.renter-disputes-stat-card span {
+  display: block;
+  margin-top: 10px;
+  color: #111827;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.renter-disputes-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 20px;
+}
+
+.renter-disputes-empty {
+  padding: 48px 24px;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.renter-disputes-empty h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.renter-disputes-empty p {
+  margin: 12px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.renter-disputes-empty-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #dc2626;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.renter-disputes-empty-link:hover {
+  text-decoration: underline;
+}
+
+.renter-disputes-error {
+  padding: 20px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.renter-disputes-error p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.renter-disputes-signin {
+  margin-top: 12px;
+}
+
+.renter-disputes-signin a {
+  color: #b91c1c;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* =========================================
+   NEW DISPUTE PAGE
+========================================= */
+
+.new-dispute-back-link,
+.dispute-back-link {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.new-dispute-back-link:hover,
+.dispute-back-link:hover {
+  color: #dc2626;
+  text-decoration: underline;
+}
+
+.new-dispute-header {
+  margin: 20px 0 24px;
+}
+
+.new-dispute-header h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.new-dispute-header p {
+  margin: 10px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.new-dispute-car-card {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.new-dispute-car-card h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.new-dispute-car-card p {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.new-dispute-form-panel {
+  padding: 28px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
+}
+
+.new-dispute-error {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: #fef2f2;
+}
+
+.new-dispute-error h1 {
+  margin: 0;
+  color: #991b1b;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.new-dispute-error p {
+  margin: 12px 0 20px;
+  color: #b91c1c;
+  line-height: 1.6;
+}
+
+/* =========================================
+   DISPUTE DETAILS PAGE
+========================================= */
+
+.dispute-page-header {
+  margin: 20px 0 24px;
+}
+
+.dispute-eyebrow {
+  margin: 0 0 8px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.dispute-page-header h1 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.dispute-id {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.dispute-id span {
+  color: #374151;
+  font-weight: 600;
+}
+
+.dispute-panel {
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
+}
+
+.dispute-panel h2 {
+  margin: 0 0 20px;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.dispute-conversation-section {
+  margin-top: 24px;
+}
+
+.dispute-feedback {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.dispute-feedback h1 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.dispute-feedback p {
+  margin: 0 0 20px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.dispute-feedback-error {
+  border-color: #fecaca;
+}
+
+.dispute-feedback-error h1 {
+  color: #b91c1c;
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+.renter-disputes-bookings-button:focus-visible,
+.renter-disputes-empty-link:focus-visible,
+.renter-disputes-signin a:focus-visible,
+.new-dispute-button:focus-visible,
+.new-dispute-back-link:focus-visible,
+.dispute-button:focus-visible,
+.dispute-back-link:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+  .renter-disputes-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .renter-disputes-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .renter-disputes-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .renter-disputes-page,
+  .new-dispute-page,
+  .dispute-page {
+    padding: 24px 14px;
+  }
+
+  .renter-disputes-heading h1,
+  .new-dispute-header h1 {
+    font-size: 26px;
+  }
+
+  .renter-disputes-heading p,
+  .new-dispute-header p {
+    font-size: 14px;
+  }
+
+  .renter-disputes-bookings-button {
+    width: 100%;
+  }
+
+  .renter-disputes-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .renter-disputes-stat-card {
+    padding: 18px;
+  }
+
+  .renter-disputes-stat-card span {
+    font-size: 26px;
+  }
+
+  .renter-disputes-empty {
+    padding: 32px 18px;
+  }
+
+  .new-dispute-form-panel,
+  .dispute-panel,
+  .dispute-feedback,
+  .new-dispute-error {
+    padding: 18px;
+  }
+
+  .dispute-page-header h1 {
+    font-size: 26px;
+  }
+
+  .dispute-panel h2 {
+    font-size: 18px;
+  }
+}

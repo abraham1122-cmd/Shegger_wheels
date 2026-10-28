@@ -108,7 +108,7 @@ export default function Home() {
 
             
 
-            <h1>
+            <h3>
 
 
               <span>Your next move.</span>
@@ -117,7 +117,7 @@ export default function Home() {
               {/* Local people. */}
               <br />
               
-            </h1>
+            </h3>
 
             <small>Find a car that fits your plans, from people who know
               the place. Your next great journey starts here.</small>
@@ -196,11 +196,11 @@ export default function Home() {
               <span>Ways to get moving</span>
             </div>
             <div>
-              {/* <strong>12</strong> */}
+           
               <span>Neighbourhoods to explore  <p>...</p></span>
             </div>
             <div>
-              {/* <strong>4.9/5</strong> */}
+             
               <span>Community-rated experience  </span>
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function Home() {
         <section className="section container">
           <div className="section-heading">
             <span className="eyebrow">GO A LITTLE FURTHER</span>
-            {/* <h2>Different plans. One great city.</h2> */}
+        
             <p>
               A quick errand or a long way round. There is a car for that.
             </p>

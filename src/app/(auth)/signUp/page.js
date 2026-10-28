@@ -64,7 +64,7 @@ export default function SignupPage() {
 
   return (
     <div className="form-section">
-      <h1>Create Account</h1>
+      <h2>Create New Account</h2>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -86,8 +86,8 @@ export default function SignupPage() {
             onChange={(e) => setRole(e.target.value)}
             required
           >
-            <option value="renter">Renter — I want to rent cars</option>
-            <option value="owner">Owner — I want to list my cars</option>
+            <option value="renter">Renter (I want to rent cars)</option>
+            <option value="owner">Owner (I want to list my cars)</option>
           </select>
 
           <label htmlFor="email">Email</label>
@@ -136,7 +136,7 @@ export default function SignupPage() {
           <Link href="/terms">Terms and Conditions</Link>
         </label>
 
-        <button type="submit">Sign Up</button>
+        <button type="submit">Create Account</button>
       </form>
 
       <p>

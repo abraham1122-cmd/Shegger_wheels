@@ -52,47 +52,6 @@ export default function BookingForm({ car }) {
 
 
 
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-
-  //   if (returnDate <= pickUpDate) {
-  //     setMessage("Return date must be after the pickup date.");
-  //     setIsAvailable(false);
-  //     return;
-  //   }
-
-  //   const result = checkCarAvailability(
-  //     car.id,
-  //     pickUpDate,
-  //     returnDate
-  //   );
-
-  //   setMessage(result.message);
-  //   setIsAvailable(result.available);
-
-  //   if (!result.available) return;
-
-  //   const booking = {
-  //     carId: car.id,
-  //     carName: car.name,
-  //     pricePerDay: Number(car.pricePerDay ?? car.price),
-  //     pickUpDate,
-  //     returnDate,
-  //     location,
-  //     fullName,
-  //     email,
-  //     phone,
-  //   };
-
-  //   sessionStorage.setItem(
-  //     "Booking_pending",
-  //     JSON.stringify(booking)
-  //   );
-
-  //   window.location.href = "/payment";
-  // }
-
-
 
   function handleSubmit(e) {
   e.preventDefault();

@@ -59,7 +59,6 @@ export default function MyBookingsPage() {
 
      
 
-
     const renterBookings = allBookings.filter((booking) => {
        const renterId =
             booking.renterId ??
@@ -230,6 +229,13 @@ export default function MyBookingsPage() {
                         Feed-back
                         </Link>
                         )}
+                
+
+                <Link href={`/disputes/new?carId=${encodeURIComponent(booking.carId)}&bookingId=${
+                  encodeURIComponent(booking.id)}`}>
+
+                    Report-Poblem
+                  </Link>
               </article>
             );
           })}

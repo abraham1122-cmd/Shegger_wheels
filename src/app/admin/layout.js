@@ -12,6 +12,7 @@ const adminLinks = [
   { href: "/admin#cars", label: "Manage Cars", icon: "" },
   { href: "/admin#bookings", label: "Bookings", icon: "" },
   { href: "/admin#reports", label: "Reports", icon: "" },
+  { href: "/admin/disputes", label: "Disputes"},
 ];
 
 export default function AdminLayout({ children }) {

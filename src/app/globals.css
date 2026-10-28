@@ -194,7 +194,7 @@ summary:focus-visible {
   font-size: clamp(38px, 4.5vw, 58px);
 }
 
-.hero h1 span {
+.hero h3 span {
   color: var(--green);
 }
 

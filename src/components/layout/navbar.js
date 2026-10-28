@@ -32,6 +32,8 @@ export default function Navbar() {
           {session?.role === "owner" && (
             <Link href="/owner/cars/new">List your car</Link>
           )}
+
+          <Link href="/disputes" className="">My Disputes</Link>
         </div>
 
         <div className="nav-actions">

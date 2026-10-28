@@ -1,80 +1,59 @@
 
-
-
-
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
-import { getSession } from "@/lib/sessions";
-import {
-  getDisputesForUser,
-  DISPUTE_STATUSES,
-} from "@/lib/disputeStorage";
+const STATUS_STYLES = {
+  Open: "bg-blue-100 text-blue-800",
+  "Under Review": "bg-amber-100 text-amber-800",
+  "Awaiting Response": "bg-purple-100 text-purple-800",
+  Resolved: "bg-green-100 text-green-800",
+  Closed: "bg-gray-200 text-gray-700",
+};
 
-export default function DisputeStatusSummary() {
-  const [counts, setCounts] = useState({});
-  const [ready, setReady] = useState(false);
+const STATUSES = [
+  "Open",
+  "Under Review",
+  "Awaiting Response",
+  "Resolved",
+  "Closed",
+];
 
-  const refreshCounts = useCallback(() => {
-    const session = getSession();
-
-    if (session?.role !== "admin") {
-      setCounts({});
-      setReady(true);
-      return;
-    }
-
-    const disputes = getDisputesForUser(session);
-
-    const nextCounts = Object.fromEntries(
-      DISPUTE_STATUSES.map((status) => [
-        status,
-        disputes.filter((dispute) => dispute.status === status).length,
-      ])
-    );
-
-    setCounts(nextCounts);
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    refreshCounts();
-
-    window.addEventListener("disputes-updated", refreshCounts);
-    window.addEventListener("storage", refreshCounts);
-
-    return () => {
-      window.removeEventListener("disputes-updated", refreshCounts);
-      window.removeEventListener("storage", refreshCounts);
-    };
-  }, [refreshCounts]);
-
-  if (!ready) return <p>Loading dispute statistics...</p>;
+export default function DisputeStatus({
+  status = "Open",
+  userRole,
+  onStatusChange,
+}) {
+  const styles =
+    STATUS_STYLES[status] || "bg-gray-100 text-gray-700";
 
   return (
-    <section className="rounded-xl border border-gray-200 bg-white p-5">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold">Dispute Overview</h2>
+    <div className="flex flex-wrap items-center gap-3">
+      <span
+        className={`inline-flex items-center rounded-full px-3 py-1.5 text-sm font-semibold ${styles}`}
+      >
+        {status}
+      </span>
 
-        <Link
-          href="/disputes"
-          className="text-sm font-medium text-blue-600"
-        >
-          Manage disputes
-        </Link>
-      </div>
+      {userRole === "admin" && onStatusChange && (
+        <label className="flex items-center gap-2 text-sm">
+          <span className="font-medium text-gray-700">
+            Update status
+          </span>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {DISPUTE_STATUSES.map((status) => (
-          <div key={status} className="rounded-lg bg-gray-50 p-3">
-            <p className="text-sm text-gray-600">{status}</p>
-            <p className="mt-1 text-2xl font-bold">
-              {counts[status] ?? 0}
-            </p>
-          </div>
-        ))}
-      </div>
-    </section>
+          <select
+            value={status}
+            onChange={(event) =>
+              onStatusChange(event.target.value)
+            }
+            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          >
+            {STATUSES.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+    </div>
   );
 }
