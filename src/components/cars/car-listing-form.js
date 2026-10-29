@@ -7,9 +7,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addListedCar } from "@/lib/carStorage";
 import { isSignedIn } from "@/lib/sessions";
+import LocationPickerWrapper from "../maps/location-picker-wrapper";
 
 export default function CarListingForm() {
   const router = useRouter();
+
+  const [carLocation, setCarLocation] = useState(null);
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -20,8 +24,6 @@ export default function CarListingForm() {
     description: "",
   });
 
-  const [error, setError] = useState("");
-
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -29,6 +31,12 @@ export default function CarListingForm() {
       ...previous,
       [name]: value,
     }));
+
+    // If the pickup address is edited manually,
+    // require the user to select a matching map location again.
+    if (name === "location") {
+      setCarLocation(null);
+    }
   }
 
   function handleSubmit(event) {
@@ -49,33 +57,60 @@ export default function CarListingForm() {
       return;
     }
 
+    if (!form.location.trim()) {
+      setError("Enter a pickup address.");
+      return;
+    }
+
+    if (
+      !carLocation ||
+      !Number.isFinite(Number(carLocation.latitude)) ||
+      !Number.isFinite(Number(carLocation.longitude))
+    ) {
+      setError(
+        "Please search for a location and select a result or map point."
+      );
+      return;
+    }
+
     const car = {
       ...form,
+      name: form.name.trim(),
+      location: carLocation.name || form.location.trim(),
       id: `owner-${Date.now()}`,
       price,
-
-      // Owner information
       ownerId: "demo-owner",
-
-      // Admin must approve before publication
       approvalStatus: "pending",
       isPublished: false,
-
-      // Availability is separate from approval
       isAvailable: true,
-
       createdAt: new Date().toISOString(),
+      latitude: Number(carLocation.latitude),
+      longitude: Number(carLocation.longitude),
     };
 
-    addListedCar(car);
+    try {
+      addListedCar(car);
+      router.push("/owner/cars");
+    } catch (err) {
+      console.error("Failed to save car listing:", err);
+      setError("Unable to save your car listing. Please try again.");
+    }
+  }
 
-    router.push("/owner/cars");
+  function handleLocationSelect(location) {
+    setCarLocation(location);
+    setError("");
+
+    setForm((previous) => ({
+      ...previous,
+      location: location.name,
+    }));
   }
 
   return (
     <main className="car-listing-page">
       <section className="car-listing-card">
-        <h1>List Your Car</h1>
+        <h1>Add Your Car</h1>
 
         <p>
           Submit your vehicle for admin review.
@@ -90,7 +125,55 @@ export default function CarListingForm() {
               name="name"
               value={form.name}
               onChange={handleChange}
-              placeholder="Toyota Corolla 2022"
+              placeholder="e.g Rangerover.."
+              required
+            />
+          </div>
+
+           <div className="listing-field">
+            <label htmlFor="brand">Car Brand</label>
+            <input
+              id="brand"
+              name="name"
+              value={form.brand}
+              onChange={handleChange}
+              placeholder="write your car brand"
+              required
+            />
+          </div>
+
+           <div className="listing-field">
+            <label htmlFor="model">Car Model</label>
+            <input
+              id="model"
+              name="name"
+              value={form.model}
+              onChange={handleChange}
+              placeholder="Your Car Model"
+              required
+            />
+          </div>
+
+           <div className="listing-field">
+            <label htmlFor="transmission">Car Transmission</label>
+            <input
+              id="transmission"
+              name="name"
+              value={form.transmission}
+              onChange={handleChange}
+              placeholder="Transmission.."
+              required
+            />
+          </div>
+
+           <div className="listing-field">
+            <label htmlFor="seat">Car seats</label>
+            <input
+              id="seat"
+              name="name"
+              value={form.seat}
+              onChange={handleChange}
+              placeholder="Car seats.. e.g 4 "
               required
             />
           </div>
@@ -119,16 +202,16 @@ export default function CarListingForm() {
               name="price"
               type="number"
               min="1"
-              step="any"
+              step="0.01"
               value={form.price}
               onChange={handleChange}
-              placeholder="2500"
+              placeholder="Enter price per day"
               required
             />
           </div>
 
           <div className="listing-field">
-            <label htmlFor="location">Pickup location</label>
+            <label htmlFor="location">Pickup address or area</label>
             <input
               id="location"
               name="location"
@@ -137,16 +220,17 @@ export default function CarListingForm() {
               placeholder="Bole, Addis Ababa"
               required
             />
+          
           </div>
 
           <div className="listing-field">
-            <label htmlFor="image">Car image path or URL</label>
+            <label htmlFor="image"> image path or URL</label>
             <input
               id="image"
               name="image"
               value={form.image}
               onChange={handleChange}
-              placeholder="/images/toyota-corolla.jpg"
+              placeholder="/images/corolla.jpg"
               required
             />
           </div>
@@ -158,11 +242,39 @@ export default function CarListingForm() {
               name="description"
               value={form.description}
               onChange={handleChange}
-              placeholder="Describe your car..."
+              placeholder="Describe your car and its features..."
               rows={4}
               required
             />
           </div>
+
+          <section className="form-section">
+            <h2>Car Location</h2>
+
+            {/* <p>
+              Search for the parking or pickup address and select a result
+              to save its coordinates.
+            </p> */}
+
+            <LocationPickerWrapper
+              value={carLocation}
+              onChange={handleLocationSelect}
+            />
+
+            <input
+              type="hidden"
+              name="latitude"
+              value={carLocation?.latitude ?? ""}
+              readOnly
+            />
+
+            <input
+              type="hidden"
+              name="longitude"
+              value={carLocation?.longitude ?? ""}
+              readOnly
+            />
+          </section>
 
           {error && (
             <p className="listing-error" role="alert">

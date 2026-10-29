@@ -20,7 +20,9 @@
         "color": "gray",
         "image": "../images/bmw.jpg",
         "pricePerDay": 4000,
-        "Description": "Bmw luxury car with 6 seat"
+        "Description": "Bmw luxury car with 6 seat",
+        "latitude": 8.98755,
+        "longitude": 38.7903
     },
 
     

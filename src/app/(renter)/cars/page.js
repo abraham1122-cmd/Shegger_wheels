@@ -1,180 +1,29 @@
-"use client";
 
-import { useEffect, useState } from "react";
 
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
-import CarCard from "@/components/cars/car-card";
-import carsData from "@/data/cars.json";
-import { getListedCars } from "@/lib/carStorage";
 
-import CarSearch from "@/components/cars/car-search";
+import CarsPageContent from "./carRent";
 
-const steps = [
-  {
-    number: "01",
-    title: "Find your wheels",
+export const metadata = {
+  title: "Check Available Cars on Markate",
+  description:
+    "Browse available rental cars in Ethiopia. Compare vehicles, prices, and pickup locations.",
+
+  openGraph: {
+    title: "Available Rental Cars | Drive Ethiopia",
     description:
-      "Explore cars near you and choose the one that fits your plans.",
+      "Explore rental cars and find the right vehicle for your next trip.",
+    images: ["/images/og-image.jpg"],
   },
-  {
-    number: "02",
-    title: "Meet your host",
-    description:
-      "Send a booking request and confirm the details with the owner.",
-  },
-  {
-    number: "03",
-    title: "Hit the road",
-    description:
-      "Pick up your car and enjoy the freedom to go your own way.",
-  },
-];
+};
 
-export default function CarsPage() {
-  const [cars, setCars] = useState(
-    Array.isArray(carsData) ? carsData : []
-  );
 
-  const [ searchQuery, setSearchQuery ] = useState("");
+export default function CarsPage(){
 
-  useEffect(() => {
-
-const publishedCars = getListedCars().filter(
-  (car) =>
-    String(car.status || "").toLowerCase() === "published" ||
-    (!car.status && car.isAvailable === true)
-);
-
-    const combinedCars = [
-      ...(Array.isArray(carsData) ? carsData : []),
-      ...publishedCars.filter(
-        (publishedCar) =>
-          !(Array.isArray(carsData) ? carsData : []).some(
-            (seedCar) =>
-              String(seedCar.id) === String(publishedCar.id)
-          )
-      ),
-    ];
-
-    setCars(combinedCars);
-  }, []);
-
-  const filteredCars = cars.filter((car)=>{
-
-    const query = searchQuery.trim().toLowerCase();
-
-    return(
-      car.name?.toLowerCase().includes(query) ||
-      car.Brand?.toLowerCase().includes(query) ||
-      car.Model?.toLowerCase().includes(query)
-
-    )
-
-    
-  })
-
-  return (
+  return(
     <>
-      <Navbar />
-
-      <main>
-        <section className="section container">
-          <div className="section-heading heading-with-link">
-            <div>
-              <span className="eyebrow">
-                {/* YOUR NEXT RIDE IS HERE */}
-                 Find a car that makes the journey yours.
-              </span>
-
-              {/* <p>
-               Find a car that makes the journey yours.
-              </p> */}
-            </div>
-
-            <a href="/cars" className="text-link">
-              Explore all cars ↗
-            </a>
-          </div>
-
-          <div className="category-pills">
-            <a className="category-pill active" href="/cars">
-              All cars
-            </a>
-
-            <a className="category-pill" href="/cars?type=suv">
-              SUVs
-            </a>
-
-            <a className="category-pill" href="/cars?type=city">
-              City cars
-            </a>
-
-            <a
-              className="category-pill"
-              href="/cars?type=electric"
-            >
-              Electric
-            </a>
-          </div>
-
-          <div className="">
-
-          <CarSearch
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              />
-
-              </div>
-
-          {/* Car catalogue */}
-          <div className="featured-grid">
-            {filteredCars.length > 0 ? (
-              filteredCars.map((car) => (
-                <CarCard key={car.id} car={car} />
-              ))
-            ) : (
-              <p className="empty-message">
-                No cars are available yet.
-              </p>
-            )}
-          </div>
-        </section>
-
-        <section
-          id="how-it-works"
-          className="section container"
-        >
-          <div className="section-heading">
-            <span className="eyebrow">
-              A LITTLE MORE SIMPLE
-            </span>
-
-            <p>
-              Less planning stress. More time for the good stuff.
-            </p>
-          </div>
-
-          <div className="steps-grid">
-            {steps.map((step) => (
-              <article
-                className="step-card"
-                key={step.number}
-              >
-                <span className="step-number">
-                  {step.number}
-                </span>
-
-                <h3>{step.title}</h3>
-
-                <p>{step.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-      </main>
-
-      <Footer />
+    <main>
+      <CarsPageContent />
+    </main>
     </>
   );
 }
