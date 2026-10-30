@@ -16,8 +16,8 @@ export function createInitialAccounts() {
     {
       id: "renter-001",
       name: "Renter",
-      email: "user@gmail.com",
-      password: "user1",
+      email: process.env.DEMO_RENTER_LOGIN_EMAIL,
+      password: process.env.DEMO_RENTER_LOGIN_PASSWORD,
       role: "renter",
       isActive: true,
       lastLoginAt: new Date().toISOString(),
@@ -25,8 +25,8 @@ export function createInitialAccounts() {
     {
       id: "owner-001",
       name: "Owner",
-      email: "owner@gmail.com",
-      password: "owner1",
+      email: process.env.DEMO_OWNER_LOGIN_EMAIL,
+      password: process.env.DEMO_OWNER_LOGIN_PASSWORD,
       role: "owner",
       isActive: true,
       lastLoginAt: new Date().toISOString(),
@@ -34,8 +34,8 @@ export function createInitialAccounts() {
     {
       id: "admin-001",
       name: "Admin",
-      email: "admin@gmail.com",
-      password: "admin1",
+      email: process.env.DEMO_ADMIN_LOGIN_EMAIL,
+      password:process.env.DEMO_ADMIN_LOGIN_PASSWORD,
       role: "admin",
       isActive: true,
       lastLoginAt: null,
