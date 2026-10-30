@@ -9,27 +9,36 @@ import "./booking.css";
 
 function getStatusMessage(status) {
   const messages = {
-    Pending:
-      "Your booking is waiting for the owner to respond.",
-    "Under Review":
-      "The owner is reviewing your booking request.",
-    Accepted:
-      "Good news! The owner has accepted your booking request.",
-    Approved:
-      "Your booking has been approved. Check your booking details for the next steps.",
-    Declined:
-      "Unfortunately, the owner has declined your booking request.",
-    Cancelled:
-      "This booking has been cancelled.",
-    Confirmed:
-      "Good news! The owner has confirmed your booking.",
-    Rejected:
-      "Unfortunately, the owner has rejected your booking request.",
-    Completed:
-      "Your rental has been completed.",
+    Pending: "Your booking is waiting for the owner to respond.",
+    "Under Review": "The owner is reviewing your booking request.",
+    Accepted: "Good news! The owner has accepted your booking request.",
+    Approved: "Your booking has been approved. Check your booking details for the next steps.",
+    Declined: "Unfortunately, the owner has declined your booking request.",
+    Cancelled: "This booking has been cancelled.",
+    Confirmed: "Good news! The owner has confirmed your booking.",
+    Rejected: "Unfortunately, the owner has rejected your booking request.",
+    Completed: "Your rental has been completed.",
   };
 
   return messages[status] || `Your current booking status is ${status}.`;
+}
+
+function getRenterId(booking) {
+  return booking.renterId ?? booking.userId ?? booking.customerId;
+}
+
+function canCancelBooking(status) {
+  const cancellableStatuses = [
+    "pending",
+    "under review",
+    "accepted",
+    "approved",
+    "confirmed",
+  ];
+
+  return cancellableStatuses.includes(
+    String(status || "").toLowerCase()
+  );
 }
 
 export default function MyBookingsPage() {
@@ -39,6 +48,7 @@ export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
+  // Check renter authentication.
   useEffect(() => {
     if (!isSignedIn()) {
       router.replace("/signin?next=%2Fbookings");
@@ -48,37 +58,41 @@ export default function MyBookingsPage() {
     setAuthorized(true);
   }, [router]);
 
+  // Load bookings belonging to the signed-in renter.
   const loadBookings = useCallback(() => {
     try {
       const session = getSession();
+
+      if (!session?.id) {
+        setBookings([]);
+        return;
+      }
+
       const saved = JSON.parse(
         localStorage.getItem("rental_bookings") || "[]"
       );
 
       const allBookings = Array.isArray(saved) ? saved : [];
 
-     
+      const renterBookings = allBookings.filter((booking) => {
+        const renterId = getRenterId(booking);
 
-    const renterBookings = allBookings.filter((booking) => {
-       const renterId =
-            booking.renterId ??
-            booking.userId ??
-            booking.customerId;
-
-    return (
-       renterId != null &&
-       String(renterId) === String(session?.id)
-     );
-   });
+        return (
+          renterId != null &&
+          String(renterId) === String(session.id)
+        );
+      });
 
       setBookings(renterBookings);
-    } catch {
+    } catch (error) {
+      console.error("Failed to load bookings:", error);
       setBookings([]);
     } finally {
       setLoaded(true);
     }
   }, []);
 
+  // Load and refresh bookings.
   useEffect(() => {
     if (!authorized) return;
 
@@ -97,21 +111,113 @@ export default function MyBookingsPage() {
       loadBookings();
     }
 
+    function handleBookingUpdate() {
+      loadBookings();
+    }
+
     window.addEventListener("storage", handleStorageChange);
     window.addEventListener("focus", handleFocus);
+    window.addEventListener(
+      "rental-bookings-updated",
+      handleBookingUpdate
+    );
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("focus", handleFocus);
+      window.removeEventListener(
+        "rental-bookings-updated",
+        handleBookingUpdate
+      );
     };
   }, [authorized, loadBookings]);
 
+  // Cancel a booking without deleting its history.
+  const cancelBooking = useCallback(
+    (bookingId) => {
+      const confirmed = window.confirm(
+        "Are you sure you want to cancel this booking?"
+      );
+
+      if (!confirmed) return;
+
+      try {
+        const session = getSession();
+
+        if (!session?.id) {
+          alert("Please sign in again.");
+          router.replace("/signin?next=%2Fbookings");
+          return;
+        }
+
+        const saved = JSON.parse(
+          localStorage.getItem("rental_bookings") || "[]"
+        );
+
+        if (!Array.isArray(saved)) {
+          throw new Error("Invalid booking data.");
+        }
+
+        // Verify that this booking belongs to the renter.
+        const booking = saved.find((item) => {
+          const renterId = getRenterId(item);
+
+          return (
+            String(item.id) === String(bookingId) &&
+            renterId != null &&
+            String(renterId) === String(session.id)
+          );
+        });
+
+        if (!booking) {
+          alert("Booking not found.");
+          return;
+        }
+
+        if (!canCancelBooking(booking.status)) {
+          alert("This booking can no longer be cancelled.");
+          return;
+        }
+
+        const updatedBookings = saved.map((item) => {
+          const renterId = getRenterId(item);
+
+          if (
+            String(item.id) === String(bookingId) &&
+            renterId != null &&
+            String(renterId) === String(session.id)
+          ) {
+            return {
+              ...item,
+              status: "Cancelled",
+              cancelledAt: new Date().toISOString(),
+            };
+          }
+
+          return item;
+        });
+
+        localStorage.setItem(
+          "rental_bookings",
+          JSON.stringify(updatedBookings)
+        );
+
+        // Refresh this page and notify the dashboard.
+        loadBookings();
+
+        window.dispatchEvent(
+          new Event("rental-bookings-updated")
+        );
+      } catch (error) {
+        console.error("Booking cancellation failed:", error);
+        alert("Unable to cancel the booking. Please try again.");
+      }
+    },
+    [loadBookings, router]
+  );
+
   if (!authorized) {
-    return (
-      <main className="my-bookings">
-        <p>Checking authorization...</p>
-      </main>
-    );
+    return <main className="my-bookings" />;
   }
 
   if (!loaded) {
@@ -158,7 +264,7 @@ export default function MyBookingsPage() {
           {bookings.map((booking, index) => {
             const status = booking.status || "Pending";
 
-            const statusClass = status
+            const statusClass = String(status)
               .toLowerCase()
               .replace(/\s+/g, "-");
 
@@ -222,26 +328,44 @@ export default function MyBookingsPage() {
                   <p>{getStatusMessage(status)}</p>
                 </div>
 
-              {String(status).toLowerCase() === "completed" && (
-                       <Link
-                        href={`/bookings/${encodeURIComponent(String(booking.id))}/review`}
-                     className="write-review-link"  >
-                        Feed-back
-                        </Link>
-                        )}
-                
+                {/* Cancellation button */}
+                {canCancelBooking(status) && (
+                  <button
+                    type="button"
+                    className="cancel-booking-button"
+                    onClick={() => cancelBooking(booking.id)}
+                  >
+                    Cancel Booking
+                  </button>
+                )}
 
-                <Link href={`/disputes/new?carId=${encodeURIComponent(booking.carId)}&bookingId=${
-                  encodeURIComponent(booking.id)}`}>
-
-                    Report-Poblem
+                {/* Feedback link */}
+                {String(status).toLowerCase() === "completed" && (
+                  <Link
+                    href={`/bookings/${encodeURIComponent(
+                      String(booking.id)
+                    )}/review`}
+                    className="write-review-link"
+                  >
+                    Feed-back
                   </Link>
+                )}
+
+                {/* Dispute link */}
+                <Link
+                  href={`/disputes/new?carId=${encodeURIComponent(
+                    String(booking.carId ?? "")
+                  )}&bookingId=${encodeURIComponent(
+                    String(booking.id ?? "")
+                  )}`}
+                >
+                  Report-Poblem
+                </Link>
               </article>
             );
           })}
         </section>
       )}
-
     </main>
   );
 }
