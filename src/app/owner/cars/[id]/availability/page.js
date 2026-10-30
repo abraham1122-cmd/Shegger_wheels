@@ -7,8 +7,10 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import carsData from "@/data/cars.json";
 import { checkCarAvailability } from "@/lib/availability";
+import { Suspense } from "react";
 
-export default function AvailabilityPage() {
+
+function AvailabilityContent() {
   const { id } = useParams();
   const router = useRouter();
 
@@ -153,5 +155,25 @@ export default function AvailabilityPage() {
         )}
       </form>
     </main>
+  );
+}
+
+export default function AvailabilityPage(){
+
+  return(
+    <>
+   <Suspense fallback={
+    <main className="">
+      <p>loading..</p>
+    </main>
+
+   }
+
+   >
+
+    <AvailabilityContent />
+   </Suspense>
+    
+    </>
   );
 }

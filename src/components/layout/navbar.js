@@ -7,35 +7,80 @@ import { getSession } from "@/lib/sessions";
 
 export default function Navbar() {
   const [session, setSession] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     setSession(getSession());
   }, []);
 
+  // Close mobile menu after selecting a link
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
   return (
     <header className="site-header">
       <nav className="container navbar" aria-label="Main navigation">
-        <Link href="/" className="brand" aria-label="Shegger-Wheels home">
+
+        <Link
+          href="/"
+          className="brand"
+          aria-label="Shegger-Wheels home"
+          onClick={closeMenu}
+        >
           <span className="brand-mark">Sw</span>
           <span className="brand-name">
             Shegger-Wheels
-            
           </span>
         </Link>
 
-        <div className="nav-links">
-          <Link href="/home">Home</Link>
-          <Link href="/cars">Find a car</Link>
-          <Link href="/bookings">My-Booking</Link>
-          <Link href="/cars#how-it-works">How it works</Link>
+        {/* Hamburger button */}
+        <button
+          type="button"
+          className={`menu-toggle ${menuOpen ? "active" : ""}`}
+          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={menuOpen}
+          aria-controls="main-nav-links"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {/* Navigation links */}
+        <div
+          id="main-nav-links"
+          className={`nav-links ${menuOpen ? "open" : ""}`}
+        >
+          <Link href="/home" onClick={closeMenu}>
+            Home
+          </Link>
+
+          <Link href="/cars" onClick={closeMenu}>
+            Find a car
+          </Link>
+
+          <Link href="/bookings" onClick={closeMenu}>
+            My-Booking
+          </Link>
+
+          <Link href="/cars#how-it-works" onClick={closeMenu}>
+            How it works
+          </Link>
 
           {session?.role === "owner" && (
-            <Link href="/owner/cars/new">List your car</Link>
+            <Link href="/owner/cars/new" onClick={closeMenu}>
+              List your car
+            </Link>
           )}
 
-          <Link href="/disputes" className="">My Disputes</Link>
+          <Link href="/disputes" onClick={closeMenu}>
+            My Disputes
+          </Link>
         </div>
 
+        {/* Navigation actions */}
         <div className="nav-actions">
           {!session ? (
             <>
@@ -43,12 +88,15 @@ export default function Navbar() {
                 Sign in
               </Link>
 
-              <Link href="/admin" className="">Admin</Link>
+              <Link href="/admin">
+                Admin
+              </Link>
+
               <Link
                 href="/signUp"
                 className="button button-primary nav-cta"
               >
-                Get started <span></span>
+                Get started
               </Link>
             </>
           ) : (
@@ -56,6 +104,7 @@ export default function Navbar() {
               <span className="signin-link">
                 {session.name}
               </span>
+
               <Link
                 href="/signout"
                 className="signin-link"
@@ -65,6 +114,7 @@ export default function Navbar() {
             </>
           )}
         </div>
+
       </nav>
     </header>
   );

@@ -1,64 +1,52 @@
-import carsData from "@/data/cars.json";
-import CarDetails from "./carDetails";
 
-function findSeedCar(id) {
+import CarDetails from "./carDetails";
+import carsData from "@/data/cars.json";
+
+function findCarById(id) {
   const seedCars = Array.isArray(carsData) ? carsData : [];
 
   return (
     seedCars.find(
-      (car) => car.id != null && String(car.id) === String(id)
+      (item) => String(item.id) === String(id)
     ) || null
   );
 }
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const car = findSeedCar(id);
+
+  const car = findCarById(id);
 
   if (!car) {
     return {
-      title: "Car Details | Shegger Wheels",
-      description: "Explore rental cars with Shegger Wheels.",
+      title: "Car Not Found | Shegger-Wheels",
+      description: "The requested rental car could not be found.",
     };
   }
 
   const name = car.name || car.title || "Rental Car";
-
-  const description =
-    car.description ||
-    `Explore the ${name} for rent on Shegger Wheels.`;
-
-  const rawImage = car.image || car.imageUrl;
-
-  const image =
-    typeof rawImage === "string" && rawImage.trim()
-      ? rawImage.startsWith("../images/")
-        ? rawImage.replace("../images/", "/images/")
-        : rawImage.startsWith("images/")
-          ? `/${rawImage}`
-          : rawImage
-      : "/images/car-placeholder.jpg";
+  const brand = car.brand || car.Brand || "";
+  const model = car.model || car.Model || "";
+  const price = Number(car.pricePerDay ?? car.price ?? 0);
 
   return {
-    title: `${name} for Rent | Shegger Wheels`,
-    description,
+    title: `${name} for Rent | Shegger-Wheels`,
+    description: `Rent ${name}${brand ? ` by ${brand}` : ""}${model ? `, model ${model}` : ""}. ${
+      Number.isFinite(price) && price > 0
+        ? `Rental price: ${price.toLocaleString("en-US")} ETB per day.`
+        : "View rental details and availability."
+    }`,
     openGraph: {
-      title: `${name} for Rent | Shegger Wheels`,
-      description,
+      title: `${name} for Rent | Shegger-Wheels`,
+      description: `Explore ${name} and its rental details on Shegger-Wheels.`,
       type: "website",
-      images: [{ url: image, alt: name }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${name} for Rent | Shegger Wheels`,
-      description,
-      images: [image],
     },
   };
 }
 
+export const instant = false;
 
-export const instant= false;
+
 export default async function CarDetailsPage({ params }) {
   const { id } = await params;
 

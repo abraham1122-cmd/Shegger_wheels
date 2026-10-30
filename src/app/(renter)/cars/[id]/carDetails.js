@@ -1,15 +1,19 @@
+
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
 import "./carDetails.css";
+
 import carsData from "@/data/cars.json";
 import Book_Now_Button from "@/components/bookings/book-now";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { getListedCars } from "@/lib/carStorage";
 import CarReviews from "@/components/reviews/car-review";
 import CarDetailMapWrapper from "@/components/maps/car-details-map-wrapper";
+
+import Link from "next/link";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { getListedCars } from "@/lib/carStorage";
+
 
 function isPublishedOrAvailable(car) {
   const status = String(car.status || "").toLowerCase();
@@ -39,6 +43,7 @@ function getValidImagePath(car) {
   return image;
 }
 
+
 function findCarById(id) {
   const seedCars = Array.isArray(carsData) ? carsData : [];
   const ownerCars = getListedCars();
@@ -58,6 +63,7 @@ function findCarById(id) {
 
   return ownerCar || seedCar || null;
 }
+
 
 function CarDetailsContent() {
   const params = useParams();
@@ -81,105 +87,181 @@ function CarDetailsContent() {
     }
   }, [id]);
 
+
   if (loading) {
     return (
       <main className="car-details">
-        Loading car details...
+        <p>Loading car details...</p>
       </main>
     );
   }
+
 
   if (!car) {
     return (
       <main className="car-details">
         <h2>Car not found</h2>
+
         <p>
           This car may have been removed or is no longer published.
         </p>
-        <Link href="/cars">Browse Cars</Link>
+
+        <Link href="/cars" className="browse-cars-link">
+          Browse Cars
+        </Link>
       </main>
     );
   }
 
+
   const price = Number(car.pricePerDay ?? car.price ?? 0);
+
 
   return (
     <main className="car-details">
 
-      <Image
-        src={getValidImagePath(car)}
-        alt={car.name || car.title || "Rental car"}
-        width={1200}
-        height={800}
-        sizes="(max-width: 768px) 100vw, 80vw"
-        style={{
-          width: "100%",
-          height: "auto",
-          objectFit: "cover",
-        }}
-      />
+      {/* LEFT COLUMN */}
+      <section className="car-details-left">
 
-      <h3>Name: {car.name || car.title || "Rental car"}</h3>
+        {/* Car image */}
+        <div className="car-image-container">
+          <Image
+            src={getValidImagePath(car)}
+            alt={car.name || car.title || "Rental car"}
+            width={1200}
+            height={800}
+            sizes="(max-width: 600px) 100vw, 50vw"
+            priority
+          />
+        </div>
 
-      <p>
-        Price:{" "}
-        {Number.isFinite(price)
-          ? price.toLocaleString("en-US")
-          : "N/A"}
-        {" "}ETB / day
-      </p>
 
-      <p>Brand: {car.brand ?? car.Brand ?? "Not specified"}</p>
+        {/* Description */}
+        <div className="car-description">
+          <h3>Description</h3>
 
-      <p>Model: {car.model ?? car.Model ?? "Not specified"}</p>
+          <p>
+            {car.description || "No description available."}
+          </p>
+        </div>
 
-      <p>Color: {car.color ?? "Not specified"}</p>
 
-      <p>
-        Transmission:{" "}
-        {car.transmission ?? car.Transmition ?? "Not specified"}
-      </p>
+        {/* Pickup location */}
+        <section className="car-location-section">
 
-      <p>Seats: {car.seats ?? car.Seats ?? "Not specified"}</p>
+          <h3>Pickup Location</h3>
 
-      <p>
-        Description: {car.description ?? "No description available"}
-      </p>
+          <p>
+            {car.location || "Pickup location"}
+          </p>
 
-      {car.isAvailable === false ? (
-        <p>This car is currently unavailable for booking.</p>
-      ) : (
-        <Book_Now_Button carId={car.id} />
-      )}
+          <div className="car-map-container">
+            <CarDetailMapWrapper
+              latitude={car.latitude}
+              longitude={car.longitude}
+              locationName={car.location || "Car pickup location"}
+            />
+          </div>
 
-      <section className="car-location-section">
-
-        <p>
-          {car.location || "Pickup location"}
-        </p>
-
-        <CarDetailMapWrapper
-          latitude={car.latitude}
-          longitude={car.longitude}
-          locationName={car.location || "Car pickup location"}
-        />
+        </section>
 
       </section>
 
-      <CarReviews carId={car.id} />
 
-      <Link href="/cars">Browse Cars</Link>
+      {/* RIGHT COLUMN */}
+      <section className="car-details-right">
+
+        {/* Car heading */}
+        <div className="car-heading">
+
+          <h1>
+            {car.name || car.title || "Rental car"}
+          </h1>
+
+          <p className="car-price">
+            {Number.isFinite(price)
+              ? price.toLocaleString("en-US")
+              : "N/A"} ETB / day
+          </p>
+
+        </div>
+
+
+        {/* Specifications */}
+        <div className="car-specifications">
+
+          <h3>Car Specifications</h3>
+
+          <div className="specification-row">
+            <span>Brand</span>
+            <strong>{car.brand ?? car.Brand ?? "Not specified"}</strong>
+          </div>
+
+          <div className="specification-row">
+            <span>Model</span>
+            <strong>{car.model ?? car.Model ?? "Not specified"}</strong>
+          </div>
+
+          <div className="specification-row">
+            <span>Color</span>
+            <strong>{car.color ?? "Not specified"}</strong>
+          </div>
+
+          <div className="specification-row">
+            <span>Transmission</span>
+            <strong>
+              {car.transmission ?? car.Transmition ?? "Not specified"}
+            </strong>
+          </div>
+
+          <div className="specification-row">
+            <span>Seats</span>
+            <strong>{car.seats ?? car.Seats ?? "Not specified"}</strong>
+          </div>
+
+        </div>
+
+
+        {/* Book Now */}
+        <div className="car-booking-container">
+
+          {car.isAvailable === false ? (
+            <p className="unavailable-message">
+              This car is currently unavailable for booking.
+            </p>
+          ) : (
+            <Book_Now_Button carId={car.id} />
+          )}
+
+        </div>
+
+
+        {/* Customer reviews - below Book Now */}
+        <section className="car-reviews-section">
+
+          <CarReviews carId={car.id} />
+
+        </section>
+
+      </section>
+
+
+      {/* BACK TO CARS */}
+      <Link href="/cars" className="browse-cars-link">
+        Browse Cars
+      </Link>
 
     </main>
   );
 }
+
 
 export default function CarDetails() {
   return (
     <Suspense
       fallback={
         <main className="car-details">
-          Loading car details...
+          <p>Loading car details...</p>
         </main>
       }
     >

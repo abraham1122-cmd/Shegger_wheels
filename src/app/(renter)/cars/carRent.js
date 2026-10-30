@@ -1,20 +1,46 @@
 
-
 "use client";
 
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import CarCard from "@/components/cars/car-card";
 import carsData from "@/data/cars.json";
-import { getListedCars } from "@/lib/carStorage";
+import {
+  getListedCars,
+  initializeCars,
+  subscribeToCarChanges,
+} from "@/lib/carStorage";
 
 import CarSearch from "@/components/cars/car-search";
 
 
+const fetcher = () => {
+  initializeCars();
 
+  const publishedCars = getListedCars().filter(
+    (car) =>
+      String(car.status || "").toLowerCase() === "published" ||
+      (!car.status && car.isAvailable === true)
+  );
 
+  const seedCars = Array.isArray(carsData) ? carsData : [];
+
+  const combinedCars = [
+    ...seedCars,
+    ...publishedCars.filter(
+      (publishedCar) =>
+        !seedCars.some(
+          (seedCar) =>
+            String(seedCar.id) === String(publishedCar.id)
+        )
+    ),
+  ];
+
+  return combinedCars;
+};
 
 const steps = [
   {
@@ -38,47 +64,44 @@ const steps = [
 ];
 
 export default function CarsPageContent() {
-  const [cars, setCars] = useState(
-    Array.isArray(carsData) ? carsData : []
-  );
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const [ searchQuery, setSearchQuery ] = useState("");
+ 
+  const {
+    data: cars = [],
+    error,
+    isLoading,
+    mutate,
+  } = useSWR("rental_cars", fetcher, {
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+  });
 
+ 
   useEffect(() => {
+    return subscribeToCarChanges(() => {
+      mutate();
+    });
+  }, [mutate]);
 
-const publishedCars = getListedCars().filter(
-  (car) =>
-    String(car.status || "").toLowerCase() === "published" ||
-    (!car.status && car.isAvailable === true)
-);
-
-    const combinedCars = [
-      ...(Array.isArray(carsData) ? carsData : []),
-      ...publishedCars.filter(
-        (publishedCar) =>
-          !(Array.isArray(carsData) ? carsData : []).some(
-            (seedCar) =>
-              String(seedCar.id) === String(publishedCar.id)
-          )
-      ),
-    ];
-
-    setCars(combinedCars);
-  }, []);
-
-  const filteredCars = cars.filter((car)=>{
-
+  
+  const filteredCars = cars.filter((car) => {
     const query = searchQuery.trim().toLowerCase();
 
-    return(
+    return (
       car.name?.toLowerCase().includes(query) ||
       car.Brand?.toLowerCase().includes(query) ||
       car.Model?.toLowerCase().includes(query)
+    );
+  });
 
-    )
+  if (isLoading) {
+    return <p>Loading cars...</p>;
+  }
 
-    
-  })
+  if (error) {
+    return <p>Failed to load cars.</p>;
+  }
 
   return (
     <>
@@ -89,11 +112,8 @@ const publishedCars = getListedCars().filter(
           <div className="section-heading heading-with-link">
             <div>
               <span className="eyebrow">
-             
-                 Find a car that makes the journey yours.
+                Find a car that makes the journey yours.
               </span>
-
-            
             </div>
 
             <a href="/cars" className="text-link">
@@ -122,14 +142,12 @@ const publishedCars = getListedCars().filter(
             </a>
           </div>
 
-          <div className="">
-
-          <CarSearch
+          <div>
+            <CarSearch
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
-              />
-
-              </div>
+            />
+          </div>
 
           {/* Car catalogue */}
           <div className="featured-grid">

@@ -1,33 +1,78 @@
 
-const CARS_KEY = "rental_cars";
-
+import carsData from "@/data/cars.json";
 import { getSession } from "@/lib/sessions";
+
+const CARS_KEY = "rental_cars";
+const CARS_EVENT = "rental-cars-updated";
+
+
+export function initializeCars() {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const existingCars = localStorage.getItem(CARS_KEY);
+
+    
+    if (existingCars === null) {
+      const initialCars = Array.isArray(carsData)
+        ? carsData
+        : [];
+
+      localStorage.setItem(
+        CARS_KEY,
+        JSON.stringify(initialCars)
+      );
+
+      return initialCars;
+    }
+
+    const parsedCars = JSON.parse(existingCars);
+
+    return Array.isArray(parsedCars) ? parsedCars : [];
+  } catch (error) {
+    console.error("Failed to initialize cars:", error);
+    return [];
+  }
+}
+
+function notifyCarsChanged() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(CARS_EVENT));
+  }
+}
 
 
 export function getListedCars(ownerId) {
   if (typeof window === "undefined") return [];
 
   try {
-    const savedCars = JSON.parse(
-      localStorage.getItem(CARS_KEY) || "[]"
-    );
-
-    if (!Array.isArray(savedCars)) return [];
+    const savedCars = initializeCars();
 
     if (ownerId === undefined) return savedCars;
 
     return savedCars.filter(
       (car) => String(car.ownerId) === String(ownerId)
     );
-  } catch {
+  } catch (error) {
+    console.error("Failed to retrieve cars:", error);
     return [];
   }
 }
 
+
 export function saveListedCars(cars) {
   if (typeof window === "undefined") return;
 
-  localStorage.setItem(CARS_KEY, JSON.stringify(cars));
+  try {
+    localStorage.setItem(
+      CARS_KEY,
+      JSON.stringify(cars)
+    );
+
+    notifyCarsChanged();
+  } catch (error) {
+    console.error("Failed to save cars:", error);
+  }
 }
 
 
@@ -43,7 +88,7 @@ export function addListedCar(car) {
   const newCar = {
     ...car,
     ownerId: session.id,
-    status: "published"
+    status: "published",
   };
 
   const updatedCars = [...cars, newCar];
@@ -53,7 +98,7 @@ export function addListedCar(car) {
   return updatedCars;
 }
 
-// Update only the current owner's listing.
+
 export function updateListedCar(updatedCar) {
   const session = getSession();
 
@@ -66,7 +111,10 @@ export function updateListedCar(updatedCar) {
   const updatedCars = cars.map((car) =>
     String(car.id) === String(updatedCar.id) &&
     String(car.ownerId) === String(session.id)
-      ? { ...updatedCar, ownerId: session.id }
+      ? {
+          ...updatedCar,
+          ownerId: session.id,
+        }
       : car
   );
 
@@ -75,7 +123,7 @@ export function updateListedCar(updatedCar) {
   return updatedCars;
 }
 
-// Delete only the current owner's listing.
+
 export function deleteListedCar(id) {
   const session = getSession();
 
@@ -97,3 +145,26 @@ export function deleteListedCar(id) {
 
   return updatedCars;
 }
+
+
+
+export function subscribeToCarChanges(callback) {
+  if (typeof window === "undefined") return () => {};
+
+  const handleChange = () => callback();
+
+  const handleStorageChange = (event) => {
+    if (event.key === CARS_KEY) {
+      callback();
+    }
+  };
+
+  window.addEventListener(CARS_EVENT, handleChange);
+  window.addEventListener("storage", handleStorageChange);
+
+  return () => {
+    window.removeEventListener(CARS_EVENT, handleChange);
+    window.removeEventListener("storage", handleStorageChange);
+  };
+}
+

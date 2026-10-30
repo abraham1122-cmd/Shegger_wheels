@@ -8,8 +8,10 @@
         "Model": "Hyundai Elantra",
         "color": "gray",
         "image": "../images/avante.jpg",
+        "transmission": "6-speed Automatic",
+        "seats": 4,
         "pricePerDay": "2500",
-        "Description": "Avante car in good condition with 4 seat. "
+        "description": "Avante car in good condition with 4 seat. "
     },
 
     {
