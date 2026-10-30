@@ -110,9 +110,9 @@ export default function CarListingForm() {
   return (
     <main className="car-listing-page">
       <section className="car-listing-card">
-        <h1>Add Your Car</h1>
+        <h3 id="ayc">Add Your Car</h3>
 
-        <p>
+        <p id="ppp">
           Submit your vehicle for admin review.
           You can publish it after approval.
         </p>
@@ -249,7 +249,7 @@ export default function CarListingForm() {
           </div>
 
           <section className="form-section">
-            <h2>Car Location</h2>
+            <h3>Car Location</h3>
 
             {/* <p>
               Search for the parking or pickup address and select a result

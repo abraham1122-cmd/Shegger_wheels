@@ -1,0 +1,165 @@
+
+/* ================================
+   Price filters and sorting
+================================ */
+
+.car-filter-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: end;
+  margin: 28px 0;
+  padding: 20px;
+  background: #f7f8fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.price-filter,
+.sort-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.price-filter label,
+.sort-filter label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #172033;
+}
+
+.price-filter input,
+.sort-filter select {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #172033;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.price-filter input:focus,
+.sort-filter select:focus {
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.12);
+}
+
+/* ================================
+   Pagination
+================================ */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  margin: 40px auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.pagination-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #172033;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-sizing: border-box;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled),
+.pagination-button.active {
+  background: #2a9d8f;
+  border-color: #2a9d8f;
+  color: #fff;
+}
+
+.pagination-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ================================
+   Tablet
+================================ */
+
+@media (max-width: 768px) {
+  .car-filter-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .sort-filter {
+    grid-column: 1 / -1;
+  }
+
+  .pagination {
+    gap: 6px;
+    margin: 30px auto;
+  }
+}
+
+/* ================================
+   Mobile
+================================ */
+
+@media (max-width: 480px) {
+  .car-filter-controls {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin: 20px 0;
+    padding: 14px;
+  }
+
+  .sort-filter {
+    grid-column: auto;
+  }
+
+  .price-filter label,
+  .sort-filter label {
+    font-size: 13px;
+  }
+
+  .price-filter input,
+  .sort-filter select {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .pagination {
+    gap: 5px;
+    margin: 24px auto;
+    padding: 0 5px;
+  }
+
+  .pagination-button {
+    min-width: 38px;
+    min-height: 40px;
+    padding: 0 9px;
+    font-size: 13px;
+  }
+}

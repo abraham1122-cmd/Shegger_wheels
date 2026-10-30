@@ -3,6 +3,8 @@
 
 import CarsPageContent from "./carRent";
 
+
+
 export const metadata = {
   title: "Check Available Cars on Markate",
   description:

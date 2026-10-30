@@ -65,8 +65,11 @@ export default function CarCard({ car }) {
               href={detailsUrl}
               aria-label={`View details for ${name}`}
             >
-              →
+               →
             </Link>
+
+
+    
           </div>
         </div>
       </div>

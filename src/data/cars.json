@@ -11,7 +11,10 @@
         "transmission": "6-speed Automatic",
         "seats": 4,
         "pricePerDay": "2500",
-        "description": "Avante car in good condition with 4 seat. "
+        "description": "Avante car in good condition with 4 seat. ",
+        "latitude": "9.03",
+        "longitude": "38.75",
+        "category": "suv"
     },
 
     {
@@ -22,9 +25,12 @@
         "color": "gray",
         "image": "../images/bmw.jpg",
         "pricePerDay": 4000,
-        "Description": "Bmw luxury car with 6 seat",
+        "transmission": "automatic",
+        "description": "Bmw luxury car with ",
+        "seats": 4,
         "latitude": 8.98755,
-        "longitude": 38.7903
+        "longitude": 38.7903,
+        "category": "Electric"
     },
 
     
@@ -36,7 +42,12 @@
         "color": "silver",
         "image": "../images/dzire.jpg",
         "pricePerDay": 2800,
-        "Description": "Dzire car at very good condition and automatic, 4 seats available anytime"
+        "seats": 4,
+        "description": "Dzire car at very good condition and available anytime",
+        "latitude": "9.0377",
+        "longitude": "38.754",
+        "category": "city"
+
     },
 
     
@@ -49,7 +60,11 @@
         "color": "black",
         "image": "../images/jetour.jpg",
         "pricePerDay": 4000,
-        "Description": "jetour car with amazing condition mini-family size"
+        "description": "jetour car with amazing condition mini-family size",
+        "seats": 6,
+        "transmission": "manual",
+        "latitude": "9.0196",
+        "longitude": "38.8017"
     },
 
     {
@@ -60,18 +75,29 @@
         "color": "white",
         "image": "../images/rangerover.jpg",
         "pricePerDay": 4500,
-        "Description": "rangerover luxury car for rental "
+        "seats": 6,
+        "transmission": "manual",
+        "description": "rangerover luxury car for rental ",
+        "latitude": "9.0038",
+        "longitude": "38.76",
+        "category": "luxury"
+
     },
 
     {
         "id": 8,
         "name": "rush",
         "Brand": "toyota",
-        "Model": "",
+        "Model": "suv",
         "pricePerDay": 3000,
         "image": "../images/rush.jpg",
-        "color": "",
-        "Description": "rush car for rental with 6  seat"
+        "color": "Maroon",
+        "seats": 5,
+        "transmission": "manual",
+        "description": "rush car for rental with",
+        "latitude": "8.933",
+        "longitude": "38.783",
+        "category": "suden"
     },
 
     {
@@ -82,7 +108,12 @@
         "color": "white",
         "image": "../images/v8.jpg",
         "pricePerDay": "5500",
-        "Description": "v8 car for rental with 6 seat"
+        "seats": 7,
+        "transmission": "manual",
+        "description": "v8 car for rental",
+        "latitude": "9.0038",
+        "longitude": "38.45",
+        "category": "luxury"
     },
     
     {
@@ -93,41 +124,62 @@
         "color": "gray",
         "image": "../images/vitz.jpg",
         "pricePerDay": 1800,
-        "Description": "toyota vitz on goood condition ready for rental"
+        "seats": 4,
+        "transmission": "manual",
+        "description": "toyota vitz on goood condition ready for rental",
+        "latitude": "9.0475",
+        "longitude": "38.7610",
+        "category": "city"
     },
 
     {
         "id": 11,
         "name": "volveswagen",
-        "Brand": "",
-        "Model": "",
-        "color": "black",
+        "Brand": "Volveswogen",
+        "Model": "MK1",
+        "color": "orange",
         "image": "../images/volveswogen.jpg",
         "pricePerDay": 3000,
-        "Description": "volveswogen car brand new ready for rental"
+        "seats": 4,
+        "transmission": "automatic",
+        "description": "volveswogen car brand new ready for rental",
+        "latitude": "8.9945",
+        "longitude": "38.7956",
+        "category": "city"
     },
 
     {
         "id": 12,
         "name": "volveswagenindia",
-        "Brand": "",
-        "Model": "",
-        "color": "white",
+        "Brand": "Volveswogen",
+        "Model": "suden",
+        "color": "Charcoal",
         "image": "../images/volveswagenindia.jpg",
         "pricePerDay": 3500,
-        "Description": "volveswogenindia luxury car ready for rental"
+        "seats": 6,
+        "transmission": "manual",
+        "Description": "volveswogenindia luxury car ready for rental",
+        "latitude": "9.05109",
+        "longitude": "38.8556",
+        "category": "suv"
+
     },
 
     {
         "id": 13,
-        "name": "yaris",
-        "Brand": "",
-        "Model": "",
+        "name": "Yaris",
+        "Brand": "Toyota",
+        "Model": "yaris",
         "color": "gray",
         "image": "../images/yaris.jpg",
         
         "pricePerDay": 1500,
-        "Description": "toyota yaris car ready for rent and its on good condition"
+        "seats": 4,
+        "transmission": "manual",
+        "Description": "toyota yaris car ready for rent and its on good condition",
+        "latitude": "9.01306",
+        "longitude": "38.83365",
+        "category": "city"
 
     }
 

@@ -7,6 +7,8 @@ import Link from "next/link";
 import { getListedCars, updateListedCar } from "@/lib/carStorage";
 import { getSession } from "@/lib/sessions";
 
+import "@/app/owner/cars/owner-car.css"
+
 function EditCarContent() {
   const { id } = useParams();
   const router = useRouter();
@@ -94,17 +96,12 @@ function EditCarContent() {
   }
 
 
-
-
-
-
-
   return (
     <section className="owner-edit-page">
       <div className="owner-edit-heading">
         <div>
-          <h1>Edit Car</h1>
-          <p>Update your vehicle listing information.</p>
+          <h3 id="ec">You can update your vehicle information</h3>
+         
         </div>
         <Link href="/owner/cars" className="owner-edit-cancel">
           Cancel
@@ -118,6 +115,47 @@ function EditCarContent() {
             onChange={handleChange} required />
         </div>
 
+         <div className="owner-edit-field">
+          <label htmlFor="brand">Brand</label>
+          <input id="brand" 
+             name="brand"
+            value={car.brand || ""} onChange={handleChange} 
+            placeholder="type car brand"
+            
+            required />
+        </div>
+
+        <div className="owner-edit-field">
+          <label htmlFor="model">Model</label>
+          <input id="model" 
+             name="model"
+            value={car.model || ""} onChange={handleChange} 
+            placeholder="type your car model"
+            
+            required />
+        </div>
+
+
+        <div className="owner-edit-field">
+          <label htmlFor="seat">Seats</label>
+          <input id="seat" 
+             name="seat"
+            value={car.seat || ""} onChange={handleChange} 
+            placeholder="type your car seat e.g 4"
+            
+            required />
+        </div>
+
+        <div className="owner-edit-field">
+          <label htmlFor="transmission">Transmission</label>
+          <input id="transmission" 
+             name="transmission"
+            value={car.transmission || ""} onChange={handleChange} 
+            placeholder="type your car transmission"
+            
+            required />
+        </div>
+
         <div className="owner-edit-field">
           <label htmlFor="type">Car Type</label>
           <input id="type" name="type" value={car.type || ""}
@@ -127,7 +165,7 @@ function EditCarContent() {
         <div className="owner-edit-field">
           <label htmlFor="price">Price Per Day (ETB)</label>
           <input id="price" name="price" type="number" min="1"
-            step="0.01" value={car.price ?? ""}
+            step="0.01" value={car.price ?? "enter price p/day"}
             onChange={handleChange} required />
         </div>
 

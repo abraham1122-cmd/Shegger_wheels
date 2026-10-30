@@ -11,6 +11,8 @@ import {
 import { getSession } from "@/lib/sessions";
 import { getListedCars } from "@/lib/carStorage";
 
+import "@/app/owner/cars/owner-car.css";
+
 export default function OwnerBookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -25,7 +27,6 @@ export default function OwnerBookingsPage() {
       return;
     }
 
-    // Repair missing/duplicate IDs in saved records.
     repairBookingIds();
 
     const ownerCars = getListedCars(session.id);
@@ -82,65 +83,77 @@ export default function OwnerBookingsPage() {
 
   if (!loaded) {
     return (
-      <main className="mx-auto max-w-5xl p-6">
-        Loading bookings...
+      <main className="owner-bookings-page">
+        Loading...
       </main>
     );
   }
 
   return (
-    <main className="mx-auto max-w-5xl p-6">
-      <h1 className="mb-6 text-3xl font-bold">
+    <main className="owner-bookings-page">
+
+      <h2 className="owner-bookings-title">
         Booking Requests
-      </h1>
+      </h2>
 
       {error && (
-        <p role="alert" className="mb-4 text-red-600">
+        <p role="alert" className="owner-bookings-error">
           {error}
         </p>
       )}
 
       {bookings.length === 0 ? (
-        <p>No booking requests for your cars yet.</p>
+        <p className="owner-bookings-empty">
+          No booking requests for your cars yet.
+        </p>
       ) : (
-        <div className="space-y-4">
+        <div className="owner-bookings-list">
+
           {bookings.map((booking) => (
             <article
               key={booking.id}
-              className="rounded-xl border p-5"
+              className="owner-booking-card"
             >
-              <h2 className="text-xl font-semibold">
+
+              <h2 className="owner-booking-car-name">
                 {booking.carName || "Car"}
               </h2>
 
-              <p>
-                Renter:{" "}
-                {booking.renterName ||
-                  booking.fullName ||
-                  "Renter"}
-              </p>
+              <div className="owner-booking-details">
 
-              <p>
-                Pickup: {booking.pickUpDate || "Not specified"}
-              </p>
+                <p>
+                  <strong>Renter:</strong>{" "}
+                  {booking.renterName ||
+                    booking.fullName ||
+                    "Renter"}
+                </p>
 
-              <p>
-                Return: {booking.returnDate || "Not specified"}
-              </p>
+                <p>
+                  <strong>Pickup:</strong>{" "}
+                  {booking.pickUpDate || "Not specified"}
+                </p>
 
-              <p>
-                Total: ETB{" "}
-                {Number(booking.totalPrice || 0).toLocaleString("en-US")}
-              </p>
+                <p>
+                  <strong>Return:</strong>{" "}
+                  {booking.returnDate || "Not specified"}
+                </p>
 
-              <p className="my-3">
+                <p>
+                  <strong>Total:</strong>{" "}
+                  ETB{" "}
+                  {Number(booking.totalPrice || 0).toLocaleString("en-US")}
+                </p>
+
+              </div>
+
+              <p className="owner-booking-current-status">
                 Current status:{" "}
                 <strong>{booking.status || "Pending"}</strong>
               </p>
 
               <label
                 htmlFor={`booking-status-${booking.id}`}
-                className="mb-2 block font-medium"
+                className="owner-booking-label"
               >
                 Update booking status
               </label>
@@ -158,7 +171,7 @@ export default function OwnerBookingsPage() {
                     event.target.value
                   )
                 }
-                className="w-full rounded-lg border p-3"
+                className="owner-booking-select"
               >
                 {BOOKING_STATUSES.map((status) => (
                   <option key={status} value={status}>
@@ -166,10 +179,13 @@ export default function OwnerBookingsPage() {
                   </option>
                 ))}
               </select>
+
             </article>
           ))}
+
         </div>
       )}
+
     </main>
   );
 }

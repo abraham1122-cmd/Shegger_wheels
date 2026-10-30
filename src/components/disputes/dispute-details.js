@@ -56,7 +56,7 @@ export default function DisputeDetails({
       key={refreshKey}
       className="dispute-details-layout"
     >
-      {/* Complaint overview */}
+      
       <section className="dispute-details-card dispute-overview-card">
         <div className="dispute-overview-header">
           <div className="dispute-overview-heading">
@@ -213,7 +213,7 @@ export default function DisputeDetails({
           )}
       </section>
 
-      {/* Admin decision */}
+     
       <section className="dispute-details-card dispute-decision-card">
         <div className="dispute-card-heading">
           <span className="dispute-card-accent" aria-hidden="true" />
@@ -251,7 +251,7 @@ export default function DisputeDetails({
         )}
       </section>
 
-      {/* Role-specific guidance */}
+     
       {isRenter &&
         !["Resolved", "Closed"].includes(dispute.status) && (
           <p className="dispute-role-notice">

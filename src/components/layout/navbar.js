@@ -75,12 +75,12 @@ export default function Navbar() {
             </Link>
           )}
 
-          <Link href="/disputes" onClick={closeMenu}>
+          {/* <Link href="/disputes" onClick={closeMenu}>
             My Disputes
-          </Link>
+          </Link> */}
         </div>
 
-        {/* Navigation actions */}
+       
         <div className="nav-actions">
           {!session ? (
             <>

@@ -12,6 +12,8 @@ import {
 
 import { getSession } from "@/lib/sessions";
 
+import "./owner-car.css";
+
 const CARS_STORAGE_KEY = "rental_cars";
 
 function readAllCars() {
@@ -40,9 +42,7 @@ export default function OwnerCarsPage() {
         ...car,
         approvalStatus: String(
           car.approvalStatus || "pending"
-        )
-          .trim()
-          .toLowerCase(),
+        ).trim().toLowerCase(),
         isPublished: car.isPublished === true,
       }))
     );
@@ -107,6 +107,7 @@ export default function OwnerCarsPage() {
 
     if (!session || session.role !== "owner") {
       window.alert("Please sign in with your owner account.");
+
       router.push(
         `/signin?next=${encodeURIComponent("/owner/cars")}`
       );
@@ -115,7 +116,6 @@ export default function OwnerCarsPage() {
 
     const allCars = readAllCars();
 
-    // Find the exact car in the shared localStorage collection.
     const targetCar = allCars.find(
       (car) => String(car.id) === String(carId)
     );
@@ -123,12 +123,11 @@ export default function OwnerCarsPage() {
     if (!targetCar) {
       window.alert(
         "This car was not found in rental_cars. " +
-          "Check src/lib/carStorage.js to ensure it uses the same storage key."
+        "Check src/lib/carStorage.js to ensure it uses the same storage key."
       );
       return;
     }
 
-    // Prevent owners from publishing another owner's car.
     if (String(targetCar.ownerId) !== String(session.id)) {
       window.alert(
         "You can only publish cars belonging to your account."
@@ -138,18 +137,11 @@ export default function OwnerCarsPage() {
 
     const approvalStatus = String(
       targetCar.approvalStatus || "pending"
-    )
-      .trim()
-      .toLowerCase();
-
-    console.log("Car ID:", targetCar.id);
-    console.log("Approval status:", approvalStatus);
-    console.log("Owner ID:", targetCar.ownerId);
+    ).trim().toLowerCase();
 
     if (approvalStatus !== "approved") {
       window.alert(
-        `This car cannot be published yet. ` +
-          `Current approval status: ${approvalStatus}.`
+        `This car cannot be published yet. Current approval status: ${approvalStatus}.`
       );
       return;
     }
@@ -176,8 +168,8 @@ export default function OwnerCarsPage() {
       return;
     }
 
-    // Refresh this page and other components listening for updates.
     loadCars(session.id);
+
     window.dispatchEvent(new Event("cars-updated"));
 
     window.alert("Your car has been published successfully!");
@@ -185,111 +177,105 @@ export default function OwnerCarsPage() {
 
   if (!loaded) {
     return (
-      <main className="p-8">
-        Loading your car listings...
+      <main className="owner-cars-loading">
+        Loading...
       </main>
     );
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <header className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-        <div>
-          <h1 className="text-3xl font-bold">
-            My Listed Cars
-          </h1>
+    <main className="owner-cars-page">
 
-          <p className="mt-2 text-gray-600">
-            Manage your listings, check approval status, and publish approved cars.
+      <header className="owner-cars-header">
+        <div className="owner-cars-heading">
+          <h2 id="mlc">My Listed Cars</h2>
+
+          <p id="pmlc">
+            Manage your listings, check approval status,
+            and publish approved cars.
           </p>
         </div>
 
         <Link
           href="/owner/cars/new"
-          className="inline-flex min-h-11 items-center justify-center rounded-lg bg-red-600 px-5 py-3 font-semibold text-white hover:bg-red-700"
+          className="add-car-button"
         >
           + List Your Car
         </Link>
       </header>
 
       {cars.length === 0 ? (
-        <section className="rounded-xl border border-dashed p-10 text-center">
-          <h2 className="text-xl font-semibold">
-            No cars listed yet
-          </h2>
+        <section className="empty-cars-state">
+          <h2>No cars listed yet</h2>
 
-          <p className="my-3 text-gray-600">
+          <p>
             Add your first car to get started.
           </p>
 
           <Link
             href="/owner/cars/new"
-            className="font-semibold text-red-600 hover:underline"
+            className="create-first-listing"
           >
             Create your first listing
           </Link>
         </section>
       ) : (
-        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="owner-cars-grid">
+
           {cars.map((car) => {
             const approvalStatus = String(
               car.approvalStatus || "pending"
-            )
-              .trim()
-              .toLowerCase();
+            ).trim().toLowerCase();
 
-            const isApproved =
-              approvalStatus === "approved";
-
-            const isRejected =
-              approvalStatus === "rejected";
-
+            const isApproved = approvalStatus === "approved";
+            const isRejected = approvalStatus === "rejected";
             const isPublished = car.isPublished === true;
 
             return (
               <article
                 key={car.id}
-                className="overflow-hidden rounded-xl border bg-white shadow-sm"
+                className="owner-car-card"
               >
+
                 {car.image ? (
                   <img
                     src={car.image}
-                    alt={car.name}
-                    className="h-48 w-full object-cover"
+                    alt={car.name || "Car listing"}
+                    className="owner-car-image"
                   />
                 ) : (
-                  <div className="flex h-48 items-center justify-center bg-gray-100 text-gray-500">
+                  <div className="owner-car-no-image">
                     No image
                   </div>
                 )}
 
-                <div className="p-5">
-                  <h2 className="text-lg font-bold">
-                    {car.name}
-                  </h2>
+                <div className="owner-car-content">
 
-                  <p className="mt-1 text-sm text-gray-500">
+                  <h2>{car.name}</h2>
+
+                  <p className="owner-car-meta">
                     {car.type} · {car.location}
                   </p>
 
-                  <p className="mt-3 font-semibold">
-                    ETB {Number(car.price).toLocaleString()} / day
+                  <p className="owner-car-price">
+                    ETB {Number(car.price || 0).toLocaleString("en-US")} / day
                   </p>
 
-                  <p className="mt-2 text-sm text-gray-600">
+                  <p className="owner-car-description">
                     {car.description}
                   </p>
 
-                  <div className="mt-4">
-                    <p className="text-sm font-semibold">
+                  <div className="owner-car-status">
+
+                    <p>
                       Approval status:{" "}
                       <span
                         className={
                           isApproved
-                            ? "text-green-700"
+                            ? "approval-approved"
                             : isRejected
-                              ? "text-red-600"
-                              : "text-amber-600"
+                              ? "approval-rejected"
+                              : "approval-pending"
                         }
                       >
                         {approvalStatus.charAt(0).toUpperCase() +
@@ -297,18 +283,28 @@ export default function OwnerCarsPage() {
                       </span>
                     </p>
 
-                    <p className="mt-1 text-sm text-gray-600">
+                    <p>
                       Publication status:{" "}
-                      {isPublished ? "Published" : "Not published"}
+                      <span
+                        className={
+                          isPublished
+                            ? "publication-published"
+                            : "publication-unpublished"
+                        }
+                      >
+                        {isPublished ? "Published" : "Not published"}
+                      </span>
                     </p>
+
                   </div>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  <div className="owner-car-actions">
+
                     <Link
                       href={`/owner/cars/${encodeURIComponent(
                         String(car.id)
                       )}/edit`}
-                      className="inline-flex min-h-11 items-center justify-center rounded-lg border px-4 py-2 font-medium"
+                      className="edit-car-button"
                     >
                       Edit
                     </Link>
@@ -318,7 +314,7 @@ export default function OwnerCarsPage() {
                         type="button"
                         disabled={!isApproved}
                         onClick={() => publishCar(car.id)}
-                        className="min-h-11 rounded-lg bg-green-600 px-4 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-600"
+                        className="publish-car-button"
                       >
                         {isRejected
                           ? "Car Rejected"
@@ -331,17 +327,21 @@ export default function OwnerCarsPage() {
                     <button
                       type="button"
                       onClick={() => handleDelete(car.id)}
-                      className="min-h-11 rounded-lg border border-red-200 px-4 py-2 font-medium text-red-600 hover:bg-red-50"
+                      className="delete-car-button"
                     >
                       Delete Listing
                     </button>
+
                   </div>
+
                 </div>
               </article>
             );
           })}
+
         </section>
       )}
+
     </main>
   );
 }

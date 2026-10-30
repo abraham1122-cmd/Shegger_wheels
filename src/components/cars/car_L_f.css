@@ -119,3 +119,14 @@
     grid-column: auto;
   }
 }
+
+
+#ayc{
+  color: green;
+  text-align: center;
+  font-style: italic;
+}
+
+#ppp{
+  color: brown;
+}
