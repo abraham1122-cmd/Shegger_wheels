@@ -1,6 +1,5 @@
- 
 
- "use client";
+"use client";
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
@@ -94,33 +93,50 @@ export default function RenterDashboardPage() {
       loadDashboard();
     }
 
+    function handleBookingUpdate() {
+      loadDashboard();
+    }
+
     window.addEventListener("storage", handleStorageChange);
     window.addEventListener("focus", handleFocus);
+    window.addEventListener(
+      "rental-bookings-updated",
+      handleBookingUpdate
+    );
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("focus", handleFocus);
+      window.removeEventListener(
+        "rental-bookings-updated",
+        handleBookingUpdate
+      );
     };
   }, [router, loadDashboard]);
 
+
   const totalBookings = bookings.length;
 
+ 
   const activeBookings = bookings.filter((booking) =>
     ["accepted", "approved", "confirmed", "active"].includes(
       getBookingStatus(booking)
     )
   ).length;
 
+ 
   const pendingBookings = bookings.filter((booking) =>
     ["pending", "under review"].includes(
       getBookingStatus(booking)
     )
   ).length;
 
+
   const completedBookings = bookings.filter(
     (booking) => getBookingStatus(booking) === "completed"
   ).length;
 
+ 
   const totalSpent = bookings
     .filter((booking) => {
       const status = getBookingStatus(booking);
@@ -137,13 +153,28 @@ export default function RenterDashboardPage() {
     .reduce((total, booking) => {
       const amount = Number(booking.totalPrice);
 
-      return total + (Number.isFinite(amount) ? amount : 0);
+      return (
+        total +
+        (Number.isFinite(amount) && amount > 0 ? amount : 0)
+      );
     }, 0);
 
-  const recentBookings = [...bookings].reverse().slice(0, 5);
+
+  const recentBookings = [...bookings]
+    .reverse()
+    .slice(0, 5);
+
+
+  const cancelledBookings = bookings.filter(
+    (booking) => getBookingStatus(booking) === "cancelled"
+  ).length;
 
   if (loading) {
-    return <p className="dashboard-loading">Loading dashboard...</p>;
+    return (
+      <p className="dashboard-loading">
+        Loading dashboard...
+      </p>
+    );
   }
 
   return (
@@ -154,7 +185,7 @@ export default function RenterDashboardPage() {
             YOUR RENTAL ACCOUNT
           </span>
 
-          <h1>Welcome back, {renterName}</h1>
+          <h2 id="wel">Welcome back! {renterName}</h2>
 
           <p>
             Manage your bookings and keep track of your rental activity.
@@ -169,6 +200,7 @@ export default function RenterDashboardPage() {
       <section className="dashboard-stat-grid">
         <article className="dashboard-stat-card">
           <div className="stat-icon bookings-icon"></div>
+
           <div>
             <p>Total Bookings</p>
             <h2>{totalBookings}</h2>
@@ -177,6 +209,7 @@ export default function RenterDashboardPage() {
 
         <article className="dashboard-stat-card">
           <div className="stat-icon active-icon"></div>
+
           <div>
             <p>Active Bookings</p>
             <h2>{activeBookings}</h2>
@@ -185,6 +218,7 @@ export default function RenterDashboardPage() {
 
         <article className="dashboard-stat-card">
           <div className="stat-icon pending-icon"></div>
+
           <div>
             <p>Pending Requests</p>
             <h2>{pendingBookings}</h2>
@@ -192,7 +226,10 @@ export default function RenterDashboardPage() {
         </article>
 
         <article className="dashboard-stat-card spending-card">
-          <div className="stat-icon spending-icon">ETB</div>
+          <div className="stat-icon spending-icon">
+            ETB
+          </div>
+
           <div>
             <p>Total Spent</p>
             <h2>{formatMoney(totalSpent)}</h2>
@@ -209,22 +246,28 @@ export default function RenterDashboardPage() {
               <p>Your latest rental reservations</p>
             </div>
 
-            <Link href="/bookings">View all →</Link>
+            <Link href="/bookings">
+              View all 
+            </Link>
           </div>
 
           {recentBookings.length === 0 ? (
             <div className="dashboard-empty-state">
               <div className="empty-icon"></div>
+
               <h3>No bookings yet</h3>
+
               <p>
                 Your bookings will appear here after you make a reservation.
               </p>
+
               <Link href="/cars">Find a car</Link>
             </div>
           ) : (
             <div className="recent-bookings-list">
               {recentBookings.map((booking, index) => {
                 const status = booking.status || "Pending";
+
                 const statusClass = String(status)
                   .toLowerCase()
                   .replace(/\s+/g, "-");
@@ -234,12 +277,11 @@ export default function RenterDashboardPage() {
                     className="recent-booking-item"
                     key={booking.id || `${booking.carId}-${index}`}
                   >
-                    <div className="recent-booking-car-icon">
-                      
-                    </div>
+                    <div className="recent-booking-car-icon"></div>
 
                     <div className="recent-booking-info">
                       <h3>{booking.carName || "Rental car"}</h3>
+
                       <p>
                         {booking.pickUpDate || "Pickup date unavailable"}
                       </p>
@@ -249,7 +291,10 @@ export default function RenterDashboardPage() {
                       <strong>
                         {formatMoney(booking.totalPrice)}
                       </strong>
-                      <span className={`dashboard-status ${statusClass}`}>
+
+                      <span
+                        className={`dashboard-status ${statusClass}`}
+                      >
                         {status}
                       </span>
                     </div>
@@ -281,12 +326,7 @@ export default function RenterDashboardPage() {
 
             <div className="summary-row">
               <span>Cancelled bookings</span>
-              <strong>
-                {bookings.filter(
-                  (booking) =>
-                    getBookingStatus(booking) === "cancelled"
-                ).length}
-              </strong>
+              <strong>{cancelledBookings}</strong>
             </div>
           </section>
 
@@ -308,7 +348,7 @@ export default function RenterDashboardPage() {
             <Link href="/disputes">
               <span></span>
               Report a problem
-              <span className="quick-action-arrow">→</span>
+              <span className="quick-action-arrow"></span>
             </Link>
           </section>
         </div>

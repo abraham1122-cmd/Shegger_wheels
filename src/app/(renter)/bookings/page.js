@@ -48,7 +48,7 @@ export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-  // Check renter authentication.
+ 
   useEffect(() => {
     if (!isSignedIn()) {
       router.replace("/signin?next=%2Fbookings");
@@ -58,7 +58,6 @@ export default function MyBookingsPage() {
     setAuthorized(true);
   }, [router]);
 
-  // Load bookings belonging to the signed-in renter.
   const loadBookings = useCallback(() => {
     try {
       const session = getSession();
@@ -92,7 +91,7 @@ export default function MyBookingsPage() {
     }
   }, []);
 
-  // Load and refresh bookings.
+
   useEffect(() => {
     if (!authorized) return;
 
@@ -132,7 +131,7 @@ export default function MyBookingsPage() {
     };
   }, [authorized, loadBookings]);
 
-  // Cancel a booking without deleting its history.
+
   const cancelBooking = useCallback(
     (bookingId) => {
       const confirmed = window.confirm(
@@ -158,7 +157,7 @@ export default function MyBookingsPage() {
           throw new Error("Invalid booking data.");
         }
 
-        // Verify that this booking belongs to the renter.
+       
         const booking = saved.find((item) => {
           const renterId = getRenterId(item);
 
@@ -202,7 +201,7 @@ export default function MyBookingsPage() {
           JSON.stringify(updatedBookings)
         );
 
-        // Refresh this page and notify the dashboard.
+      
         loadBookings();
 
         window.dispatchEvent(
@@ -236,7 +235,7 @@ export default function MyBookingsPage() {
             YOUR RENTALS
           </span>
 
-          <h1>My Bookings</h1>
+          <h2 id="mb">My Bookings</h2>
 
           <p>
             Track your reservations and check their latest status.
@@ -328,7 +327,7 @@ export default function MyBookingsPage() {
                   <p>{getStatusMessage(status)}</p>
                 </div>
 
-                {/* Cancellation button */}
+           
                 {canCancelBooking(status) && (
                   <button
                     type="button"
@@ -339,7 +338,7 @@ export default function MyBookingsPage() {
                   </button>
                 )}
 
-                {/* Feedback link */}
+               
                 {String(status).toLowerCase() === "completed" && (
                   <Link
                     href={`/bookings/${encodeURIComponent(
@@ -357,7 +356,7 @@ export default function MyBookingsPage() {
                     String(booking.carId ?? "")
                   )}&bookingId=${encodeURIComponent(
                     String(booking.id ?? "")
-                  )}`}
+                  )}`}  className="rp"
                 >
                   Report-Poblem
                 </Link>
@@ -366,6 +365,8 @@ export default function MyBookingsPage() {
           })}
         </section>
       )}
+
+      <Link href="/dashboard" className="vd">Visit Dashboard</Link>
     </main>
   );
 }

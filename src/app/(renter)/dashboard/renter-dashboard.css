@@ -644,3 +644,32 @@
     font-size: 10px;
   }
 }
+
+
+.renter-sidebar-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #39445a;
+}
+
+.renter-signout {
+  display: block;
+  min-height: 44px;
+  padding: 13px 15px;
+  border-radius: 8px;
+  color: #ffb4b4;
+  text-decoration: none;
+}
+
+.renter-signout:hover {
+  background: #3b2934;
+  color: #fff;
+}
+#wel{
+   color: green;
+}
+
+#db{
+    color: blue;
+    text-align: center;
+}

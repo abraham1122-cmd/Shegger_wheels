@@ -78,7 +78,7 @@ export default function RenterDisputesPage() {
       <div className="renter-disputes-container">
         <header className="renter-disputes-header">
           <div className="renter-disputes-heading">
-            <h1>My Disputes</h1>
+            <h2 id="disp">My Disputes</h2>
             <p>
               Track complaints, review responses, and follow resolutions.
             </p>
@@ -140,10 +140,8 @@ export default function RenterDisputesPage() {
 
             {disputes.length === 0 ? (
               <section className="renter-disputes-empty">
-                <h2>No disputes yet</h2>
-                <p>
-                  Disputes related to your bookings will appear here.
-                </p>
+                <h3 id="nd">No disputes yet</h3>
+               
 
                 <Link
                   href="/bookings"

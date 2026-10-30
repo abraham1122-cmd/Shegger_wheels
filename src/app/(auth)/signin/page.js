@@ -36,7 +36,10 @@ export default function SigninPage() {
       destination = "/owner";
     } else if (result.role === "admin") {
       destination = "/admin";
-    } else {
+    } else if (result.role === "renter"){
+      destination = "/dashboard";
+    }
+    else {
       destination = "/cars";
     }
 

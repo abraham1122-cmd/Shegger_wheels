@@ -453,3 +453,14 @@
     font-size: 18px;
   }
 }
+
+#disp{
+  color: #991b1b;
+  text-align: center;
+  font-style: oblique;
+
+}
+
+#nd{
+  color: red;
+}
