@@ -15,6 +15,8 @@ export default function PaymentPage() {
   const [accountName, setAccountName] = useState("");
   const [transactionReference, setTransactionReference] = useState("");
   const [conformationMessage, setConformationMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
     try {
@@ -26,6 +28,23 @@ export default function PaymentPage() {
         setBooking(data);
         setPickUpDate(data.pickUpDate || "");
         setReturnDate(data.returnDate || "");
+
+        // Check whether this booking was already submitted.
+        if (data.id) {
+          const existingBookings = JSON.parse(
+            localStorage.getItem("rental_bookings") || "[]"
+          );
+
+          const alreadySubmitted = Array.isArray(existingBookings) &&
+            existingBookings.some((item) => item.id === data.id);
+
+          if (alreadySubmitted) {
+            setHasSubmitted(true);
+            setConformationMessage(
+              "This booking has already been submitted successfully."
+            );
+          }
+        }
       }
     } catch {
       setBooking(null);
@@ -42,11 +61,8 @@ export default function PaymentPage() {
     );
   }
 
-   
-  
   const pricePerDay = Number(booking.pricePerDay);
 
-  
   const pickupTime = pickUpDate
     ? Date.parse(`${pickUpDate}T00:00:00Z`)
     : NaN;
@@ -75,7 +91,8 @@ export default function PaymentPage() {
   function confirmBooking(event) {
     event.preventDefault();
 
-     setConformationMessage("Your booking submitted succesfully.")
+    // Prevent accidental repeated submissions.
+    if (isSubmitting || hasSubmitted) return;
 
     if (!validDates) {
       alert("Return date must be later than pickup date.");
@@ -105,6 +122,8 @@ export default function PaymentPage() {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
       const existingBookings = JSON.parse(
         localStorage.getItem("rental_bookings") || "[]"
@@ -112,6 +131,19 @@ export default function PaymentPage() {
 
       if (!Array.isArray(existingBookings)) {
         throw new Error("Invalid booking data");
+      }
+
+      // Prevent submitting the same booking twice.
+      if (
+        booking.id &&
+        existingBookings.some((item) => item.id === booking.id)
+      ) {
+        setHasSubmitted(true);
+        setConformationMessage(
+          "This booking has already been submitted successfully."
+        );
+        sessionStorage.removeItem("Booking_pending");
+        return;
       }
 
       const newBooking = {
@@ -142,17 +174,22 @@ export default function PaymentPage() {
       );
 
       sessionStorage.removeItem("Booking_pending");
-    //   window.location.href = "/owner/bookings";
-        setConformationMessage("Your Booking submitted successfully!")
-    } catch {
+
+      setHasSubmitted(true);
+      setConformationMessage(
+        "Your booking was submitted successfully!"
+      );
+    } catch (error) {
+      console.error("Booking submission failed:", error);
       alert("Could not save the booking. Please try again.");
+      setIsSubmitting(false);
     }
   }
 
   return (
     <main className="payment-page">
       <h1>Payment Summary</h1>
-     
+
       <form onSubmit={confirmBooking}>
         <section className="payment-summary">
           <h2>{booking.carName || "Selected Car"}</h2>
@@ -211,9 +248,7 @@ export default function PaymentPage() {
             Total price: ETB {totalPrice.toLocaleString()}
           </h2>
 
-          <p className="payment-note">
-           
-          </p>
+          <p className="payment-note"></p>
         </section>
 
         <section className="payment-method">
@@ -257,7 +292,6 @@ export default function PaymentPage() {
                 maxLength={10}
                 required
               />
-           
             </div>
           )}
 
@@ -298,8 +332,8 @@ export default function PaymentPage() {
               <div className="payment-field">
                 <label htmlFor="account-name">Account holder name</label>
                 <input
-                  id="account-name"
                   type="text"
+                  id="account-name"
                   value={accountName}
                   onChange={(e) => setAccountName(e.target.value)}
                   placeholder="Enter account holder name"
@@ -312,8 +346,8 @@ export default function PaymentPage() {
                   Transaction reference
                 </label>
                 <input
-                  id="transaction-reference"
                   type="text"
+                  id="transaction-reference"
                   value={transactionReference}
                   onChange={(e) =>
                     setTransactionReference(e.target.value)
@@ -323,9 +357,7 @@ export default function PaymentPage() {
                 />
               </div>
 
-              <p className="payment-note">
-          
-              </p>
+              <p className="payment-note"></p>
             </div>
           )}
         </section>
@@ -333,24 +365,30 @@ export default function PaymentPage() {
         <button
           className="confirm-booking-button"
           type="submit"
-          disabled={!validDates || !validPrice}
+          disabled={
+            !validDates ||
+            !validPrice ||
+            isSubmitting ||
+            hasSubmitted
+          }
         >
-          Submit Booking
+          {hasSubmitted
+            ? "Booking Submitted"
+            : isSubmitting
+              ? "Submitting..."
+              : "Submit Booking"}
         </button>
 
         {conformationMessage && (
-  <p className="payment-success">
-    {conformationMessage}
-  </p>
-)}
-
-
-      
+          <p className="payment-success">
+            {conformationMessage}
+          </p>
+        )}
       </form>
 
-        <Link className="payment-back-link" href="/cars">
-          Back to Cars
-        </Link>
+      <Link className="payment-back-link" href="/cars">
+        Back to Cars
+      </Link>
     </main>
   );
 }

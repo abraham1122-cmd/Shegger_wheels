@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import "./admin.css";
 
@@ -13,7 +13,7 @@ const adminLinks = [
   { href: "/admin/disputes", label: "Disputes" },
 ];
 
-export default function AdminLayout({ children }) {
+function AdminLayoutContent({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -138,5 +138,21 @@ export default function AdminLayout({ children }) {
         <main className="admin-content">{children}</main>
       </div>
     </div>
+  );
+}
+
+export default function AdminLayout({ children }){
+
+  return(
+    <Suspense  
+      fallback={
+        <main className="" >
+          <p>loading..</p>
+        </main>
+      }
+      >
+
+        <AdminLayout />
+      </Suspense>
   );
 }

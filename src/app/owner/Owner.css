@@ -1,4 +1,8 @@
 
+/* =========================================
+   OWNER LAYOUT
+========================================= */
+
 .owner-layout {
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
@@ -7,7 +11,10 @@
   color: #1f2937;
 }
 
-/* Fixed sidebar */
+/* =========================================
+   OWNER SIDEBAR
+========================================= */
+
 .owner-sidebar {
   position: fixed;
   top: 0;
@@ -19,27 +26,7 @@
   background: #172033;
   color: #fff;
   overflow-y: auto;
-  z-index: 900;
-}
-
-.owner-sidebar-footer {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid #39445a;
-}
-
-.owner-sidebar .owner-signout {
-  display: block;
-  min-height: 44px;
-  padding: 13px 15px;
-  border-radius: 8px;
-  color: #ffb4b4;
-  text-decoration: none;
-}
-
-.owner-sidebar .owner-signout:hover {
-  background: #3b2934;
-  color: #fff;
+  z-index: 1001;
 }
 
 .owner-sidebar h2 {
@@ -59,7 +46,7 @@
   border-radius: 8px;
   color: #dbe3f0;
   text-decoration: none;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .owner-sidebar nav a:hover,
@@ -69,17 +56,56 @@
   outline: none;
 }
 
-/* Main content */
+.owner-sidebar-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #39445a;
+}
+
+.owner-sidebar .owner-signout {
+  display: block;
+  min-height: 44px;
+  padding: 13px 15px;
+  border-radius: 8px;
+  color: #ffb4b4;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.owner-sidebar .owner-signout:hover {
+  background: #3b2934;
+  color: #fff;
+}
+
+/* =========================================
+   HAMBURGER MENU
+========================================= */
+
+.owner-menu-toggle,
+.owner-menu-overlay {
+  display: none;
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
 .owner-content {
   grid-column: 2;
   min-width: 0;
   padding: 36px;
+  box-sizing: border-box;
 }
 
 .owner-dashboard {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* =========================================
+   DASHBOARD HEADING
+========================================= */
 
 .owner-heading {
   display: flex;
@@ -108,6 +134,10 @@
   line-height: 1.6;
 }
 
+/* =========================================
+   PRIMARY BUTTON
+========================================= */
+
 .owner-primary-button {
   display: inline-flex;
   align-items: center;
@@ -120,11 +150,16 @@
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
+  transition: background 0.2s ease;
 }
 
 .owner-primary-button:hover {
   background: #c92f3b;
 }
+
+/* =========================================
+   DASHBOARD STATISTICS
+========================================= */
 
 .owner-stats {
   display: grid;
@@ -133,6 +168,7 @@
 }
 
 .owner-stat-card {
+  min-width: 0;
   padding: 24px;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -149,6 +185,7 @@
   display: block;
   margin: 12px 0;
   font-size: 24px;
+  overflow-wrap: anywhere;
 }
 
 .owner-stat-card p {
@@ -169,6 +206,10 @@
   text-decoration: underline;
 }
 
+/* =========================================
+   WELCOME SECTION
+========================================= */
+
 .owner-welcome {
   margin-top: 28px;
   padding: 26px;
@@ -187,79 +228,10 @@
   line-height: 1.7;
 }
 
-/* Tablet */
-@media (max-width: 900px) {
-  .owner-layout {
-    grid-template-columns: 200px minmax(0, 1fr);
-  }
+/* =========================================
+   OWNER EDIT PAGE
+========================================= */
 
-  .owner-sidebar {
-    width: 200px;
-    padding: 24px 14px;
-  }
-
-  .owner-content {
-    padding: 24px;
-  }
-
-  .owner-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .owner-layout {
-    display: block;
-  }
-
-  .owner-sidebar {
-    position: relative;
-    top: auto;
-    left: auto;
-    bottom: auto;
-    width: 100%;
-    height: auto;
-    max-height: none;
-    padding: 18px 16px;
-  }
-
-  .owner-sidebar h2 {
-    margin-bottom: 16px;
-  }
-
-  .owner-sidebar nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .owner-sidebar nav a {
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-
-  .owner-content {
-    grid-column: auto;
-    padding: 20px 16px;
-  }
-
-  .owner-heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .owner-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .owner-stat-card p {
-    min-height: auto;
-  }
-}
-
-/* Owner edit page */
 .owner-edit-page {
   width: 100%;
   max-width: 850px;
@@ -285,6 +257,10 @@
   line-height: 1.6;
 }
 
+/* =========================================
+   OWNER EDIT FORM
+========================================= */
+
 .owner-edit-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -293,6 +269,7 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
+  box-sizing: border-box;
 }
 
 .owner-edit-field {
@@ -385,7 +362,160 @@
   color: #c92f3b;
 }
 
+/* =========================================
+   TABLET RESPONSIVENESS
+========================================= */
+
+@media (max-width: 900px) {
+  .owner-layout {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+
+  .owner-sidebar {
+    width: 200px;
+    padding: 24px 14px;
+  }
+
+  .owner-content {
+    padding: 24px;
+  }
+
+  .owner-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+========================================= */
+
 @media (max-width: 600px) {
+  /* Main layout */
+
+  .owner-layout {
+    display: block;
+    padding-top: 64px;
+  }
+
+  /* Hamburger button */
+
+  .owner-menu-toggle {
+    position: fixed;
+    top: 12px;
+    left: 14px;
+    z-index: 1003;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border: 1px solid #dbe3f0;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .owner-menu-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: #172033;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  /* Hamburger animation */
+
+  .owner-menu-toggle.active span:first-child {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .owner-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .owner-menu-toggle.active span:last-child {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Mobile sidebar */
+
+  .owner-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(280px, 85vw);
+    padding: 76px 20px 24px;
+    box-sizing: border-box;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.25s ease, visibility 0.25s ease;
+    z-index: 1001;
+  }
+
+  .owner-sidebar.open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .owner-sidebar h2 {
+    margin-bottom: 24px;
+  }
+
+  .owner-sidebar nav {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .owner-sidebar nav a {
+    padding: 13px 15px;
+    font-size: 14px;
+  }
+
+  .owner-sidebar-footer {
+    margin-top: 28px;
+  }
+
+  /* Background overlay */
+
+  .owner-menu-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    border: none;
+    background: rgb(15 23 42 / 55%);
+    cursor: pointer;
+  }
+
+  /* Main content */
+
+  .owner-content {
+    grid-column: auto;
+    padding: 20px 16px;
+  }
+
+  /* Dashboard heading */
+
+  .owner-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .owner-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .owner-stat-card p {
+    min-height: auto;
+  }
+
+  /* Edit page */
+
   .owner-edit-heading {
     align-items: flex-start;
     flex-direction: column;
@@ -410,5 +540,36 @@
   .owner-edit-actions .owner-edit-cancel {
     width: 100%;
     box-sizing: border-box;
+  }
+}
+
+/* =========================================
+   EXTRA SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+  .owner-content {
+    padding: 16px 12px;
+  }
+
+  .owner-stat-card {
+    padding: 18px;
+  }
+
+  .owner-edit-form {
+    padding: 14px;
+  }
+
+  .owner-menu-toggle {
+    left: 10px;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .owner-sidebar,
+  .owner-menu-toggle span,
+  .owner-sidebar nav a {
+    transition: none;
   }
 }
