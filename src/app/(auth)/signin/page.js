@@ -4,45 +4,44 @@
 import "./signin.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createInitialAccounts, loginUser } from "@/lib/sessions";
+import { loginUser } from "@/lib/sessions";
 
 export default function SigninPage() {
   const router = useRouter();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email");
     const password = formData.get("password");
 
-    
-      createInitialAccounts();
-      
-    const result = loginUser(email, password);
+    // Authenticate the user.
+    const result = await loginUser(email, password);
 
     if (!result.success) {
       alert(result.message || "Incorrect email or password.");
       return;
     }
 
-  
+    // Check whether the user was redirected from another page.
     const params = new URLSearchParams(window.location.search);
     const next = params.get("next");
 
+    // Redirect based on account role.
     let destination;
 
     if (result.role === "owner") {
       destination = "/owner";
     } else if (result.role === "admin") {
       destination = "/admin";
-    } else if (result.role === "renter"){
+    } else if (result.role === "renter") {
       destination = "/dashboard";
-    }
-    else {
+    } else {
       destination = "/cars";
     }
 
+    // Preserve a valid requested destination.
     if (next && next.startsWith("/") && !next.startsWith("//")) {
       destination = next;
     }
@@ -78,11 +77,6 @@ export default function SigninPage() {
 
         <button type="submit">Sign In</button>
       </form>
-
-      {/* <p>
-        Forgot your password?{" "}
-        <Link href="/forgot-password">Reset it</Link>
-      </p> */}
 
       <p>
         Don't have an account?{" "}

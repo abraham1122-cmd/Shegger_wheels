@@ -1,73 +1,68 @@
 
-
-
 const USERS_KEY = "rental-users";
 const SESSION_KEY = "demo_session";
 
 const VALID_ROLES = ["renter", "owner", "admin"];
 
-
-export function createInitialAccounts() {
-  if (typeof window === "undefined") return;
-
-  const users = getUsers();
-
-  const accounts = [
-    {
-      id: "renter-001",
-      name: "Renter",
-      email: process.env.DEMO_RENTER_LOGIN_EMAIL,
-      password: process.env.DEMO_RENTER_LOGIN_PASSWORD,
-      role: "renter",
-      isActive: true,
-      lastLoginAt: new Date().toISOString(),
-    },
-    {
-      id: "owner-001",
-      name: "Owner",
-      email: process.env.DEMO_OWNER_LOGIN_EMAIL,
-      password: process.env.DEMO_OWNER_LOGIN_PASSWORD,
-      role: "owner",
-      isActive: true,
-      lastLoginAt: new Date().toISOString(),
-    },
-    {
-      id: "admin-001",
-      name: "Admin",
-      email: process.env.DEMO_ADMIN_LOGIN_EMAIL,
-      password:process.env.DEMO_ADMIN_LOGIN_PASSWORD,
-      role: "admin",
-      isActive: true,
-      lastLoginAt: null,
-    },
-  ];
-
-  const updatedUsers = [...users];
-
-  for (const account of accounts) {
-    const exists = updatedUsers.some(
-      (user) =>
-        user.email?.trim().toLowerCase() ===
-        account.email.toLowerCase()
-    );
-
-    if (!exists) {
-      updatedUsers.push(account);
-    }
-  }
-
-  for (const user of updatedUsers) {
-    if (!user.lastLoginAt && user.isLastLoginAt) {
-      user.lastLoginAt = user.isLastLoginAt;
-    }
-  }
-
-  localStorage.setItem(
-    USERS_KEY,
-    JSON.stringify(updatedUsers)
-  );
+function normalizeEmail(email) {
+  return typeof email === "string" ? email.trim().toLowerCase() : "";
 }
 
+// Initialize demo account profiles from the server.
+export async function createInitialAccounts() {
+  if (typeof window === "undefined") return;
+
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "GET",
+      cache: "no-store",
+    });
+
+    if (!response.ok) return;
+
+    const result = await response.json();
+
+    if (!result.success || !Array.isArray(result.accounts)) {
+      return;
+    }
+
+    const users = getUsers();
+    const updatedUsers = [...users];
+
+    for (const account of result.accounts) {
+      const accountEmail = normalizeEmail(account?.email);
+
+      if (!accountEmail || !account.id || !VALID_ROLES.includes(account.role)) {
+        continue;
+      }
+
+      const exists = updatedUsers.some(
+        (user) => normalizeEmail(user?.email) === accountEmail
+      );
+
+      if (!exists) {
+        updatedUsers.push({
+          ...account,
+          email: accountEmail,
+        });
+      }
+    }
+
+    const cleanedUsers = updatedUsers
+      .filter((user) => user && typeof user === "object")
+      .map((user) => ({
+        ...user,
+        lastLoginAt: user.lastLoginAt || user.isLastLoginAt || null,
+      }));
+
+    localStorage.setItem(
+      USERS_KEY,
+      JSON.stringify(cleanedUsers)
+    );
+  } catch (error) {
+    console.error("Unable to initialize demo accounts:", error);
+  }
+}
 
 export function getUsers() {
   if (typeof window === "undefined") return [];
@@ -77,12 +72,13 @@ export function getUsers() {
       localStorage.getItem(USERS_KEY) || "[]"
     );
 
-    return Array.isArray(users) ? users : [];
+    return Array.isArray(users)
+      ? users.filter((user) => user && typeof user === "object")
+      : [];
   } catch {
     return [];
   }
 }
-
 
 export function registerUser(user) {
   if (typeof window === "undefined") {
@@ -92,10 +88,10 @@ export function registerUser(user) {
     };
   }
 
-  const name = user.name?.trim();
-  const email = user.email?.trim().toLowerCase();
-  const password = user.password;
-  const role = user.role;
+  const name = user?.name?.trim();
+  const email = normalizeEmail(user?.email);
+  const password = user?.password;
+  const role = user?.role;
 
   if (!name || !email || !password) {
     return {
@@ -104,7 +100,6 @@ export function registerUser(user) {
     };
   }
 
- 
   if (!["renter", "owner"].includes(role)) {
     return {
       success: false,
@@ -115,9 +110,7 @@ export function registerUser(user) {
   const users = getUsers();
 
   if (
-    users.some(
-      (item) => item.email?.trim().toLowerCase() === email
-    )
+    users.some((item) => normalizeEmail(item.email) === email)
   ) {
     return {
       success: false,
@@ -149,7 +142,6 @@ export function registerUser(user) {
   };
 }
 
-
 export function createDemoAccount({
   name,
   email,
@@ -170,20 +162,20 @@ export function createDemoAccount({
     };
   }
 
-  if (!name?.trim() || !email?.trim() || !password) {
+  const normalizedEmail = normalizeEmail(email);
+
+  if (!name?.trim() || !normalizedEmail || !password) {
     return {
       success: false,
       message: "Name, email, and password are required.",
     };
   }
 
-  const normalizedEmail = email.trim().toLowerCase();
   const users = getUsers();
 
   if (
     users.some(
-      (item) =>
-        item.email?.trim().toLowerCase() === normalizedEmail
+      (item) => normalizeEmail(item.email) === normalizedEmail
     )
   ) {
     return {
@@ -214,8 +206,8 @@ export function createDemoAccount({
   };
 }
 
-
-export function loginUser(email, password) {
+// Login registered users locally or verify demo users on the server.
+export async function loginUser(email, password) {
   if (typeof window === "undefined") {
     return {
       success: false,
@@ -223,44 +215,122 @@ export function loginUser(email, password) {
     };
   }
 
-  const normalizedEmail = email?.trim().toLowerCase();
+  const normalizedEmail = normalizeEmail(email);
+
+  if (!normalizedEmail || !password) {
+    return {
+      success: false,
+      message: "Email and password are required.",
+    };
+  }
+
   const users = getUsers();
 
+  // Check locally registered users.
   const userIndex = users.findIndex(
     (user) =>
-      user.email?.trim().toLowerCase() === normalizedEmail &&
+      normalizeEmail(user.email) === normalizedEmail &&
       user.password === password &&
       VALID_ROLES.includes(user.role)
   );
 
-  if (userIndex === -1) {
+  if (userIndex !== -1) {
+    const updatedUser = {
+      ...users[userIndex],
+      lastLoginAt: new Date().toISOString(),
+    };
+
+    const updatedUsers = [...users];
+    updatedUsers[userIndex] = updatedUser;
+
+    localStorage.setItem(
+      USERS_KEY,
+      JSON.stringify(updatedUsers)
+    );
+
+    createSession(updatedUser);
+
     return {
-      success: false,
-      message: "Invalid email or password.",
+      success: true,
+      role: updatedUser.role,
     };
   }
 
-  const updatedUser = {
-    ...users[userIndex],
-    lastLoginAt: new Date().toISOString(),
-  };
+  // Verify demo accounts on the server.
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: normalizedEmail,
+        password,
+      }),
+      cache: "no-store",
+    });
 
-  const updatedUsers = [...users];
-  updatedUsers[userIndex] = updatedUser;
+    const result = await response.json();
 
-  localStorage.setItem(
-    USERS_KEY,
-    JSON.stringify(updatedUsers)
-  );
+    if (!response.ok || !result.success || !result.user) {
+      return {
+        success: false,
+        message: result.message || "Invalid email or password.",
+      };
+    }
 
-  createSession(updatedUser);
+    const demoUser = {
+      ...result.user,
+      isActive: true,
+      lastLoginAt: new Date().toISOString(),
+    };
 
-  return {
-    success: true,
-    role: updatedUser.role,
-  };
+    if (
+      !demoUser.id ||
+      !VALID_ROLES.includes(demoUser.role) ||
+      !normalizeEmail(demoUser.email)
+    ) {
+      return {
+        success: false,
+        message: "The server returned an invalid account.",
+      };
+    }
+
+    const currentUsers = getUsers();
+
+    const existingIndex = currentUsers.findIndex(
+      (user) => user.id === demoUser.id
+    );
+
+    if (existingIndex !== -1) {
+      currentUsers[existingIndex] = {
+        ...currentUsers[existingIndex],
+        ...demoUser,
+      };
+    } else {
+      currentUsers.push(demoUser);
+    }
+
+    localStorage.setItem(
+      USERS_KEY,
+      JSON.stringify(currentUsers)
+    );
+
+    createSession(demoUser);
+
+    return {
+      success: true,
+      role: demoUser.role,
+    };
+  } catch (error) {
+    console.error("Login error:", error);
+
+    return {
+      success: false,
+      message: "Unable to connect to the server.",
+    };
+  }
 }
-
 
 export function createSession(user) {
   if (typeof window === "undefined") return null;
@@ -283,7 +353,6 @@ export function createSession(user) {
 
   return session;
 }
-
 
 export function getSession() {
   if (typeof window === "undefined") return null;
@@ -321,4 +390,3 @@ export function clearSession() {
 
   sessionStorage.removeItem(SESSION_KEY);
 }
-
