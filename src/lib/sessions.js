@@ -8,12 +8,12 @@ function normalizeEmail(email) {
   return typeof email === "string" ? email.trim().toLowerCase() : "";
 }
 
-// Initialize demo account profiles from the server.
+
 export async function createInitialAccounts() {
   if (typeof window === "undefined") return;
 
   try {
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch("/login", {
       method: "GET",
       cache: "no-store",
     });
@@ -206,7 +206,7 @@ export function createDemoAccount({
   };
 }
 
-// Login registered users locally or verify demo users on the server.
+
 export async function loginUser(email, password) {
   if (typeof window === "undefined") {
     return {
@@ -226,7 +226,7 @@ export async function loginUser(email, password) {
 
   const users = getUsers();
 
-  // Check locally registered users.
+ 
   const userIndex = users.findIndex(
     (user) =>
       normalizeEmail(user.email) === normalizedEmail &&
@@ -256,9 +256,9 @@ export async function loginUser(email, password) {
     };
   }
 
-  // Verify demo accounts on the server.
+ 
   try {
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
