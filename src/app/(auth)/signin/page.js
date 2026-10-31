@@ -80,7 +80,7 @@ export default function SigninPage() {
 
       <p>
         Don't have an account?{" "}
-        <Link href="/signup">Sign Up</Link>
+        <Link href="/signUp">Sign Up</Link>
       </p>
 
       <Link href="/">Back to Home</Link>

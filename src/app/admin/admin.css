@@ -849,3 +849,801 @@
     padding: 14px 10px;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   RESPONSIVE ADMIN LAYOUT IMPROVEMENTS
+   ========================================= */
+
+.admin-layout,
+.admin-layout * {
+  box-sizing: border-box;
+}
+
+.admin-layout {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: clip;
+}
+
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1100;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  transition: transform 0.28s ease;
+}
+
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  width: calc(100% - 250px);
+  margin-left: 250px;
+  padding: 94px 24px 30px;
+  min-height: 100vh;
+  height: auto;
+  overflow: visible;
+}
+
+.admin-header {
+  position: fixed;
+  top: 0;
+  left: 250px;
+  right: 0;
+  z-index: 1000;
+  min-width: 0;
+  height: 70px;
+  min-height: 70px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.admin-dashboard {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Hide hamburger and overlay on desktop */
+
+.admin-menu-button {
+  display: none;
+}
+
+.admin-sidebar-overlay {
+  display: none;
+}
+
+/* Prevent dashboard children from expanding the layout */
+
+.dashboard-panel,
+.dashboard-stat-card,
+.dashboard-section,
+.dashboard-heading,
+.panel-heading {
+  min-width: 0;
+}
+
+.dashboard-panel {
+  overflow-wrap: anywhere;
+}
+
+.dashboard-stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dashboard-table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dashboard-table {
+  max-width: 100%;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  overflow-wrap: anywhere;
+}
+
+.dashboard-filters input,
+.dashboard-filters select,
+.button {
+  max-width: 100%;
+}
+
+/* =========================================
+   TABLETS
+   ========================================= */
+
+@media (max-width: 1100px) {
+  .admin-sidebar {
+    width: 220px;
+  }
+
+  .admin-main {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+    padding: 90px 18px 24px;
+  }
+
+  .admin-header {
+    left: 220px;
+    padding: 12px 18px;
+  }
+
+  .admin-dashboard {
+    padding: 20px 10px;
+  }
+
+  .dashboard-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-stat-value {
+    font-size: clamp(22px, 3vw, 28px);
+  }
+}
+
+/* =========================================
+   MOBILE: HAMBURGER SIDEBAR
+   ========================================= */
+
+@media (max-width: 768px) {
+  .admin-layout {
+    display: block;
+    min-height: 100vh;
+  }
+
+  /* Sidebar is hidden off-screen until opened */
+
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(290px, 86vw);
+    min-height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: translateX(-105%);
+    visibility: hidden;
+    z-index: 1200;
+    background: #fff;
+    box-shadow: 8px 0 30px rgb(15 23 42 / 12%);
+    transition:
+      transform 0.28s ease,
+      visibility 0.28s ease;
+  }
+
+  /* JavaScript adds this class when the menu opens */
+
+  .admin-sidebar.admin-sidebar-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .admin-brand {
+    padding: 22px 20px;
+  }
+
+  .admin-navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 16px 12px;
+    overflow: visible;
+  }
+
+  .admin-nav-link {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 14px;
+    white-space: normal;
+  }
+
+  .admin-nav-divider,
+  .admin-sidebar-footer {
+    display: block;
+  }
+
+  /* Mobile header spans the entire screen */
+
+  .admin-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 64px;
+    min-height: 64px;
+    padding: 10px 14px;
+    gap: 12px;
+    z-index: 1050;
+  }
+
+  .admin-header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    gap: 12px;
+  }
+
+  .admin-header-title {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .admin-header-subtitle {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  /* Hamburger button */
+
+  .admin-menu-button {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    color: #111827;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .admin-menu-button:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+  }
+
+  .admin-menu-button:focus-visible {
+    outline: 3px solid #fca5a5;
+    outline-offset: 3px;
+  }
+
+  .admin-menu-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 20px;
+  }
+
+  .admin-menu-icon span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+  }
+
+  .admin-website-link {
+    flex-shrink: 0;
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Dark overlay behind the open sidebar */
+
+  .admin-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: rgb(15 23 42 / 45%);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1150;
+    cursor: pointer;
+    transition:
+      opacity 0.25s ease,
+      visibility 0.25s ease;
+  }
+
+  .admin-sidebar-overlay.admin-overlay-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Main dashboard */
+
+  .admin-main {
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    margin: 0;
+    padding: 80px 12px 24px;
+    overflow: visible;
+  }
+
+  .admin-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-dashboard {
+    width: 100%;
+    padding: 12px 0;
+    gap: 20px;
+  }
+
+  .dashboard-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dashboard-heading h1 {
+    font-size: clamp(22px, 5vw, 28px);
+    overflow-wrap: anywhere;
+  }
+
+  .dashboard-heading p {
+    font-size: 13px;
+  }
+
+  .dashboard-heading > .button {
+    width: 100%;
+  }
+
+  .dashboard-section {
+    gap: 12px;
+  }
+
+  .dashboard-section-title {
+    font-size: 18px;
+  }
+
+  .dashboard-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .dashboard-fee-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-stat-card {
+    padding: 15px 12px;
+    border-radius: 12px;
+  }
+
+  .dashboard-stat-title {
+    font-size: 12px;
+  }
+
+  .dashboard-stat-value {
+    margin-top: 8px;
+    font-size: clamp(20px, 4vw, 26px);
+  }
+
+  .dashboard-stat-description {
+    font-size: 11px;
+  }
+
+  .dashboard-panel {
+    padding: 16px 12px;
+    border-radius: 12px;
+  }
+
+  .panel-heading {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .panel-heading > .button {
+    width: 100%;
+  }
+
+  .panel-description {
+    font-size: 12px;
+  }
+
+  .dashboard-filters {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .dashboard-filters input,
+  .dashboard-filters select {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  /* Keep tables usable on narrow screens */
+
+  .dashboard-table-wrapper {
+    width: 100%;
+    margin-top: 14px;
+    overflow-x: auto;
+  }
+
+  .dashboard-table th,
+  .dashboard-table td {
+    padding: 12px 10px;
+  }
+
+  .cars-table {
+    min-width: 700px;
+  }
+
+  .bookings-table {
+    min-width: 600px;
+  }
+
+  .table-actions {
+    min-width: 100px;
+  }
+
+  .booking-status-filters {
+    gap: 7px;
+  }
+
+  .filter-button {
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .booking-chart {
+    height: 200px;
+    gap: 8px;
+  }
+
+  .booking-chart-count,
+  .booking-chart-label {
+    font-size: 10px;
+  }
+
+  .report-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .report-actions .button {
+    width: 100%;
+  }
+
+  .dashboard-notice {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* =========================================
+   SMALL PHONES
+   ========================================= */
+
+@media (max-width: 420px) {
+  .admin-header {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .admin-header-left {
+    gap: 8px;
+  }
+
+  .admin-menu-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .admin-header-title {
+    font-size: 13px;
+  }
+
+  .admin-header-subtitle {
+    max-width: 160px;
+    font-size: 10px;
+  }
+
+  .admin-website-link {
+    max-width: 94px;
+    min-height: 38px;
+    padding: 7px 8px;
+    font-size: 11px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .admin-main {
+    padding: 76px 10px 20px;
+  }
+
+  .dashboard-stats-grid,
+  .dashboard-fee-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard-stat-card {
+    padding: 16px;
+  }
+
+  .dashboard-stat-value {
+    font-size: 25px;
+  }
+
+  .dashboard-panel {
+    padding: 14px 10px;
+  }
+
+  .dashboard-heading h1 {
+    font-size: 23px;
+  }
+
+  .dashboard-section-title {
+    font-size: 17px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-sidebar,
+  .admin-sidebar-overlay,
+  .admin-menu-button,
+  .booking-chart-bar {
+    transition: none;
+  }
+}
+
+
+
+
+
+/* ==================================
+   RESPONSIVE ADMIN DASHBOARD
+================================== */
+
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.admin-menu-button {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #172033;
+  cursor: pointer;
+}
+
+.admin-menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.admin-menu-icon span {
+  display: block;
+  width: 21px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.admin-sidebar-overlay {
+  display: none;
+}
+
+.admin-layout,
+.admin-main,
+.admin-content {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Tablets */
+@media (max-width: 1100px) {
+  .admin-sidebar {
+    width: 220px;
+  }
+
+  .admin-main {
+    margin-left: 220px;
+  }
+
+  .admin-header {
+    left: 220px;
+  }
+}
+
+/* Mobile and tablets */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1002;
+
+    width: min(290px, 85vw);
+    height: 100vh;
+    height: 100dvh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    transform: translateX(-105%);
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      transform 0.25s ease,
+      visibility 0.25s ease;
+  }
+
+  .admin-sidebar.admin-sidebar-open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .admin-main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .admin-header {
+    position: sticky;
+    top: 0;
+    left: auto;
+    right: auto;
+    width: 100%;
+    min-height: 70px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    gap: 10px;
+    z-index: 1000;
+  }
+
+  .admin-menu-button {
+    display: inline-flex;
+  }
+
+  .admin-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1001;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: rgba(15, 23, 42, 0.55);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      opacity 0.25s ease,
+      visibility 0.25s ease;
+  }
+
+  .admin-sidebar-overlay.admin-overlay-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .admin-content {
+    width: 100%;
+    padding: 20px 16px;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .admin-header {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .admin-header-left {
+    gap: 8px;
+  }
+
+  .admin-menu-button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .admin-header-title {
+    font-size: 14px;
+  }
+
+  .admin-header-subtitle {
+    font-size: 11px;
+  }
+
+  .admin-website-link {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .admin-content {
+    padding: 16px 12px;
+  }
+
+  .admin-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+/* Accessibility */
+.admin-menu-button:focus-visible,
+.admin-nav-link:focus-visible {
+  outline: 3px solid #2a9d8f;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-sidebar,
+  .admin-sidebar-overlay {
+    transition: none;
+  }
+}

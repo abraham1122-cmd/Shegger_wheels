@@ -49,14 +49,24 @@ export default function MyBookingsPage() {
   const [loaded, setLoaded] = useState(false);
 
  
-  useEffect(() => {
-    if (!isSignedIn()) {
-      router.replace("/signin?next=%2Fbookings");
-      return;
-    }
+  // useEffect(() => {
+  //   if (!isSignedIn()) {
+  //     router.replace("/signin?next=%2Fbookings");
+  //     return;
+  //   }
 
-    setAuthorized(true);
-  }, [router]);
+  //   setAuthorized(true);
+  // }, [router]);
+  useEffect(() => {
+  const session = getSession();
+
+  if (!session || session.role !== "renter") {
+    router.replace("/signin?next=%2Fbookings");
+    return;
+  }
+
+  setAuthorized(true);
+}, [router]);
 
   const loadBookings = useCallback(() => {
     try {
@@ -366,7 +376,9 @@ export default function MyBookingsPage() {
         </section>
       )}
 
-      <Link href="/dashboard" className="vd">Visit Dashboard</Link>
+      <Link href="/dashboard" className="vd">
+      Visit Dashboard
+      </Link>
     </main>
   );
 }

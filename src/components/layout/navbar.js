@@ -1,21 +1,39 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { getSession } from "@/lib/sessions";
 
 export default function Navbar() {
   const [session, setSession] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setSession(getSession());
   }, []);
 
-  // Close mobile menu after selecting a link
   function closeMenu() {
     setMenuOpen(false);
+  }
+
+  function handleMyBookings() {
+    closeMenu();
+
+    const currentSession = getSession();
+
+    if (!currentSession) {
+      router.push("/signin?next=/bookings");
+      return;
+    }
+
+    if (currentSession.role !== "renter") {
+      router.push("/signin?next=/bookings");
+      return;
+    }
+
+    router.push("/bookings");
   }
 
   return (
@@ -29,9 +47,7 @@ export default function Navbar() {
           onClick={closeMenu}
         >
           <span className="brand-mark">Sw</span>
-          <span className="brand-name">
-            Shegger-Wheels
-          </span>
+          <span className="brand-name">Shegger-Wheels</span>
         </Link>
 
         {/* Hamburger button */}
@@ -41,11 +57,11 @@ export default function Navbar() {
           aria-label={menuOpen ? "Close navigation" : "Open navigation"}
           aria-expanded={menuOpen}
           aria-controls="main-nav-links"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setMenuOpen((prev) => !prev)}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span />
+          <span />
+          <span />
         </button>
 
         {/* Navigation links */}
@@ -53,7 +69,7 @@ export default function Navbar() {
           id="main-nav-links"
           className={`nav-links ${menuOpen ? "open" : ""}`}
         >
-          <Link href="/home" onClick={closeMenu}>
+          <Link href="/" onClick={closeMenu}>
             Home
           </Link>
 
@@ -61,8 +77,13 @@ export default function Navbar() {
             Find a car
           </Link>
 
-          <Link href="/bookings" onClick={closeMenu}>
-            My-Booking
+         
+          <Link
+              href="/bookings"
+                className="nav-bookings-link"
+                  onClick={handleMyBookings}
+              >
+            My Bookings
           </Link>
 
           <Link href="/cars#how-it-works" onClick={closeMenu}>
@@ -74,11 +95,13 @@ export default function Navbar() {
               List your car
             </Link>
           )}
-
-          {/* <Link href="/disputes" onClick={closeMenu}>
-            My Disputes
-          </Link> */}
         </div>
+
+        <Link href="/my_dashboard" className="">
+             
+             Dashboard
+        
+        </Link>
 
        
         <div className="nav-actions">
@@ -105,11 +128,8 @@ export default function Navbar() {
                 {session.name}
               </span>
 
-              <Link
-                href="/signout"
-                className="signin-link"
-              >
-                SignOut
+              <Link href="/signout" className="signin-link">
+                Sign Out
               </Link>
             </>
           )}
