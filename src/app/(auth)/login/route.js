@@ -3,7 +3,7 @@
 
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
+
 
 function getDemoAccounts() {
   return [
@@ -49,7 +49,7 @@ export async function GET() {
   );
 }
 
-// Verify demo login credentials on the server.
+
 export async function POST(request) {
   try {
     const { email, password } = await request.json();
