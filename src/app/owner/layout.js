@@ -1,9 +1,11 @@
 
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import "./Owner.css";
+
+
 
 export default function OwnerLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -84,7 +86,11 @@ export default function OwnerLayout({ children }) {
 
       
       <main className="owner-content">
+        <Suspense 
+        fallback={<p>loading..</p>}
+        >
         {children}
+        </Suspense>
       </main>
     </div>
   );

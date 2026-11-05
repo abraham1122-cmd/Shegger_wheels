@@ -1,6 +1,8 @@
 
 
 
+
+
 .admin-layout,
 .admin-layout * {
   box-sizing: border-box;
@@ -1634,7 +1636,7 @@
   }
 }
 
-/* Accessibility */
+
 .admin-menu-button:focus-visible,
 .admin-nav-link:focus-visible {
   outline: 3px solid #2a9d8f;

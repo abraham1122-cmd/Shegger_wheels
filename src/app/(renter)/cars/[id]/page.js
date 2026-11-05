@@ -2,6 +2,10 @@
 import CarDetails from "./carDetails";
 import carsData from "@/data/cars.json";
 
+export async function generateStaticParams() {
+  return []; 
+}
+
 function findCarById(id) {
   const seedCars = Array.isArray(carsData) ? carsData : [];
 
@@ -25,8 +29,8 @@ export async function generateMetadata({ params }) {
   }
 
   const name = car.name || car.title || "Rental Car";
-  const brand = car.brand || car.Brand || "";
-  const model = car.model || car.Model || "";
+  const brand = car.Brand || car.Brand || "";
+  const model = car.Model || car.Model || "";
   const price = Number(car.pricePerDay ?? car.price ?? 0);
 
   return {
@@ -44,7 +48,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export const instant = false;
+// export const instant = false;
 
 
 export default async function CarDetailsPage({ params }) {

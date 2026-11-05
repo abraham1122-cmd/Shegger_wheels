@@ -1,7 +1,8 @@
+
 "use client";
 
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import "./admin.css";
 
@@ -13,7 +14,7 @@ const adminLinks = [
   { href: "/admin/disputes", label: "Disputes" },
 ];
 
-function AdminLayoutContent({ children }) {
+export default function AdminLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -43,7 +44,7 @@ function AdminLayoutContent({ children }) {
 
   return (
     <div className="admin-layout">
-      {/* Mobile overlay */}
+   
       <button
         type="button"
         className={`admin-sidebar-overlay ${
@@ -54,7 +55,7 @@ function AdminLayoutContent({ children }) {
         tabIndex={menuOpen ? 0 : -1}
       />
 
-      {/* Sidebar */}
+     
       <aside
         id="admin-navigation"
         className={`admin-sidebar ${
@@ -73,7 +74,10 @@ function AdminLayoutContent({ children }) {
           <p>Administration panel</p>
         </div>
 
-        <nav className="admin-navigation" aria-label="Admin navigation">
+        <nav
+          className="admin-navigation"
+          aria-label="Admin navigation"
+        >
           {adminLinks.map((item) => (
             <Link
               key={item.href}
@@ -86,14 +90,6 @@ function AdminLayoutContent({ children }) {
           ))}
 
           <div className="admin-nav-divide" />
-
-          {/* <Link
-            href="/"
-            className="admin-nav-link admin-back-link"
-            onClick={() => setMenuOpen(false)}
-          >
-            Back to website
-          </Link> */}
         </nav>
 
         <div className="admin-sidebar-footer">
@@ -103,7 +99,7 @@ function AdminLayoutContent({ children }) {
         </div>
       </aside>
 
-      {/* Main content */}
+     
       <div className="admin-main">
         <header className="admin-header">
           <div className="admin-header-left">
@@ -123,7 +119,9 @@ function AdminLayoutContent({ children }) {
             </button>
 
             <div>
-              <p className="admin-header-title">Admin Workspace</p>
+              <p className="admin-header-title">
+                Admin Workspace
+              </p>
               <p className="admin-header-subtitle">
                 Manage your marketplace
               </p>
@@ -135,24 +133,10 @@ function AdminLayoutContent({ children }) {
           </Link>
         </header>
 
-        <main className="admin-content">{children}</main>
+        <main className="admin-content">
+          {children}
+        </main>
       </div>
     </div>
-  );
-}
-
-export default function AdminLayout({ children }){
-
-  return(
-    <Suspense  
-      fallback={
-        <main className="" >
-          <p>loading..</p>
-        </main>
-      }
-      >
-
-        <AdminLayout />
-      </Suspense>
   );
 }

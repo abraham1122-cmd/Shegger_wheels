@@ -120,10 +120,10 @@ function CarDetailsContent() {
   return (
     <main className="car-details">
 
-      {/* LEFT COLUMN */}
+      
       <section className="car-details-left">
 
-        {/* Car image */}
+  
         <div className="car-image-container">
           <Image
             src={getValidImagePath(car)}
@@ -136,7 +136,7 @@ function CarDetailsContent() {
         </div>
 
 
-        {/* Description */}
+     
         <div className="car-description">
           <h3>Description</h3>
 
@@ -146,7 +146,6 @@ function CarDetailsContent() {
         </div>
 
 
-        {/* Pickup location */}
         <section className="car-location-section">
 
           <h3>Pickup Location</h3>
@@ -168,10 +167,10 @@ function CarDetailsContent() {
       </section>
 
 
-      {/* RIGHT COLUMN */}
+
       <section className="car-details-right">
 
-        {/* Car heading */}
+     
         <div className="car-heading">
 
           <h1>
@@ -187,7 +186,7 @@ function CarDetailsContent() {
         </div>
 
 
-        {/* Specifications */}
+    
         <div className="car-specifications">
 
           <h3>Car Specifications</h3>
@@ -222,7 +221,7 @@ function CarDetailsContent() {
         </div>
 
 
-        {/* Book Now */}
+    
         <div className="car-booking-container">
 
           {car.isAvailable === false ? (
@@ -236,7 +235,7 @@ function CarDetailsContent() {
         </div>
 
 
-        {/* Customer reviews - below Book Now */}
+       
         <section className="car-reviews-section">
 
           <CarReviews carId={car.id} />

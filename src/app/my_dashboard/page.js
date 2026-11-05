@@ -1,43 +1,17 @@
 
 
-"use client";
+import DashboardRedirect from "./dashboardDirect";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { getSession } from "@/lib/sessions";
+export const dynamic = "force-dynamic";
 
-export default function DashboardRedirect() {
-  const router = useRouter();
 
-  useEffect(() => {
-    const session = getSession();
+export default function DashboardRedirectPage(){
 
-    if (!session) {
-      router.replace("/signin?next=%2Fmy-dashboard");
-      return;
-    }
-
-    switch (session.role) {
-      case "renter":
-        router.replace("/dashboard");
-        break;
-
-      case "owner":
-        router.replace("/owner/dashboard");
-        break;
-
-      case "admin":
-        router.replace("/admin");
-        break;
-
-      default:
-        router.replace("/signin");
-    }
-  }, [router]);
-
-  return (
-    <main className="dashboard-loading">
-      {/* <p>Redirecting to your dashboard...</p> */}
+  return(
+    <>
+    <main>
+      <DashboardRedirect />
     </main>
+    </>
   );
 }

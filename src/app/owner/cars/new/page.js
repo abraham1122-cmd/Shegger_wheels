@@ -3,6 +3,8 @@
 
 import CarListingForm from "@/components/cars/car-listing-form";
 
+export const dynamic = "force-dynamic";
+
 export default function NewCarPage() {
   return(
     <>
