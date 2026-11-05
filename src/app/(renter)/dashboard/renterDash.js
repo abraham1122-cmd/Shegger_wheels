@@ -4,9 +4,6 @@
 "use client";
 
 
-
-
-
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -46,7 +43,7 @@ function getRenterBookings() {
   });
 }
 
-export default  function RenterDashboardPage() {
+export default  function RenterDashboardContent() {
 
   
   
