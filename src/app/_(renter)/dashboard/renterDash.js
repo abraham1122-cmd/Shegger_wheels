@@ -4,7 +4,7 @@
 "use client";
 
 
-import { connection } from "next/server";
+
 
 
 import { useCallback, useEffect, useState } from "react";
@@ -46,9 +46,9 @@ function getRenterBookings() {
   });
 }
 
-export default async function RenterDashboardPage() {
+export default  function RenterDashboardPage() {
 
-  await connection();
+  
   
   const router = useRouter();
 

@@ -36,7 +36,8 @@ export default function SigninPage() {
     } else if (result.role === "admin") {
       destination = "/admin";
     } else if (result.role === "renter") {
-      destination = "/dashboard";
+      // destination = "/dashboard";
+      destination = "/renterDash";
     } else {
       destination = "/cars";
     }
